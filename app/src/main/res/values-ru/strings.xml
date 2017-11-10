@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">blixr</string>
+
+    <!-- Titles -->
+    <string name="title_activity_intro">Интро</string>
+
+    <!-- Events -->
+    <string name="navigation_drawer_open">Navigation Drawler Open</string>
+    <string name="navigation_drawer_close">Navigation Drawler Close</string>
+
+    <!-- Buttons text -->
+    <string name="skip">Начать работать</string>
+
+    <!-- Intro 1 -->
+    <string name="intro_header_1">1. Магазин безопасно другими способами</string>
+    <string name="intro_description_1">Вы хотите покупать подержанные, концертные билеты, электронику и т. д., Но чувствуете, что вам нужна дополнительная безопасность при покупке?</string>
+
+    <!-- Intro 2 -->
+    <string name="intro_header_2">2. Создание электронного соглашения о покупке</string>
+    <string name="intro_description_2">С помощью Blixr вы можете быстро создать встречу прямо в телефоне за считанные секунды, включая изображения и описание элемента</string>
+
+    <!-- Intro 3 -->
+    <string name="intro_header_3">3. Легко передается вашему контрагенту</string>
+    <string name="intro_description_3">Соглашение открывается непосредственно на мобильный телефон или планшет вашего партнера во время покупки</string>
+
+    <!-- Intro 4 -->
+    <string name="intro_header_4">4. Подпись с BankID</string>
+    <string name="intro_description_4">Соглашение надежно подписано с BankID. Гораздо безопаснее, чем бумага и ручка</string>
+
+    <!-- Intro 5 -->
+    <string name="intro_header_5">5. Почувствуйте себя в безопасности!</string>
+    <string name="intro_description_5">Ваши соглашения надежно хранятся в Blixr и могут быть получены от вас в любое время в случае возникновения спора.</string>
+
+    <!-- Menu -->
+    <string name="menu_my_documents">Мои документы</string>
+    <string name="menu_film">Как работает Blixr</string>
+    <string name="menu_share">Расскажи другу</string>
+    <string name="menu_terms_link">Условия использования</string>
+    <string name="menu_privacy_link">Защита данных</string>
+    <string name="menu_email">Ваш e-mail</string>
+    <string name="menu_intro">Показать интро</string>
+    <string name="menu_exit">Выход из системы</string>
+
+
+</resources>

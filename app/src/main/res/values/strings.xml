@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">blixr</string>
+
+    <!-- Titles -->
+    <string name="title_activity_intro">Intro</string>
+
+    <!-- Events -->
+    <string name="navigation_drawer_open">Navigation Drawler Open</string>
+    <string name="navigation_drawer_close">Navigation Drawler Close</string>
+
+    <!-- Buttons text -->
+    <string name="skip">Skip</string>
+
+    <!-- Intro 1 -->
+    <string name="intro_header_1">1. Первый пункт должен быть длинным</string>
+    <string name="intro_description_1">Описание первого пункта должно быть на 5 строк. Даже не знаю как этот текст растянуть на 5 строк</string>
+
+    <!-- Intro 2 -->
+    <string name="intro_header_2">2. Второй пункт должен быть длинным</string>
+    <string name="intro_description_2">Описание первого пункта должно быть на 5 строк. Даже не знаю как этот текст растянуть на 5 строк</string>
+
+    <!-- Intro 3 -->
+    <string name="intro_header_3">3. Третий пункт должен быть длинным</string>
+    <string name="intro_description_3">Описание первого пункта должно быть на 5 строк. Даже не знаю как этот текст растянуть на 5 строк</string>
+
+    <!-- Intro 4 -->
+    <string name="intro_header_4">4. Четвертый пункт должен быть длинным</string>
+    <string name="intro_description_4">Описание первого пункта должно быть на 5 строк. Даже не знаю как этот текст растянуть на 5 строк</string>
+
+    <!-- Intro 5 -->
+    <string name="intro_header_5">5. Пятый пункт должен быть длинным</string>
+    <string name="intro_description_5">Описание первого пункта должно быть на 5 строк. Даже не знаю как этот текст растянуть на 5 строк</string>
+
+    <!-- Menu -->
+    <string name="menu_my_documents">Мои документы</string>
+    <string name="menu_film">Фильм</string>
+    <string name="menu_share">Поделиться</string>
+    <string name="menu_terms_link">Линк terms</string>
+    <string name="menu_privacy_link">Линк privacy</string>
+    <string name="menu_email">E-mail адрес</string>
+    <string name="menu_intro">Интро</string>
+    <string name="menu_exit">Выход</string>
+
+</resources>

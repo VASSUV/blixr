@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">blixr</string>
+
+    <!-- Titles -->
+    <string name="title_activity_intro">Intro</string>
+
+    <!-- Events -->
+    <string name="navigation_drawer_open">Navigation Drawler Open</string>
+    <string name="navigation_drawer_close">Navigation Drawler Close</string>
+
+    <!-- Buttons text -->
+    <string name="skip">Kom igång</string>
+
+    <!-- Intro 1 -->
+    <string name="intro_header_1">1. Handla säkert i andrahand</string>
+    <string name="intro_description_1">Vill du handla begagnat, konsertbiljetter, elektronik, etc. men känner att du behöver ha mer trygghet i ditt köp?</string>
+
+    <!-- Intro 2 -->
+    <string name="intro_header_2">2. Skapa elektroniskt köpavtal</string>
+    <string name="intro_description_2">Med Blixr kan du snabbt skapa ett avtal direkt i telefonen på några sekunder, inkludera bilder och beskrivning av objektet</string>
+
+    <!-- Intro 3 -->
+    <string name="intro_header_3">3. Delas enkelt till din motpart</string>
+    <string name="intro_description_3">Avtalet öppnas upp direkt i din motparts mobil eller surfplatta på plats när gör ditt köp</string>
+
+    <!-- Intro 4 -->
+    <string name="intro_header_4">4. Underskrift med BankID</string>
+    <string name="intro_description_4">Avtalet skrivs under säkert med BankID. En mycket säkrare underskrift än papper och penna</string>
+
+    <!-- Intro 5 -->
+    <string name="intro_header_5">5. Känn dig trygg!</string>
+    <string name="intro_description_5">Dina avtal lagras säkert hos Blixr och kan hämtas ut av er när som helst vid en eventuell tvist.</string>
+
+    <!-- Menu -->
+    <string name="menu_my_documents">Mina Blixravtal</string>
+    <string name="menu_film">Så fungerar Blixr</string>
+    <string name="menu_share">Tipsa en vän</string>
+    <string name="menu_terms_link">Användarvilkor</string>
+    <string name="menu_privacy_link">Dataskydd</string>
+    <string name="menu_email">Din epostadress</string>
+    <string name="menu_intro">Visa Intro</string>
+    <string name="menu_exit">Logga ut</string>
+
+
+</resources>

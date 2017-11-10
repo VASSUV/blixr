@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/documents"
+        android:title="@string/menu_my_documents" />
+    <item
+        android:id="@+id/film"
+        android:title="@string/menu_film" />
+    <item
+        android:id="@+id/share"
+        android:title="@string/menu_share" />
+    <item
+        android:id="@+id/terms"
+        android:title="@string/menu_terms_link" />
+    <item
+        android:id="@+id/privacy"
+        android:title="@string/menu_privacy_link" />
+    <item
+        android:id="@+id/email"
+        android:title="@string/menu_email" />
+    <item
+        android:id="@+id/intro"
+        android:title="@string/menu_intro" />
+    <item
+        android:id="@+id/exit"
+        android:title="@string/menu_exit" />
+</menu>

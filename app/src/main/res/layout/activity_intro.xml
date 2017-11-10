@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="ru.vassuv.blixr.ui.activity.IntroActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <TextView
+        android:id="@+id/closeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:padding="18dp"
+        android:text="@string/skip"
+        android:textAlignment="center"
+        android:background="#75ffffff"
+        android:fontFamily="@font/fontawesome_webfont"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <View
+        android:id="@+id/closeButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="@id/closeText"
+        app:layout_constraintRight_toRightOf="@id/closeText"
+        app:layout_constraintTop_toTopOf="@id/closeText"
+        app:layout_constraintBottom_toBottomOf="@id/closeText"
+        android:background="?attr/selectableItemBackground"/>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/introIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:tabBackground="@drawable/dot"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp"
+        app:layout_constraintBottom_toTopOf="@id/closeButton"/>
+
+
+</android.support.constraint.ConstraintLayout>
