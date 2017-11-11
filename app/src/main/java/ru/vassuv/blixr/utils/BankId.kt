@@ -5,6 +5,9 @@ import android.content.Intent
 import android.content.pm.PackageManager.GET_ACTIVITIES
 import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
+import android.support.v4.app.ActivityCompat.startActivityForResult
+
+
 
 object BankId {
     // Norwegian BankID

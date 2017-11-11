@@ -3,26 +3,32 @@ package ru.vassuv.blixr.utils
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.result.Result
 import ru.vassuv.blixr.utils.ATLibriry.Logger
+import java.net.UnknownHostException
 
-class Error(var value: String = "", var isOk: Boolean = false)
+@JvmField val STATUS_OK = 0
+@JvmField val INTERNET_ERROR = 1
 
-fun verifyResult(result: Result<String, FuelError>): Error = when (result) {
+class Response(val value: String = "", val isOk: Boolean = false, val status: Int = STATUS_OK)
+
+fun verifyResult(result: Result<String, FuelError>): Response = when (result) {
     is Result.Failure<String, FuelError> -> {
         Logger.traceException("verifyResult", result.getException())
-        Error("Ошибка")
+
+        when(result.error.exception) {
+            is UnknownHostException -> Response("Отсутствует интернет соединение", status = INTERNET_ERROR)
+            else -> Response("Произошла ошибка")
+        }
     }
     is Result.Success<String, FuelError> -> {
         if (result.value.isEmpty()) {
-            Error("Ошибка")
-        } else if (!result.value.startsWith('{')) {
-            when (result.value) {
-                "Unauthorized Access" -> Error("Ошибка")
-                else -> Error("Ошибка")
-            }
-        } else {
+            Response("Произошла ошибка")
+        } else if ((result.value.startsWith('{') || result.value.startsWith('['))) {
             Logger.trace(result.value)
-            Error(result.value, true)
+            Response(result.value, true)
+        } else when (result.value) {
+            "Unauthorized Access" -> Response("Unauthorized Access")
+            else -> Response("Произошла ошибка")
         }
     }
-    else -> Error("Произошла ошибка")
+    else -> Response("Произошла ошибка")
 }

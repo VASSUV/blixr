@@ -3,17 +3,20 @@ package ru.vassuv.blixr.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
+import android.support.v4.widget.DrawerLayout.*
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.View.OnClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.vassuv.blixr.App
 import ru.vassuv.blixr.FrmFabric
 import ru.vassuv.blixr.R
 import ru.vassuv.blixr.utils.ATLibriry.*
+import android.support.design.widget.Snackbar
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,36 +28,40 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer_layout.addDrawerListener(toggle)
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        nav_view.setNavigationItemSelectedListener (getNavigationListener())
-
+        navView.setNavigationItemSelectedListener (getNavigationListener())
         App.setNavigationHolder(getNavigator())
-        Router.onNewRootScreenListener = getNewRootScreenListener()
-        Router.onBackScreenListener = getBackScreenListener()
-
-        shouldDisplayHomeUp()
-        Router.newRootScreen(FrmFabric.MAIN.name)
 
         supportFragmentManager.addOnBackStackChangedListener {
             shouldDisplayHomeUp()
         }
         toggle.toolbarNavigationClickListener = OnClickListener {
-            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-                drawer_layout.closeDrawer(GravityCompat.START)
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START)
             } else {
                 if (supportFragmentManager.backStackEntryCount == 0) {
-                    drawer_layout.openDrawer(GravityCompat.START)
+                    drawerLayout.openDrawer(GravityCompat.START)
                 } else {
                     supportFragmentManager.popBackStack()
                 }
             }
         }
+
+        shouldDisplayHomeUp()
+        Router.onNewRootScreenListener = getNewRootScreenListener()
+        Router.onBackScreenListener = getBackScreenListener()
+        Router.newRootScreen(FrmFabric.MAIN.name)
     }
 
     fun shouldDisplayHomeUp() {
+        val showHomeButton = supportFragmentManager.backStackEntryCount <= 1
+        toggle.isDrawerIndicatorEnabled = showHomeButton
+
+        drawerLayout.setDrawerLockMode(if(showHomeButton) LOCK_MODE_UNLOCKED else LOCK_MODE_LOCKED_CLOSED)
+
         if (supportFragmentManager.backStackEntryCount > 1) {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         } else {
@@ -69,8 +76,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
         } else {
             val fragment = supportFragmentManager.findFragmentById(R.id.container)
             if (fragment != null && fragment is IFragment) {
@@ -103,6 +110,7 @@ class MainActivity : AppCompatActivity() {
                     FrmFabric.valueOf(screenKey).create()
 
             override fun showSystemMessage(message: String) {
+                Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()
             }
 
             override fun exit() {
@@ -117,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         return { item ->
             when (item.itemId) {
                 R.id.documents -> {
-                    Router.navigateTo(FrmFabric.MAIN.name)
+                    Router.navigateTo(FrmFabric.AUTH.name)
                 }
                 R.id.film -> {
                     Router.navigateTo(FrmFabric.MAIN.name)
@@ -138,7 +146,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.exit -> finish()
             }
 
-            drawer_layout.closeDrawer(GravityCompat.START)
+            drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
     }
@@ -156,40 +164,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-//
-//    private fun auth(token: String) {
-//        (Methods.AUTHENTICATE + token).httpGet().authenticate("montrollBring", "UITableView_up2").responseString { request, response, result ->
-//            Logger.trace(request)
-//            Logger.trace(response)
-//
-//            val verifyResult = verifyResult(result)
-//            if(verifyResult.isOk) {
-//                val orderRef = JsonValue.readFrom(verifyResult.value).asObject().get(Fields.ORDER_REF)?.asString()
-//                        ?: "sdfsdf"
-//
-//                Toast.makeText(this, orderRef, Toast.LENGTH_LONG).show()
-//            } else {
-//                Toast.makeText(this, verifyResult.value, Toast.LENGTH_LONG).show()
-//            }
-//        }
-//        startActivityForResult(BankId.getLoginIntent("199204128798"), 100)
-//    }
-//
-//    private fun token() {
-//        Methods.TOKEN.httpGet().authenticate("montrollBring", "UITableView_up2").responseString { request, response, result ->
-//            Logger.trace(request)
-//            Logger.trace(response)
-//
-//            val verifyResult = verifyResult(result)
-//            if(verifyResult.isOk) {
-//                val token = JsonValue.readFrom(verifyResult.value).asObject().get(Fields.TOKEN)?.asString()
-//                        ?: "sdfsdf"
-//                auth(token)
-//            } else {
-//                Toast.makeText(this, verifyResult.value, Toast.LENGTH_LONG).show()
-//            }
-//        }
-//    }
 
 }

@@ -4,15 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 import ru.vassuv.blixr.R
 import ru.vassuv.blixr.presentation.view.strat.StartView
 import ru.vassuv.blixr.presentation.presenter.strat.StartPresenter
 
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.github.kittinunf.fuel.httpGet
 import ru.vassuv.blixr.FrmFabric
+import ru.vassuv.blixr.repository.api.Fields
+import ru.vassuv.blixr.repository.api.Methods
 import ru.vassuv.blixr.utils.ATLibriry.FragmentFabric
 import ru.vassuv.blixr.utils.ATLibriry.IFragment
+import ru.vassuv.blixr.utils.ATLibriry.Logger
+import ru.vassuv.blixr.utils.ATLibriry.json.JsonValue
+import ru.vassuv.blixr.utils.BankId
+import ru.vassuv.blixr.utils.verifyResult
 
 class StartFragment : MvpAppCompatFragment(), IFragment, StartView {
 
@@ -38,8 +46,8 @@ class StartFragment : MvpAppCompatFragment(), IFragment, StartView {
         return inflater.inflate(R.layout.fragment_start, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart() {
+        super.onStart()
 
     }
 }

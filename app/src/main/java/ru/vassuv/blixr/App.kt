@@ -25,7 +25,7 @@ class App (val cicerone: Cicerone<Router> = Cicerone.create(Router)) : Applicati
         super.onCreate()
         app = this
 
-        FuelManager.instance.basePath = "http://blixr.net/api"
+        FuelManager.instance.basePath = "https://blixr.net"
 
         val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
             override fun checkClientTrusted(chain: Array<out java.security.cert.X509Certificate>?, authType: String?) =

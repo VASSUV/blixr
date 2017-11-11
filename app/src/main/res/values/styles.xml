@@ -21,7 +21,7 @@
     </style>
 
     <style name="AppTheme.Splash" parent="AppTheme.TransparentStatusBar">
-        <item name="android:windowBackground">@drawable/splash_drawable</item>
+        <item name="android:windowBackground">@drawable/home_background</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

@@ -1,6 +1,7 @@
 package ru.vassuv.blixr.utils.ATLibriry
 
 import android.os.Bundle
+import android.support.annotation.StringRes
 import ru.terrakok.cicerone.BaseRouter
 import ru.terrakok.cicerone.commands.*
 
@@ -36,6 +37,10 @@ object Router: BaseRouter() {
 
     fun exitWithMessage(message: String) {
         executeCommand(Back())
+        executeCommand(SystemMessage(message))
+    }
+
+    fun showMessage(message: String) {
         executeCommand(SystemMessage(message))
     }
 }

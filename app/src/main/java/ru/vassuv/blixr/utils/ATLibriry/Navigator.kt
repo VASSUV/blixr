@@ -93,7 +93,8 @@ protected constructor(private val fragmentManager: FragmentManager,
     }
 
     private fun backToRoot() {
-        (0..fragmentManager.backStackEntryCount - 1).forEach { fragmentManager.popBackStack() }
+
+        (0 until fragmentManager.backStackEntryCount).forEach { fragmentManager.popBackStack() }
         fragmentManager.executePendingTransactions()
     }
 
