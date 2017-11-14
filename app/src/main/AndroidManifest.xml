@@ -2,12 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ru.vassuv.blixr">
 
-    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
-    <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->
+    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
+    <!-- <uses-permission android:name="android.permission.CALL_PHONE" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
 
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -16,33 +16,45 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".ui.activity.SplashActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.Splash">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
+            android:launchMode="singleTask"
             android:name=".ui.activity.IntroActivity"
             android:label="@string/title_activity_intro"
-            android:theme="@style/AppTheme.TransparentStatusBar">
-        </activity>
+            android:theme="@style/AppTheme.TransparentStatusBar" />
+        <activity
+            android:launchMode="singleTask"
+            android:name=".ui.activity.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBarLightStatus"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:launchMode="singleTask"
+            android:name=".ui.activity.ConfirmEmailActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBarLightStatus"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".ui.activity.MainActivity"
-            android:theme="@style/AppTheme.ActionBar"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.MainActionBar" />
 
-
-        <meta-data android:name="android.security.net.config"
+        <meta-data
+            android:name="android.security.net.config"
             android:resource="@xml/network_security_config" />
 
     </application>
+
 </manifest>

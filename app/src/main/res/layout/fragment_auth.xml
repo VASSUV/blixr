@@ -1,20 +1,90 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="ru.vassuv.blixr.ui.fragment.auth.AuthFragment">
+    tools:context="ru.vassuv.blixr.ui.fragment.auth.SearchFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/blixr_logo_colored" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/fontawesome_webfont"
+        android:text="Описание title"
+        android:textAlignment="center"
+        android:textColor="@color/textColorLight"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/userNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number" />
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="64dp"
+        android:fontFamily="@font/fontawesome_webfont"
+        android:hint="YYYYMMDDXXXX"
+        android:inputType="number"
+        android:maxLength="12"
+        android:textColor="@color/textColorLight" />
 
-    <Button
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:fontFamily="@font/fontawesome_webfont"
+        android:text="Ошибка ввода"
+        android:textColor="@color/textColorLight" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/fontawesome_webfont"
+        android:text="Описание поля на 3 строки. Описание поля на 3 строки. Описание поля на 3 строки. Описание поля на 3 строки. "
+        android:textColor="@color/textColorLight" />
+
+    <android.support.v7.widget.CardView
         android:id="@+id/logIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Войти" />
+        android:layout_margin="16dp"
+        android:background="@drawable/button_white"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="5dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/fontawesome_webfont"
+                android:text="Войти"
+                android:textAlignment="center"
+                android:textColor="@color/textColorLight"
+                android:textSize="18dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:src="@drawable/bankid_logo_blue" />
+
+        </FrameLayout>
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

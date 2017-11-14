@@ -4,5 +4,7 @@ object Methods {
     val SERVER_VERSION = "/api/serverVersion"
     val AUTHENTICATE = "/authenticate/"
     val TOKEN = "/api/token"
-    val ORDER_REF = "/collect/orderRef"
+    val COLLECT = "/collect/"
+    val LOGIN_REQUEST = "/api/loginRequest/"
+    val PASS_EMAIL = "/api/passEmail"
 }

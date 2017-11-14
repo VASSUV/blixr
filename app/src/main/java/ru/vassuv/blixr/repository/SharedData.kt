@@ -1,9 +1,20 @@
 package ru.vassuv.blixr.repository
 
 enum class SharedData: ru.vassuv.blixr.utils.ATLibriry.ISharedData {
-    VERSION,
     IS_NOT_FIRST_START,
+    VERSION,
+
+    TOKEN,
+
     AUTO_START_TOKEN,
     ORDER_REF,
-    USER_NUMBER
+
+    OCSP_RESPONSE,
+    SIGNATURE,
+    PROGRESS_STATUS,
+
+    GIVEN_NAME,
+    SURNAME,
+    NAME,
+    PERSONAL_NUMBER
 }

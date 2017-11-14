@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="72dp"
-        android:src="@drawable/iphonelogowhite_3x" />
+        android:src="@drawable/blixr_logo_white" />
 
     <View
         android:layout_width="0dp"

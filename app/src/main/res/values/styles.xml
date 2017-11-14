@@ -11,9 +11,31 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.NoActionBarLightStatus">
+        <item name="colorPrimaryDark">#bfbfbf</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="AppTheme.ActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.MainActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">#a31919</item>
+        <item name="colorPrimaryDark">#6c1010</item>
+        <!--<item name="android:windowBackground">@drawable/home_background</item>-->
+    </style>
+
+    <style name="AppTheme.MainActionBar.Autorized" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!--<item name="android:windowBackground">@drawable/home_background</item>-->
     </style>
 
     <style name="AppTheme.TransparentStatusBar" parent="AppTheme.NoActionBar">

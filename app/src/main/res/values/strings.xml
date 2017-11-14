@@ -3,6 +3,7 @@
 
     <!-- Titles -->
     <string name="title_activity_intro">Intro</string>
+    <string name="title_activity_login">Login</string>
 
     <!-- Events -->
     <string name="navigation_drawer_open">Navigation Drawler Open</string>
@@ -40,6 +41,8 @@
     <string name="menu_email">E-mail адрес</string>
     <string name="menu_intro">Интро</string>
     <string name="menu_exit">Выход</string>
+
+
     <string name="internet_error">Отсутсвует интернет соединение</string>
     <string name="field_is_empty">Поле не заполнено</string>
 

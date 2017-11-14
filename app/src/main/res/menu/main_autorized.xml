@@ -2,8 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/logIn"
+        android:id="@+id/search"
         android:orderInCategory="100"
         android:title="Вход"
+        android:icon="@drawable/magnifier"
         app:showAsAction="always" />
 </menu>

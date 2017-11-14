@@ -30,14 +30,26 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fontFamily="@font/fontawesome_webfont"
         android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.ActionBar"
+        android:fontFamily="@font/fontawesome_webfont"
         tools:openDrawer="start">
 
         <FrameLayout
-            android:id="@+id/container"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+        </FrameLayout>
 
         <android.support.design.widget.NavigationView
             android:id="@+id/navView"
