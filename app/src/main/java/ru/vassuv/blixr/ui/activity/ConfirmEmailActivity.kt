@@ -10,9 +10,11 @@ import android.view.View
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import kotlinx.android.synthetic.main.activity_confirm_email.*
+import org.jetbrains.anko.alert
 import ru.vassuv.blixr.R
 import ru.vassuv.blixr.repository.ANY_PASSWORD
 import ru.vassuv.blixr.repository.OK
+import ru.vassuv.blixr.repository.SessionConfig
 import ru.vassuv.blixr.repository.SharedData
 import ru.vassuv.blixr.repository.api.Fields
 import ru.vassuv.blixr.repository.api.Methods
@@ -22,6 +24,9 @@ import ru.vassuv.blixr.utils.ATLibriry.Logger
 import ru.vassuv.blixr.utils.ATLibriry.json.JsonObject
 import ru.vassuv.blixr.utils.ATLibriry.json.JsonValue
 import ru.vassuv.blixr.utils.UNAUTHORIZED
+import ru.vassuv.blixr.repository.*
+import ru.vassuv.blixr.repository.db.EMAIL
+import ru.vassuv.blixr.repository.db.USER_ID
 import ru.vassuv.blixr.utils.verifyResult
 
 class ConfirmEmailActivity : AppCompatActivity() {
@@ -53,34 +58,36 @@ class ConfirmEmailActivity : AppCompatActivity() {
     }
 
     private fun loadToken(restartMethod: (() -> Unit)? = null) {
-        Methods.TOKEN.httpGet().authenticate("montrollBring", "UITableView_up2").responseString { request, response, result ->
-            Logger.trace(request)
-            Logger.trace(response)
+        Methods.TOKEN.httpGet()
+                .authenticate(SessionConfig.USER_NAME, SessionConfig.USER_PASSWORD)
+                .responseString { request, response, result ->
+                    Logger.trace(request)
+                    Logger.trace(response)
 
-            val verifyResult = verifyResult(result)
-            if (verifyResult.isOk) {
-                token = JsonValue.readFrom(verifyResult.value).asObject()
-                        .get(Fields.TOKEN)?.asString() ?: "";
-                SharedData.TOKEN.saveString(token)
+                    val verifyResult = verifyResult(result)
+                    if (verifyResult.isOk) {
+                        token = JsonValue.readFrom(verifyResult.value).asObject()
+                                .get(Fields.TOKEN)?.asString() ?: "";
+                        SharedData.TOKEN.saveString(token)
 
-                if (restartMethod != null) {
-                    restartMethod()
+                        if (restartMethod != null) {
+                            restartMethod()
+                        }
+                    } else {
+                        showMessage(verifyResult.value)
+                    }
                 }
-            } else {
-                showMessage(verifyResult.value)
-            }
-        }
     }
 
     private fun confirmPost() {
-        if(user == null) {
+        if (user == null) {
             return
         }
-        Methods.PASS_EMAIL.httpPost()
-                .header("Content-Type" to "application/json")
-                .body(JsonObject().add("userId,", user!!.id)
-                        .add("email", textEmail).toString())
+        (Methods.PASS_EMAIL).httpPost()
+                .header(JSON_HEADER)
                 .authenticate(token, ANY_PASSWORD)
+                .body(JsonObject().add(USER_ID, user!!.id.toString())
+                        .add(EMAIL, textEmail).toString())
                 .responseString { request, response, result ->
                     Logger.trace(request)
                     Logger.trace(response)
@@ -88,11 +95,20 @@ class ConfirmEmailActivity : AppCompatActivity() {
 
                     val verifyResult = verifyResult(result)
                     if (verifyResult.isOk) {
-                        if(OK.equals(JsonObject.readFrom(verifyResult.value).string(Fields.STATUS))) {
-                            showMessage("На вашу почту отправлено сообщение для подтверждения")
-                            restartMainActivity()
+                        if (OK == JsonObject.readFrom(verifyResult.value).string(Fields.STATUS)) {
+                            alert(R.string.registration_success_send_email, R.string.registration) {
+                                positiveButton(R.string.ok) {
+                                    restartMainActivity()
+                                }
+                                onCancelled { }
+                            }.show()
                         } else {
-                            showMessage("Данный Email нельзя использовать")
+                            alert(R.string.email_already_use, R.string.registration_error) {
+                                positiveButton(R.string.replay) { }
+                                negativeButton(R.string.cancel) {
+                                    restartMainActivity()
+                                }
+                            }.show()
                         }
                     } else if (verifyResult.status == UNAUTHORIZED) {
                         loadToken { confirmPost() }
@@ -121,7 +137,7 @@ class ConfirmEmailActivity : AppCompatActivity() {
 
     private fun restartMainActivity() {
         val intent = Intent(this@ConfirmEmailActivity, MainActivity::class.java)
-        intent.putExtra("theme", R.style.AppTheme_MainActionBar_Autorized)
+        intent.putExtra(THEME, R.style.AppTheme_MainActionBar_Autorized)
         startActivity(intent)
         Thread.sleep(500)
         finish()
@@ -138,7 +154,6 @@ class ConfirmEmailActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 textEmail = s.toString()
             }
-
         }
     }
 }

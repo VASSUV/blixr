@@ -207,17 +207,33 @@ class LoginActivity : AppCompatActivity() {
                 }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        backToMain()
+        Thread.sleep(500)
+        finish()
+    }
+
     private fun exitLogin() {
         val user = DataBase.getUser()
-        if (!(user?.confirmed ?: false)) {
+        if (user?.confirmed == false) {
             startActivityForResult(Intent(this@LoginActivity, ConfirmEmailActivity::class.java), REQUEST_CODE_CONFIRM_EMAIL)
         } else {
+            backToMain()
+        }
+//        Thread.sleep(500)
+        finish()
+    }
+
+    private fun backToMain() {
+        val user = DataBase.getUser()
+        if (user == null) {
             val intent = Intent(this@LoginActivity, MainActivity::class.java)
             intent.putExtra("theme", R.style.AppTheme_MainActionBar_Autorized)
             startActivity(intent)
+        } else {
+            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
         }
-        Thread.sleep(500)
-        finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -16,5 +16,8 @@ enum class SharedData: ru.vassuv.blixr.utils.ATLibriry.ISharedData {
     GIVEN_NAME,
     SURNAME,
     NAME,
-    PERSONAL_NUMBER
+    PERSONAL_NUMBER,
+
+    SEARCH_TOOLTIP_SHOWED,
+    LOGIN_TOOLTIP_SHOWED,
 }

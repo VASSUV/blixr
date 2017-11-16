@@ -1,5 +1,6 @@
 package ru.vassuv.blixr.ui.fragment.start
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,11 +17,9 @@ import ru.vassuv.blixr.presentation.view.strat.StartView
 import ru.vassuv.blixr.utils.ATLibriry.FragmentFabric
 import ru.vassuv.blixr.utils.ATLibriry.IFragment
 import android.net.Uri
-import android.widget.TextView
 import kotlinx.android.synthetic.main.fragment_start.*
-import ru.vassuv.blixr.repository.REQUEST_CODE_LOGIN
+import ru.vassuv.blixr.repository.db.DataBase
 import ru.vassuv.blixr.ui.activity.LoginActivity
-
 
 class StartFragment : MvpAppCompatFragment(), IFragment, StartView {
 
@@ -56,17 +55,27 @@ class StartFragment : MvpAppCompatFragment(), IFragment, StartView {
         videoView.setOnPreparedListener { it.isLooping = true }
         videoView.setMediaController(null)
         videoView.requestFocus(0)
+
         return rootView
     }
 
     override fun onStart() {
         super.onStart()
+        videoView.visibility = View.VISIBLE
         videoView.start()
+        val user = DataBase.getUser()
+
+        if (user != null) {
+
+        } else {
+
+        }
     }
 
     override fun onStop() {
         super.onStop()
         videoView.stopPlayback()
+        videoView.visibility = View.INVISIBLE
     }
 
     override fun startLoginActivity() {

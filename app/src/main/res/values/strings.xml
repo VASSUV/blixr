@@ -5,6 +5,21 @@
     <string name="title_activity_intro">Intro</string>
     <string name="title_activity_login">Login</string>
 
+    <!-- Buttons -->
+    <string name="ok">OK</string>
+    <string name="cancel">Отмена</string>
+    <string name="replay">Повторить</string>
+
+    <!-- Dialog -->
+    <string name="registration_error">Ошибка регистрации</string>
+    <string name="email_already_use">Данный Email нельзя использовать</string>
+    <string name="registration">Регистрация</string>
+    <string name="registration_success_send_email">На Ваш e-mail отправлено письмо. Пожалуйста откройте его, и подтвердите свою учетную запись</string>
+
+    <!-- Errors -->
+    <string name="internet_error">Отсутсвует интернет соединение</string>
+    <string name="field_is_empty">Поле не заполнено</string>
+
     <!-- Events -->
     <string name="navigation_drawer_open">Navigation Drawler Open</string>
     <string name="navigation_drawer_close">Navigation Drawler Close</string>
@@ -42,8 +57,23 @@
     <string name="menu_intro">Интро</string>
     <string name="menu_exit">Выход</string>
 
+    <!-- Documents -->
+    <string name="tab_page_1">Таб 1</string>
+    <string name="tab_page_2">Таб 2</string>
+    <string name="tab_page_3">Таб 3</string>
 
-    <string name="internet_error">Отсутсвует интернет соединение</string>
-    <string name="field_is_empty">Поле не заполнено</string>
+    <!-- Tooltips -->
+    <string name="login_here">Вход здесь</string>
+    <string name="search_here">Приступайте к поиску</string>
+    <string name="create_document">Создайте документ</string>
+
+    <!-- graphics -->
+    <string name="usb">\uf287</string>
+    <string name="file">\uf0f6</string>
+    <string name="ticket">\uf145</string>
+    <string name="link">\uf0c1</string>
+    <string name="wrench">\uf0ad</string>
+    <string name="spinner">\uf110</string>
+    <string name="music">\uf001</string>
 
 </resources>

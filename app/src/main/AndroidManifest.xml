@@ -31,24 +31,26 @@
             android:launchMode="singleTask"
             android:name=".ui.activity.IntroActivity"
             android:label="@string/title_activity_intro"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme.TransparentStatusBar" />
         <activity
             android:launchMode="singleTask"
             android:name=".ui.activity.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBarLightStatus"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:launchMode="singleTask"
             android:name=".ui.activity.ConfirmEmailActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBarLightStatus"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme.MainActionBar" />
 
         <meta-data

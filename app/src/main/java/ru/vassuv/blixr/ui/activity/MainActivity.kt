@@ -1,7 +1,9 @@
 package ru.vassuv.blixr.ui.activity
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
@@ -13,6 +15,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.OnClickListener
 import com.github.kittinunf.fuel.httpGet
+import com.tooltip.Tooltip
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.vassuv.blixr.App
 import ru.vassuv.blixr.FrmFabric
@@ -25,6 +28,10 @@ import ru.vassuv.blixr.repository.db.User
 import ru.vassuv.blixr.utils.ATLibriry.*
 import ru.vassuv.blixr.utils.INTERNET_ERROR
 import ru.vassuv.blixr.utils.verifyResult
+import android.support.v4.view.MenuItemCompat.getActionView
+import android.widget.ImageButton
+import ru.vassuv.blixr.repository.SessionConfig
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -68,10 +75,14 @@ class MainActivity : AppCompatActivity() {
         Router.newRootScreen(MAIN.name)
 
         checkVersion()
+    }
+
+    override fun onStart() {
+        super.onStart()
         user = DataBase.getUser()
     }
 
-    fun shouldDisplayHomeUp() {
+    private fun shouldDisplayHomeUp() {
         val showHomeButton = supportFragmentManager.backStackEntryCount <= 1
         toggle.isDrawerIndicatorEnabled = showHomeButton
 
@@ -107,24 +118,65 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private var menuTooltip: Tooltip? = null
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(if (user == null) R.menu.main else R.menu.main_autorized, menu)
+        showSearchTooltip()
+        showLoginTooltip()
         return true
+    }
+
+    private fun showLoginTooltip() {
+        Handler().post({
+            val logIn = findViewById<View>(R.id.logIn)
+            if (logIn != null && !SharedData.LOGIN_TOOLTIP_SHOWED.getBoolean()) {
+                menuTooltip?.dismiss()
+                menuTooltip = Tooltip.Builder(logIn, R.style.AppTheme)
+                        .setCornerRadius(R.dimen.tooltipRadius)
+                        .setBackgroundColor(resources.getColor(R.color.colorPrimary))
+                        .setText(R.string.login_here)
+                        .show()
+                SharedData.LOGIN_TOOLTIP_SHOWED.saveBoolean(true)
+            }
+        })
+    }
+
+    private fun showSearchTooltip() {
+        Handler().post({
+            val search = findViewById<View>(R.id.search)
+            if (search != null && !SharedData.SEARCH_TOOLTIP_SHOWED.getBoolean()) {
+                menuTooltip?.dismiss()
+                menuTooltip = Tooltip.Builder(search, R.style.AppTheme)
+                        .setCornerRadius(R.dimen.tooltipRadius)
+                        .setBackgroundColor(resources.getColor(R.color.colorPrimary))
+                        .setText(R.string.search_here)
+                        .show()
+                SharedData.SEARCH_TOOLTIP_SHOWED.saveBoolean(true)
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.logIn -> {
             startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+            tooltipHide()
             true
         }
         R.id.search -> {
             Router.navigateTo(FrmFabric.SEARCH.name)
+            tooltipHide()
             true
         }
         else -> super.onOptionsItemSelected(item)
     }
 
-    private var currentType: FragmentFabric? = null
+    private fun tooltipHide() {
+        menuTooltip?.dismiss()
+    }
+
+    private
+    var currentType: FragmentFabric? = null
 
     private fun getNavigator(): Navigator {
         return object : Navigator(supportFragmentManager, R.id.container, getChangeFragmentListener()) {
@@ -171,12 +223,22 @@ class MainActivity : AppCompatActivity() {
         return { item ->
             when (item.itemId) {
                 R.id.documents -> {
-//                    Router.navigateTo(SEARCH.name)
+                    if (user == null) {
+                        SharedData.LOGIN_TOOLTIP_SHOWED.saveBoolean(false)
+                        showLoginTooltip()
+                    } else {
+                        Router.navigateTo(DOCUMENTS.name)
+                    }
                 }
                 R.id.film -> {
 //                    Router.navigateTo(MAIN.name)
                 }
                 R.id.share -> {
+                    if (user == null) {
+                        SharedData.LOGIN_TOOLTIP_SHOWED.saveBoolean(false)
+                        showLoginTooltip()
+                    } else {
+                    }
                 }
                 R.id.terms -> {
                 }
@@ -215,13 +277,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkVersion() {
-        progress.visibility = View.VISIBLE
-        Methods.SERVER_VERSION.httpGet().responseString { _, _, result ->
-            val verifyResult = verifyResult(result)
-            if (!verifyResult.isOk && verifyResult.status == INTERNET_ERROR) {
-                showMessage(verifyResult.value)
+        if (!SessionConfig.versionIsLoaded) {
+            progress.visibility = View.VISIBLE
+            Methods.SERVER_VERSION.httpGet().responseString { _, _, result ->
+                val verifyResult = verifyResult(result)
+                if (!verifyResult.isOk && verifyResult.status == INTERNET_ERROR) {
+                    showMessage(verifyResult.value)
+                }
+                progress.visibility = View.GONE
             }
-            progress.visibility = View.GONE
         }
     }
 

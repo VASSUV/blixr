@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     android:layout_width="match_parent">
 
     <VideoView
@@ -27,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/fontawesome_webfont"
+            android:fontFamily="@font/font_awesome"
             android:text="Описание title"
             android:textAlignment="center"
             android:textColor="@android:color/white"
@@ -72,7 +73,7 @@
                 android:layout_width="match_parent">
 
                 <TextView
-                    android:fontFamily="@font/fontawesome_webfont"
+                    android:fontFamily="@font/font_awesome"
                     android:layout_gravity="center_vertical"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"

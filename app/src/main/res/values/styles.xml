@@ -27,7 +27,7 @@
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">#a31919</item>
         <item name="colorPrimaryDark">#6c1010</item>
-        <!--<item name="android:windowBackground">@drawable/home_background</item>-->
+        <!--<item name="android:windowBackground">@drawable/button_white</item>-->
     </style>
 
     <style name="AppTheme.MainActionBar.Autorized" parent="AppTheme">
@@ -35,7 +35,7 @@
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <!--<item name="android:windowBackground">@drawable/home_background</item>-->
+        <!--<item name="android:windowBackground">@drawable/button_white</item>-->
     </style>
 
     <style name="AppTheme.TransparentStatusBar" parent="AppTheme.NoActionBar">

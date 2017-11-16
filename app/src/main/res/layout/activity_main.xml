@@ -7,12 +7,13 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
+    android:background="@android:color/white"
     tools:context="ru.vassuv.blixr.ui.activity.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/fontawesome_webfont"
+        android:fontFamily="@font/font_awesome"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -20,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:fontFamily="@font/fontawesome_webfont"
+            android:fontFamily="@font/font_awesome"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -32,7 +33,7 @@
         android:layout_weight="1"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.ActionBar"
-        android:fontFamily="@font/fontawesome_webfont"
+        android:fontFamily="@font/font_awesome"
         tools:openDrawer="start">
 
         <FrameLayout
