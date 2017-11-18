@@ -4,11 +4,16 @@
     <!-- Titles -->
     <string name="title_activity_intro">Intro</string>
     <string name="title_activity_login">Login</string>
+    <string name="main_screen_title"> </string>
+    <string name="search_screen_title">Поиск документов</string>
+    <string name="share_screen_title">Пригласить друга</string>
+    <string name="create_contract_title">Создать договор</string>
 
     <!-- Buttons -->
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>
     <string name="replay">Повторить</string>
+    <string name="send">Отправить</string>
 
     <!-- Dialog -->
     <string name="registration_error">Ошибка регистрации</string>
@@ -62,6 +67,11 @@
     <string name="tab_page_2">Таб 2</string>
     <string name="tab_page_3">Таб 3</string>
 
+    <!-- Share screen -->
+    <string name="share_header_text">Введите E-mail адрес вашего друга</string>
+    <string name="share_email_hint">E-mail</string>
+    <string name="share_description">Ему придет письмо, в котором будет вся подробная информация</string>
+
     <!-- Tooltips -->
     <string name="login_here">Вход здесь</string>
     <string name="search_here">Приступайте к поиску</string>
@@ -75,5 +85,13 @@
     <string name="wrench">\uf0ad</string>
     <string name="spinner">\uf110</string>
     <string name="music">\uf001</string>
+
+    <!-- Templates -->
+    <string name="electronics">Electronics</string>
+    <string name="instruments">Instruments</string>
+    <string name="event_tickets">Event tickets</string>
+    <string name="other">Other</string>
+    <string name="blocket_link">Blocket link</string>
+    <string name="more_templates_on_the_way">More templates on the way...</string>
 
 </resources>

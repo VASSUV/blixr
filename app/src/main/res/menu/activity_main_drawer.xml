@@ -5,34 +5,26 @@
 
     <item
         android:id="@+id/documents"
-        android:actionLayout="@layout/item_drawer"
         android:title="@string/menu_my_documents" />
     <item
         android:id="@+id/film"
-        android:actionLayout="@layout/item_drawer"
         android:title="@string/menu_film" />
     <item
         android:id="@+id/share"
-        android:actionLayout="@layout/item_drawer"
         android:title="@string/menu_share" />
     <item
         android:id="@+id/terms"
-        android:actionLayout="@layout/item_drawer"
         android:title="@string/menu_terms_link" />
     <item
         android:id="@+id/privacy"
-        android:actionLayout="@layout/item_drawer"
         android:title="@string/menu_privacy_link" />
     <item
         android:id="@+id/email"
-        android:actionLayout="@layout/item_drawer"
         android:title="@string/menu_email" />
     <item
         android:id="@+id/intro"
-        android:actionLayout="@layout/item_drawer"
         android:title="@string/menu_intro" />
     <item
         android:id="@+id/exit"
-        android:actionLayout="@layout/item_drawer"
         android:title="@string/menu_exit" />
 </menu>

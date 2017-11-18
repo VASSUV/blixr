@@ -35,13 +35,18 @@ class DocumentsFragment() : MvpAppCompatFragment(), DocumentsView, IFragment {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mDocumentsPresenter.onCreate(childFragmentManager)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val rootView =  inflater.inflate(R.layout.fragment_documents, container, false)
         val viewPager = rootView.findViewById<ViewPager>(R.id.viewPager)
         val tabLayout = rootView.findViewById<TabLayout>(R.id.tabLayout)
 
-        viewPager.adapter = mDocumentsPresenter.getPagerAdapter(context, childFragmentManager)
+        viewPager.adapter = mDocumentsPresenter.getPagerAdapter()
         tabLayout.setupWithViewPager(viewPager)
         return rootView
     }

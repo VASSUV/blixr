@@ -131,7 +131,6 @@ class ConfirmEmailActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
         restartMainActivity()
     }
 

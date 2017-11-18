@@ -30,6 +30,7 @@ import ru.vassuv.blixr.utils.INTERNET_ERROR
 import ru.vassuv.blixr.utils.verifyResult
 import android.support.v4.view.MenuItemCompat.getActionView
 import android.widget.ImageButton
+import kotlinx.android.synthetic.main.loader.*
 import ru.vassuv.blixr.repository.SessionConfig
 
 
@@ -75,6 +76,11 @@ class MainActivity : AppCompatActivity() {
         Router.newRootScreen(MAIN.name)
 
         checkVersion()
+    }
+
+    override fun recreate() {
+        setTheme(intent.getIntExtra("theme", R.style.AppTheme_MainActionBar))
+        super.recreate()
     }
 
     override fun onStart() {
@@ -127,14 +133,14 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun showLoginTooltip() {
+    fun showLoginTooltip() {
         Handler().post({
             val logIn = findViewById<View>(R.id.logIn)
             if (logIn != null && !SharedData.LOGIN_TOOLTIP_SHOWED.getBoolean()) {
                 menuTooltip?.dismiss()
                 menuTooltip = Tooltip.Builder(logIn, R.style.AppTheme)
                         .setCornerRadius(R.dimen.tooltipRadius)
-                        .setBackgroundColor(resources.getColor(R.color.colorPrimary))
+                        .setBackgroundColor(resources.getColor(R.color.tooltipColor))
                         .setText(R.string.login_here)
                         .show()
                 SharedData.LOGIN_TOOLTIP_SHOWED.saveBoolean(true)
@@ -149,7 +155,7 @@ class MainActivity : AppCompatActivity() {
                 menuTooltip?.dismiss()
                 menuTooltip = Tooltip.Builder(search, R.style.AppTheme)
                         .setCornerRadius(R.dimen.tooltipRadius)
-                        .setBackgroundColor(resources.getColor(R.color.colorPrimary))
+                        .setBackgroundColor(resources.getColor(R.color.tooltipColor))
                         .setText(R.string.search_here)
                         .show()
                 SharedData.SEARCH_TOOLTIP_SHOWED.saveBoolean(true)
@@ -205,9 +211,23 @@ class MainActivity : AppCompatActivity() {
             currentType = fragment.type
             when (currentType) {
                 MAIN -> {
+                    setTitle(R.string.main_screen_title)
                     showActionBar()
                 }
                 SEARCH -> {
+                    setTitle(R.string.search_screen_title)
+                    showActionBar()
+                }
+                DOCUMENTS -> {
+                    setTitle(R.string.main_screen_title)
+                    showActionBar()
+                }
+                SHARE -> {
+                    setTitle(R.string.share_screen_title)
+                    showActionBar()
+                }
+                TEMPLATES -> {
+                    setTitle(R.string.create_contract_title)
                     showActionBar()
                 }
             }
@@ -238,6 +258,7 @@ class MainActivity : AppCompatActivity() {
                         SharedData.LOGIN_TOOLTIP_SHOWED.saveBoolean(false)
                         showLoginTooltip()
                     } else {
+                        Router.navigateTo(SHARE.name)
                     }
                 }
                 R.id.terms -> {

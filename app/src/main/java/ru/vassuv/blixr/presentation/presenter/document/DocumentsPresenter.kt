@@ -13,14 +13,22 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
+import ru.vassuv.blixr.App
 import ru.vassuv.blixr.R
 import ru.vassuv.blixr.presentation.view.document.DocumentsView
 
 
 @InjectViewState
 class DocumentsPresenter : MvpPresenter<DocumentsView>() {
-    fun getPagerAdapter(context: Context, fragmentManager: FragmentManager) =
-            SimpleFragmentPagerAdapter(context, fragmentManager)
+
+    lateinit var simpleFragmentPagerAdapter: SimpleFragmentPagerAdapter
+
+    fun onCreate(fragmentManager: FragmentManager) {
+        simpleFragmentPagerAdapter = SimpleFragmentPagerAdapter(App.context, fragmentManager)
+    }
+
+
+    fun getPagerAdapter() = simpleFragmentPagerAdapter
 }
 
 class DocumentAdapter(var list: Map<Int, String>) : RecyclerView.Adapter<DocumentAdapter.Holder>() {
@@ -76,6 +84,4 @@ class SimpleFragmentPagerAdapter(private val mContext: Context, fm: FragmentMana
         2 -> mContext.getString(R.string.tab_page_3)
         else -> null
     }
-
-
 }

@@ -11,6 +11,7 @@ import android.view.View
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.httpGet
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.loader.*
 import ru.vassuv.blixr.App
 import ru.vassuv.blixr.R
 import ru.vassuv.blixr.repository.*
@@ -83,6 +84,7 @@ class LoginActivity : AppCompatActivity() {
         if (!validatePersonalNumber())
             return@OnClickListener
 
+        progress.visibility = View.VISIBLE
         auth(number)
     }
 
@@ -132,10 +134,13 @@ class LoginActivity : AppCompatActivity() {
                     } else {
                         showMessage(verifyResult.value)
                     }
+
+                    progress.visibility = View.GONE
                 }
     }
 
     private fun collect(orderRef: String) {
+        progress.visibility = View.VISIBLE
         (Methods.COLLECT + orderRef)
                 .httpGet()//listOf(Fields.COLLECT to collect)
 //                .authenticate(SharedData.AUTO_START_TOKEN.getString(), "password")
@@ -178,7 +183,9 @@ class LoginActivity : AppCompatActivity() {
                         loadToken { collect(orderRef) }
                     } else {
                         showMessage(verifyResult.value)
+                        progress.visibility = View.GONE
                     }
+
                 }
     }
 
@@ -204,6 +211,7 @@ class LoginActivity : AppCompatActivity() {
                     } else {
                         showMessage(verifyResult.value)
                     }
+                    progress.visibility = View.GONE
                 }
     }
 

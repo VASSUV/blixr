@@ -17,9 +17,12 @@ import ru.vassuv.blixr.presentation.view.strat.StartView
 import ru.vassuv.blixr.utils.ATLibriry.FragmentFabric
 import ru.vassuv.blixr.utils.ATLibriry.IFragment
 import android.net.Uri
+import com.tooltip.Tooltip
 import kotlinx.android.synthetic.main.fragment_start.*
+import ru.vassuv.blixr.repository.SharedData
 import ru.vassuv.blixr.repository.db.DataBase
 import ru.vassuv.blixr.ui.activity.LoginActivity
+import ru.vassuv.blixr.ui.activity.MainActivity
 
 class StartFragment : MvpAppCompatFragment(), IFragment, StartView {
 
@@ -43,9 +46,7 @@ class StartFragment : MvpAppCompatFragment(), IFragment, StartView {
         val videoView = rootView.findViewById<VideoView>(R.id.videoView)
         val handShake = rootView.findViewById<View>(R.id.handshake)
 
-        handShake.setOnClickListener {
-            presenter.onHandshakeClick()
-        }
+        handShake.setOnClickListener(presenter.onHandshakeClick(activity as MainActivity?))
 
         val uriPath = "android.resource://"+context.packageName+"/"+R.raw.crowd
 
@@ -70,12 +71,15 @@ class StartFragment : MvpAppCompatFragment(), IFragment, StartView {
         } else {
 
         }
+
+        presenter.onStart(handshake)
     }
 
     override fun onStop() {
         super.onStop()
         videoView.stopPlayback()
         videoView.visibility = View.INVISIBLE
+        presenter.onStop()
     }
 
     override fun startLoginActivity() {

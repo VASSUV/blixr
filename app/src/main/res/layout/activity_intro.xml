@@ -23,7 +23,6 @@
         android:text="@string/skip"
         android:textAlignment="center"
         android:background="#75ffffff"
-        android:fontFamily="@font/font_awesome"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <View

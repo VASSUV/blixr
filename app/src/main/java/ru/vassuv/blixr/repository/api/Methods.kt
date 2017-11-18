@@ -7,4 +7,5 @@ object Methods {
     val COLLECT = "/collect/"
     val LOGIN_REQUEST = "/api/loginRequest/"
     val PASS_EMAIL = "/api/passEmail"
+    val REFERRAL = "/api/referral"
 }

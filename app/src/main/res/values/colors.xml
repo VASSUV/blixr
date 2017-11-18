@@ -9,4 +9,10 @@
     <color name="textColorLight">#437a94</color>
     <color name="textColorError">#d70000</color>
 
+    <!-- tools -->
+    <color name="separatorColor">#bebebe</color>
+    <color name="backgroundColor">#ececec</color>
+    <color name="tooltipColor">#4dc77c</color>
+
+
 </resources>

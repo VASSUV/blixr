@@ -13,7 +13,6 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/font_awesome"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -21,7 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:fontFamily="@font/font_awesome"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -33,24 +31,14 @@
         android:layout_weight="1"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.ActionBar"
-        android:fontFamily="@font/font_awesome"
         tools:openDrawer="start">
 
         <FrameLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" />
 
-            <FrameLayout
-                android:id="@+id/container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <ProgressBar
-                android:id="@+id/progress"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
-        </FrameLayout>
+        <include layout="@layout/loader"/>
 
         <android.support.design.widget.NavigationView
             android:id="@+id/navView"
@@ -58,6 +46,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
+            app:itemBackground="@drawable/item_drawer"
             app:menu="@menu/activity_main_drawer" />
 
     </android.support.v4.widget.DrawerLayout>

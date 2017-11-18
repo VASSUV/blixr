@@ -4,7 +4,7 @@
     <item
         android:id="@+id/search"
         android:orderInCategory="100"
-        android:title="Вход"
+        android:title="Поиск"
         android:icon="@drawable/magnifier"
         app:showAsAction="always" />
 </menu>
