@@ -27,6 +27,7 @@ import ru.vassuv.blixr.utils.UNAUTHORIZED
 import ru.vassuv.blixr.repository.*
 import ru.vassuv.blixr.repository.db.EMAIL
 import ru.vassuv.blixr.repository.db.USER_ID
+import ru.vassuv.blixr.utils.KeyboardUtils
 import ru.vassuv.blixr.utils.verifyResult
 
 class ConfirmEmailActivity : AppCompatActivity() {
@@ -66,7 +67,7 @@ class ConfirmEmailActivity : AppCompatActivity() {
 
                     val verifyResult = verifyResult(result)
                     if (verifyResult.isOk) {
-                        token = JsonValue.readFrom(verifyResult.value).asObject()
+                        token = JsonValue.readFrom(verifyResult.value?:"").asObject()
                                 .get(Fields.TOKEN)?.asString() ?: "";
                         SharedData.TOKEN.saveString(token)
 
@@ -74,7 +75,7 @@ class ConfirmEmailActivity : AppCompatActivity() {
                             restartMethod()
                         }
                     } else {
-                        showMessage(verifyResult.value)
+                        showMessage(verifyResult.errorText)
                     }
                 }
     }
@@ -95,7 +96,7 @@ class ConfirmEmailActivity : AppCompatActivity() {
 
                     val verifyResult = verifyResult(result)
                     if (verifyResult.isOk) {
-                        if (OK == JsonObject.readFrom(verifyResult.value).string(Fields.STATUS)) {
+                        if (OK == JsonObject.readFrom(verifyResult.value?:"").string(Fields.STATUS)) {
                             alert(R.string.registration_success_send_email, R.string.registration) {
                                 positiveButton(R.string.ok) {
                                     restartMainActivity()
@@ -113,12 +114,13 @@ class ConfirmEmailActivity : AppCompatActivity() {
                     } else if (verifyResult.status == UNAUTHORIZED) {
                         loadToken { confirmPost() }
                     } else {
-                        showMessage(verifyResult.value)
+                        showMessage(verifyResult.errorText)
                     }
                 }
     }
 
     private fun getConfirmClickListener() = View.OnClickListener {
+        KeyboardUtils.hideKeyboard(this)
         if (validateEmail()) {
             confirmPost()
         }
@@ -127,16 +129,17 @@ class ConfirmEmailActivity : AppCompatActivity() {
     private fun validateEmail(): Boolean = true
 
     private fun getCancelClickListener() = View.OnClickListener {
+        KeyboardUtils.hideKeyboard(this)
         restartMainActivity()
     }
 
     override fun onBackPressed() {
+        KeyboardUtils.hideKeyboard(this)
         restartMainActivity()
     }
 
     private fun restartMainActivity() {
         val intent = Intent(this@ConfirmEmailActivity, MainActivity::class.java)
-        intent.putExtra(THEME, R.style.AppTheme_MainActionBar_Autorized)
         startActivity(intent)
         Thread.sleep(500)
         finish()

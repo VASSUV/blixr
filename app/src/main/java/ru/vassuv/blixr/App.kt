@@ -3,6 +3,7 @@ package ru.vassuv.blixr
 import android.app.Application
 import android.content.Context
 import com.github.kittinunf.fuel.core.FuelManager
+import com.yandex.metrica.YandexMetrica
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
@@ -25,6 +26,11 @@ class App (val cicerone: Cicerone<Router> = Cicerone.create(Router)) : Applicati
         super.onCreate()
         app = this
 
+        // Инициализация AppMetrica SDK
+        YandexMetrica.activate(getApplicationContext(), "051ecfd8-d02d-46c6-93f6-d30a0d4f57d8")
+        // Отслеживание активности пользователей
+        YandexMetrica.enableActivityAutoTracking(this)
+
         FuelManager.instance.basePath = "https://blixr.net"
 
         val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
@@ -41,15 +47,6 @@ class App (val cicerone: Cicerone<Router> = Cicerone.create(Router)) : Applicati
         sc.init(null, trustAllCerts, java.security.SecureRandom())
         FuelManager.instance.socketFactory = sc.socketFactory
         FuelManager.instance.hostnameVerifier = HostnameVerifier { _, _ -> true }
-//        FuelManager.instance.baseHeaders = (FuelManager.instance.baseHeaders ?: linkedMapOf())
-//                .plus("Accept" to "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
-//                .plus("Accept-Encoding" to "gzip,deflate,br")
-//                .plus("Accept-Language" to "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4")
-//                .plus("Cache-Control" to "max-age=0")
-//                .plus("Connection" to "keep-alive")
-//                .plus("Cookie" to "session=eyJfcGVybWFuZW50Ijp0cnVlfQ.DOXsWg.IBvbSNX3HyIzHYdMGiJJXWF-cAw")
-//                .plus("Host" to "blixr.net")
-//                .plus("Upgrade-Insecure-Requests" to "1")
     }
 }
 

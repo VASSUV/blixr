@@ -1,7 +1,6 @@
 package ru.vassuv.blixr.ui.activity
 
 import android.content.Intent
-import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.Snackbar
@@ -10,9 +9,6 @@ import android.support.v4.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import android.support.v4.widget.DrawerLayout.LOCK_MODE_UNLOCKED
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import android.view.View.OnClickListener
 import com.github.kittinunf.fuel.httpGet
 import com.tooltip.Tooltip
@@ -28,13 +24,20 @@ import ru.vassuv.blixr.repository.db.User
 import ru.vassuv.blixr.utils.ATLibriry.*
 import ru.vassuv.blixr.utils.INTERNET_ERROR
 import ru.vassuv.blixr.utils.verifyResult
-import android.support.v4.view.MenuItemCompat.getActionView
-import android.widget.ImageButton
 import kotlinx.android.synthetic.main.loader.*
 import ru.vassuv.blixr.repository.SessionConfig
+import android.os.Build
+import android.widget.FrameLayout
+import android.app.Activity
+import android.support.annotation.ColorRes
+import android.support.v4.widget.DrawerLayout
+import android.view.*
+import ru.vassuv.blixr.ui.components.KeyboardListenerActivity
+import ru.vassuv.blixr.ui.components.SystemState
+import ru.vassuv.blixr.utils.KeyboardUtils
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : KeyboardListenerActivity() {
 
     private lateinit var toggle: ActionBarDrawerToggle
 
@@ -42,13 +45,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(intent.getIntExtra("theme", R.style.AppTheme_MainActionBar))
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolbar)
 
-        toggle = ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        toggle = object : ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            override fun onDrawerStateChanged(newState: Int) {
+                if (newState == DrawerLayout.STATE_DRAGGING) {
+                    SystemState.onNavigatorHide?.invoke()
+                }
+            }
+        }
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
@@ -57,6 +65,7 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.addOnBackStackChangedListener {
             shouldDisplayHomeUp()
+            KeyboardUtils.hideKeyboard(this)
         }
         toggle.toolbarNavigationClickListener = OnClickListener {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -78,14 +87,35 @@ class MainActivity : AppCompatActivity() {
         checkVersion()
     }
 
-    override fun recreate() {
-        setTheme(intent.getIntExtra("theme", R.style.AppTheme_MainActionBar))
-        super.recreate()
-    }
-
     override fun onStart() {
         super.onStart()
-        user = DataBase.getUser()
+        val user = DataBase.getUser()
+        val isAuthorizedMode = user != null
+        if (this.user == null && isAuthorizedMode)  {
+            this.user = user
+            invalidateOptionsMenu()
+        }
+        setStatusBarColored(this, if (isAuthorizedMode) R.color.colorPrimaryDark else R.color.colorPrimaryDarkNotAuth)
+        toolbar.setBackgroundColor(resources.getColor(if (isAuthorizedMode) R.color.colorPrimary else R.color.colorPrimaryNotAuth))
+    }
+
+    private fun setStatusBarColored(context: Activity, @ColorRes colorStatusBar: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            val w = context.window
+            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            val statusBarHeight = getStatusBarHeight(context)
+
+            val view = View(context)
+            view.layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            view.layoutParams.height = statusBarHeight
+            (w.decorView as ViewGroup).addView(view)
+            view.setBackgroundColor(context.resources.getColor(colorStatusBar))
+        }
+    }
+
+    private fun getStatusBarHeight(context: Activity): Int {
+        val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+        return if (resourceId > 0) context.resources.getDimensionPixelSize(resourceId) else 0
     }
 
     private fun shouldDisplayHomeUp() {
@@ -104,6 +134,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         supportFragmentManager.popBackStack()
+        KeyboardUtils.hideKeyboard(this)
         return true
     }
 
@@ -111,6 +142,7 @@ class MainActivity : AppCompatActivity() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
+            KeyboardUtils.hideKeyboard(this)
             val fragment = supportFragmentManager.findFragmentById(R.id.container)
             if (fragment != null && fragment is IFragment) {
                 (fragment as IFragment).onBackPressed()
@@ -122,63 +154,6 @@ class MainActivity : AppCompatActivity() {
                 super.onBackPressed()
             }
         }
-    }
-
-    private var menuTooltip: Tooltip? = null
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(if (user == null) R.menu.main else R.menu.main_autorized, menu)
-        showSearchTooltip()
-        showLoginTooltip()
-        return true
-    }
-
-    fun showLoginTooltip() {
-        Handler().post({
-            val logIn = findViewById<View>(R.id.logIn)
-            if (logIn != null && !SharedData.LOGIN_TOOLTIP_SHOWED.getBoolean()) {
-                menuTooltip?.dismiss()
-                menuTooltip = Tooltip.Builder(logIn, R.style.AppTheme)
-                        .setCornerRadius(R.dimen.tooltipRadius)
-                        .setBackgroundColor(resources.getColor(R.color.tooltipColor))
-                        .setText(R.string.login_here)
-                        .show()
-                SharedData.LOGIN_TOOLTIP_SHOWED.saveBoolean(true)
-            }
-        })
-    }
-
-    private fun showSearchTooltip() {
-        Handler().post({
-            val search = findViewById<View>(R.id.search)
-            if (search != null && !SharedData.SEARCH_TOOLTIP_SHOWED.getBoolean()) {
-                menuTooltip?.dismiss()
-                menuTooltip = Tooltip.Builder(search, R.style.AppTheme)
-                        .setCornerRadius(R.dimen.tooltipRadius)
-                        .setBackgroundColor(resources.getColor(R.color.tooltipColor))
-                        .setText(R.string.search_here)
-                        .show()
-                SharedData.SEARCH_TOOLTIP_SHOWED.saveBoolean(true)
-            }
-        })
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.logIn -> {
-            startActivity(Intent(this@MainActivity, LoginActivity::class.java))
-            tooltipHide()
-            true
-        }
-        R.id.search -> {
-            Router.navigateTo(FrmFabric.SEARCH.name)
-            tooltipHide()
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
-    }
-
-    private fun tooltipHide() {
-        menuTooltip?.dismiss()
     }
 
     private
@@ -211,24 +186,28 @@ class MainActivity : AppCompatActivity() {
             currentType = fragment.type
             when (currentType) {
                 MAIN -> {
-                    setTitle(R.string.main_screen_title)
-                    showActionBar()
+                    setTitle(R.string.title_main_screen)
+                    baseState()
                 }
                 SEARCH -> {
-                    setTitle(R.string.search_screen_title)
-                    showActionBar()
+                    setTitle(R.string.title_search_screen)
+                    baseState()
                 }
                 DOCUMENTS -> {
-                    setTitle(R.string.main_screen_title)
-                    showActionBar()
+                    setTitle(R.string.title_main_screen)
+                    baseState()
                 }
                 SHARE -> {
-                    setTitle(R.string.share_screen_title)
-                    showActionBar()
+                    setTitle(R.string.title_share_screen)
+                    baseState()
                 }
                 TEMPLATES -> {
-                    setTitle(R.string.create_contract_title)
-                    showActionBar()
+                    setTitle(R.string.title_create_contract)
+                    baseState()
+                }
+                ELECTRONIC_TEMPLATE -> {
+                    setTitle(R.string.title_electronic)
+                    baseState()
                 }
             }
         }
@@ -245,7 +224,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.documents -> {
                     if (user == null) {
                         SharedData.LOGIN_TOOLTIP_SHOWED.saveBoolean(false)
-                        showLoginTooltip()
+//                        showMenuTooltip()
                     } else {
                         Router.navigateTo(DOCUMENTS.name)
                     }
@@ -256,7 +235,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.share -> {
                     if (user == null) {
                         SharedData.LOGIN_TOOLTIP_SHOWED.saveBoolean(false)
-                        showLoginTooltip()
+//                        showMenuTooltip()
                     } else {
                         Router.navigateTo(SHARE.name)
                     }
@@ -274,6 +253,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.exit -> {
                     SharedData.values().forEach { it.remove() }
+                    DataBase.clearUser()
                     finish()
                 }
             }
@@ -283,10 +263,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getBackScreenListener(): OnBackScreenListener {
-        return object : OnBackScreenListener {
-            override fun onBackScreen() {
-            }
+    private fun getBackScreenListener() = object : OnBackScreenListener {
+        override fun onBackScreen() {
+            KeyboardUtils.hideKeyboard(this@MainActivity)
         }
     }
 
@@ -303,7 +282,7 @@ class MainActivity : AppCompatActivity() {
             Methods.SERVER_VERSION.httpGet().responseString { _, _, result ->
                 val verifyResult = verifyResult(result)
                 if (!verifyResult.isOk && verifyResult.status == INTERNET_ERROR) {
-                    showMessage(verifyResult.value)
+                    showMessage(verifyResult.errorText)
                 }
                 progress.visibility = View.GONE
             }
@@ -314,6 +293,11 @@ class MainActivity : AppCompatActivity() {
 
     fun hideActionBar() {
         toolbar.visibility = View.GONE
+    }
+
+    fun baseState() {
+        showActionBar()
+        KeyboardUtils.showKeyboard(this)
     }
 
     fun showActionBar() {

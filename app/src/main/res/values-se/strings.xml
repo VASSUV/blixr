@@ -2,15 +2,52 @@
 <resources>
     <string name="app_name">blixr</string>
 
+    <!-- graphics -->
+    <string name="usb">\uf287</string>
+    <string name="file">\uf0f6</string>
+    <string name="ticket">\uf145</string>
+    <string name="link">\uf0c1</string>
+    <string name="wrench">\uf0ad</string>
+    <string name="spinner">\uf110</string>
+    <string name="music">\uf001</string>
+
     <!-- Titles -->
     <string name="title_activity_intro">Intro</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_main_screen"> </string>
+    <string name="title_search_screen">Поиск документов</string>
+    <string name="title_share_screen">Пригласить друга</string>
+    <string name="title_create_contract">Avtal</string>
+    <string name="title_electronic">Электроника</string>
+
+    <!-- Buttons -->
+    <string name="ok">OK</string>
+    <string name="cancel">Отмена</string>
+    <string name="replay">Повторить</string>
+    <string name="login">Logga in</string>
+    <string name="send">Skicka</string>
+    <string name="skip_yet">Hoppa över</string>
+    <string name="skip">Kom igång</string>
+    <string name="preview">Предпросмотр</string>
+
+    <!-- Tooltips -->
+    <string name="login_here">Вход здесь</string>
+    <string name="search_here">Sök avtal</string>
+    <string name="create_document">Skapa Avtal</string>
+
+    <!-- Dialog -->
+    <string name="registration_error">Ошибка регистрации</string>
+    <string name="email_already_use">Данный Email нельзя использовать</string>
+    <string name="registration">Регистрация</string>
+    <string name="registration_success_send_email">На Ваш e-mail отправлено письмо. Пожалуйста откройте его, и подтвердите свою учетную запись</string>
+
+    <!-- Errors -->
+    <string name="internet_error">Отсутсвует интернет соединение</string>
+    <string name="field_is_empty">Поле не заполнено</string>
 
     <!-- Events -->
     <string name="navigation_drawer_open">Navigation Drawler Open</string>
     <string name="navigation_drawer_close">Navigation Drawler Close</string>
-
-    <!-- Buttons text -->
-    <string name="skip">Kom igång</string>
 
     <!-- Intro 1 -->
     <string name="intro_header_1">1. Handla säkert i andrahand</string>
@@ -41,6 +78,47 @@
     <string name="menu_email">Din epostadress</string>
     <string name="menu_intro">Visa Intro</string>
     <string name="menu_exit">Logga ut</string>
+
+    <!-- Documents tabs -->
+    <string name="my_documents_buy">Köp</string>
+    <string name="my_documents_sell">Sälj</string>
+    <string name="my_documents_draft">Utkast</string>
+
+    <!-- Share screen -->
+    <string name="share_header_text">Введите E-mail адрес вашего друга</string>
+    <string name="share_email_hint">E-mail</string>
+    <string name="share_description">Ему придет письмо, в котором будет вся подробная информация</string>
+
+    <!-- Templates -->
+    <string name="electronics">Datorer &amp; Elektronik</string>
+    <string name="instruments">Musikinstrument</string>
+    <string name="event_tickets">Evenemangsbiljetter</string>
+    <string name="other">Övrigt</string>
+    <string name="blocket_link">Blocket länk</string>
+    <string name="more_templates_on_the_way">Flera mallar kommer…</string>
+
+    <!-- Login -->
+    <string name="blixr_ab_license">Jag samtycker till att Blixr AB behandlar personuppgifter om mig i enlighet med vår dataskyddspolicy.</string>
+    <string name="login_field_description">Fyll i ditt personnummer med 12 siffror</string>
+    <string name="login_subtitle">login sub title</string>
+    <string name="yyyymmddxxxx">YYYYMMDDXXXX</string>
+
+    <!-- confirm email -->
+    <string name="confirm_email_subtitle">confirm email title</string>
+    <string name="confirm_email_description">Чтобы иметь возможность общаться с вами. Получения вами квитанций и т.д. Пожалуйста, предоставьте свой адрес электронной почты</string>
+    <string name="you_email_hint">Ваш адрес электронной почты</string>
+
+    <!-- Template 1 -->
+    <string name="information">Varuinformation</string>
+    <string name="type">Typ</string>
+    <string name="mark">Märke</string>
+    <string name="another">Modell</string>
+    <string name="photos">Фотографии</string>
+    <string name="model">Модель</string>
+    <string name="serial_number">Serienummer</string>
+    <string name="valid_warranty">Gällande garanti:</string>
+    <string name="receipt_originals">Originalkvitto:</string>
+
 
 
 </resources>

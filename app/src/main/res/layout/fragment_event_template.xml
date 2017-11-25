@@ -1,0 +1,386 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ru.vassuv.blixr.ui.fragment.template.ElectronicTemplateFragment">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_template_description"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/AppTheme.TemplateHeader"
+                android:text="@string/event_and_ticket_info" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/separatorColor" />
+
+            <LinearLayout
+                android:id="@+id/event_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgound_template"
+                android:orientation="vertical">
+
+                <CheckedTextView
+                    android:id="@+id/event_text"
+                    style="@style/AppTheme.TemplateCheckedTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/event" />
+
+                <EditText
+                    android:id="@+id/event_name"
+                    style="@style/AppTheme.TemplateEditText"
+                    android:hint="@string/event"
+                    android:nextFocusDown="@+id/phone" />
+
+                <View
+                    style="@style/AppTheme.FieldUnderLine"
+                    android:layout_marginBottom="8dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/mark_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgound_template"
+                android:orientation="vertical">
+
+                <CheckedTextView
+                    android:id="@+id/mark_text"
+                    style="@style/AppTheme.TemplateCheckedTextView"
+                    android:layout_width="match_parent"
+                    android:text="@string/mark" />
+
+                <EditText
+                    android:id="@+id/mark"
+                    style="@style/AppTheme.TemplateEditText"
+                    android:hint="@string/mark"
+                    android:nextFocusDown="@+id/phone" />
+
+                <View style="@style/AppTheme.FieldUnderLine" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/model_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgound_template"
+                android:orientation="vertical">
+
+                <CheckedTextView
+                    android:id="@+id/model_text"
+                    style="@style/AppTheme.TemplateCheckedTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/model" />
+
+                <EditText
+                    android:id="@+id/model"
+                    style="@style/AppTheme.TemplateEditText"
+                    android:hint="@string/model"
+                    android:nextFocusDown="@+id/phone" />
+
+                <View style="@style/AppTheme.FieldUnderLine" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/other_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgound_template"
+                android:orientation="vertical">
+
+                <CheckedTextView
+                    android:id="@+id/serial_number_text"
+                    style="@style/AppTheme.TemplateCheckedTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/serial_number" />
+
+                <EditText
+                    android:id="@+id/serial_number"
+                    style="@style/AppTheme.TemplateEditText"
+                    android:hint="@string/serial_number"
+                    android:nextFocusDown="@+id/phone" />
+
+                <View style="@style/AppTheme.FieldUnderLine" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/garantee_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgound_template">
+
+                <CheckBox
+                    android:id="@+id/garantee_checkbox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:checked="true"
+                    android:gravity="center_vertical"
+                    android:lineSpacingExtra="4sp"
+                    android:maxLines="3"
+                    android:text="@string/valid_warranty"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/hintGray"
+                    android:textSize="16sp" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/original_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgound_template">
+
+                <CheckBox
+                    android:id="@+id/original_checkbox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:checked="true"
+                    android:gravity="center_vertical"
+                    android:lineSpacingExtra="4sp"
+                    android:maxLines="3"
+                    android:text="@string/receipt_originals"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/hintGray"
+                    android:textSize="16sp" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/photo_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgound_template"
+                android:orientation="vertical">
+
+                <CheckedTextView
+                    android:id="@+id/photo_text"
+                    style="@style/AppTheme.TemplateCheckedTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/photos" />
+
+                <TextView
+                    android:id="@+id/photo"
+                    style="@style/AppTheme.TemplateTextButton"
+                    android:hint="@string/photos"
+                    android:nextFocusDown="@+id/company_id" />
+
+                <View style="@style/AppTheme.FieldUnderLine" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/state_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgound_template"
+                android:orientation="vertical">
+
+                <CheckedTextView
+                    android:id="@+id/state_text"
+                    style="@style/AppTheme.TemplateCheckedTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/state" />
+
+                <TextView
+                    android:id="@+id/state"
+                    style="@style/AppTheme.TemplateTextButton"
+                    android:hint="@string/state"
+                    android:nextFocusDown="@+id/company_id" />
+
+                <View style="@style/AppTheme.FieldUnderLine" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/other_info_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgound_template"
+                android:orientation="vertical">
+
+                <CheckedTextView
+                    android:id="@+id/other_info_text"
+                    style="@style/AppTheme.TemplateCheckedTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/other_info" />
+
+                <TextView
+                    android:id="@+id/other_info"
+                    style="@style/AppTheme.TemplateTextButton"
+                    android:hint="@string/other_info"
+                    android:nextFocusDown="@+id/company_id" />
+
+                <View style="@style/AppTheme.FieldUnderLine" />
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/AppTheme.TemplateHeader"
+                android:text="@string/delivery" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/separatorColor" />
+
+            <LinearLayout
+                android:id="@+id/method_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgound_template"
+                android:orientation="vertical">
+
+                <CheckedTextView
+                    android:id="@+id/method_text"
+                    style="@style/AppTheme.TemplateCheckedTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/method" />
+
+                <TextView
+                    android:id="@+id/method"
+                    style="@style/AppTheme.TemplateTextButton"
+                    android:hint="@string/method"
+                    android:nextFocusDown="@+id/company_id" />
+
+                <View style="@style/AppTheme.FieldUnderLine" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/date_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgound_template"
+                android:orientation="vertical">
+
+                <CheckedTextView
+                    android:id="@+id/date_text"
+                    style="@style/AppTheme.TemplateCheckedTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/date" />
+
+                <EditText
+                    android:id="@+id/date_name"
+                    style="@style/AppTheme.TemplateEditText"
+                    android:hint="@string/date"
+                    android:nextFocusDown="@+id/phone" />
+
+                <View style="@style/AppTheme.FieldUnderLine" />
+
+            </LinearLayout>
+
+
+            <TextView
+                style="@style/AppTheme.TemplateHeader"
+                android:text="@string/payment" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/separatorColor" />
+
+            <LinearLayout
+                android:id="@+id/payment_method_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgound_template"
+                android:orientation="vertical">
+
+                <CheckedTextView
+                    android:id="@+id/payment_method_text"
+                    style="@style/AppTheme.TemplateCheckedTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/payment_method" />
+
+                <TextView
+                    android:id="@+id/payment_method"
+                    style="@style/AppTheme.TemplateTextButton"
+                    android:hint="@string/payment_method"
+                    android:nextFocusDown="@+id/company_id" />
+
+                <View style="@style/AppTheme.FieldUnderLine" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/price_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgound_template"
+                android:orientation="vertical">
+
+                <CheckedTextView
+                    android:id="@+id/price_text"
+                    style="@style/AppTheme.TemplateCheckedTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/price" />
+
+                <EditText
+                    android:id="@+id/price_name"
+                    style="@style/AppTheme.TemplateEditText"
+                    android:hint="@string/price"
+                    android:nextFocusDown="@+id/phone" />
+
+                <View style="@style/AppTheme.FieldUnderLine" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="32dp"
+                android:background="@color/separatorColor" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimaryDark">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="24dp"
+            android:background="@drawable/button_transparent"
+            android:padding="12dp"
+            android:text="@string/preview"
+            android:textAlignment="center"
+            android:textColor="@android:color/white" />
+    </FrameLayout>
+</LinearLayout>

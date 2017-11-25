@@ -1,34 +1,33 @@
 package ru.vassuv.blixr.ui.fragment.start
 
-import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.MediaController
-import android.widget.VideoView
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import ru.vassuv.blixr.FrmFabric
 import ru.vassuv.blixr.R
-import ru.vassuv.blixr.presentation.presenter.strat.StartPresenter
-import ru.vassuv.blixr.presentation.view.strat.StartView
+import ru.vassuv.blixr.presentation.presenter.start.StartPresenter
+import ru.vassuv.blixr.presentation.view.start.StartView
 import ru.vassuv.blixr.utils.ATLibriry.FragmentFabric
 import ru.vassuv.blixr.utils.ATLibriry.IFragment
 import android.net.Uri
+import android.os.Handler
+import android.view.*
 import com.tooltip.Tooltip
 import kotlinx.android.synthetic.main.fragment_start.*
 import ru.vassuv.blixr.repository.SharedData
 import ru.vassuv.blixr.repository.db.DataBase
 import ru.vassuv.blixr.ui.activity.LoginActivity
 import ru.vassuv.blixr.ui.activity.MainActivity
+import ru.vassuv.blixr.ui.components.MutedVideoView
+import ru.vassuv.blixr.utils.ATLibriry.Router
 
 class StartFragment : MvpAppCompatFragment(), IFragment, StartView {
-
     override val type: FragmentFabric = FrmFabric.MAIN
 
     companion object {
+
         fun newInstance(): StartFragment {
             val fragment = StartFragment()
             val args = Bundle()
@@ -40,15 +39,20 @@ class StartFragment : MvpAppCompatFragment(), IFragment, StartView {
     @InjectPresenter
     lateinit var presenter: StartPresenter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_start, container, false)
-        val videoView = rootView.findViewById<VideoView>(R.id.videoView)
+        val videoView = rootView.findViewById<MutedVideoView>(R.id.videoView)
         val handShake = rootView.findViewById<View>(R.id.handshake)
 
-        handShake.setOnClickListener(presenter.onHandshakeClick(activity as MainActivity?))
+        handShake.setOnClickListener(presenter.onHandshakeClick())
 
-        val uriPath = "android.resource://"+context.packageName+"/"+R.raw.crowd
+        val uriPath = "android.resource://" + context.packageName + "/" + R.raw.crowd
 
         val uri = Uri.parse(uriPath)
         videoView.setVideoURI(uri)
@@ -64,22 +68,121 @@ class StartFragment : MvpAppCompatFragment(), IFragment, StartView {
         super.onStart()
         videoView.visibility = View.VISIBLE
         videoView.start()
-        val user = DataBase.getUser()
-
-        if (user != null) {
-
-        } else {
-
+        presenter.onStart()
+        if (menuTooltip?.isShowing != true) {
+            showTooltips()
         }
-
-        presenter.onStart(handshake)
+        if (handshakeTooltip?.isShowing != true && presenter.user != null) {
+            showHandshakeToolTip()
+        }
     }
 
     override fun onStop() {
         super.onStop()
+        presenter.onStop()
         videoView.stopPlayback()
         videoView.visibility = View.INVISIBLE
-        presenter.onStop()
+        hideHandshakeTooltip()
+        hideMenuTooltip()
+    }
+
+    private var menuTooltip: Tooltip? = null
+    private var handshakeTooltip: Tooltip? = null
+
+    override fun showMenuTooltip() {
+        menuTooltip?.show()
+    }
+
+    override fun hideMenuTooltip() {
+        menuTooltip?.dismiss()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(if (presenter.user == null) R.menu.main else R.menu.main_autorized, menu)
+        showTooltips()
+    }
+
+    private fun showTooltips() {
+        showLoginTooltip()
+        showSearchTooltip()
+    }
+
+    override fun invalidateOptionMenu() {
+        activity.invalidateOptionsMenu()
+    }
+
+    private fun showLoginTooltip() {
+        if (presenter.user != null) return
+        Handler().post({
+            val logIn = activity.findViewById<View>(R.id.logIn)
+            if (logIn != null && !SharedData.LOGIN_TOOLTIP_SHOWED.getBoolean()) {
+                menuTooltip?.dismiss()
+                menuTooltip = Tooltip.Builder(logIn, R.style.AppTheme)
+                        .setCornerRadius(R.dimen.tooltipRadius)
+                        .setBackgroundColor(resources.getColor(R.color.tooltipColor))
+                        .setText(R.string.login_here)
+                        .setTextColor(Color.WHITE)
+                        .show()
+                SharedData.LOGIN_TOOLTIP_SHOWED.saveBoolean(true)
+            }
+        })
+    }
+
+    private fun showSearchTooltip() {
+        if (presenter.user == null) return
+        Handler().post({
+            val search = activity.findViewById<View>(R.id.search)
+            if (search != null && !SharedData.SEARCH_TOOLTIP_SHOWED.getBoolean()) {
+                menuTooltip?.dismiss()
+                menuTooltip = Tooltip.Builder(search, R.style.AppTheme)
+                        .setCornerRadius(R.dimen.tooltipRadius)
+                        .setBackgroundColor(resources.getColor(R.color.tooltipColor))
+                        .setText(R.string.search_here)
+                        .setTextColor(Color.WHITE)
+                        .show()
+                SharedData.SEARCH_TOOLTIP_SHOWED.saveBoolean(true)
+            }
+        })
+    }
+
+    override fun showHandshakeToolTip() {
+        if (!SharedData.HAND_SHAKE_TOOLTIP_SHOWED.getBoolean()) {
+            if (handshakeTooltip == null) {
+                handshakeTooltip = Tooltip.Builder(handshake, R.style.AppTheme)
+                        .setCornerRadius(R.dimen.tooltipRadius)
+                        .setBackgroundColor(context.resources.getColor(R.color.tooltipColor))
+                        .setText(R.string.create_document)
+                        .setTextColor(Color.WHITE)
+                        .show()
+            } else {
+                handshakeTooltip?.show()
+            }
+            SharedData.HAND_SHAKE_TOOLTIP_SHOWED.saveBoolean(true)
+        }
+
+    }
+
+    override fun hideHandshakeTooltip() {
+        handshakeTooltip?.dismiss()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.logIn -> {
+            startActivity(Intent(activity, LoginActivity::class.java))
+            tooltipMenuHide()
+            true
+        }
+        R.id.search -> {
+            Router.navigateTo(FrmFabric.SEARCH.name)
+            tooltipMenuHide()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun tooltipMenuHide() {
+        menuTooltip?.dismiss()
     }
 
     override fun startLoginActivity() {

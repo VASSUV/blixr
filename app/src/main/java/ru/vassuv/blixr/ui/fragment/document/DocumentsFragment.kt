@@ -16,7 +16,7 @@ import ru.vassuv.blixr.utils.ATLibriry.IFragment
 import android.support.design.widget.TabLayout
 import ru.vassuv.blixr.presentation.presenter.document.SimpleFragmentPagerAdapter
 import android.support.v4.view.ViewPager
-
+import kotlinx.android.synthetic.main.fragment_documents.*
 
 
 class DocumentsFragment() : MvpAppCompatFragment(), DocumentsView, IFragment {
@@ -35,19 +35,19 @@ class DocumentsFragment() : MvpAppCompatFragment(), DocumentsView, IFragment {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mDocumentsPresenter.onCreate(childFragmentManager)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val rootView =  inflater.inflate(R.layout.fragment_documents, container, false)
         val viewPager = rootView.findViewById<ViewPager>(R.id.viewPager)
         val tabLayout = rootView.findViewById<TabLayout>(R.id.tabLayout)
 
-        viewPager.adapter = mDocumentsPresenter.getPagerAdapter()
         tabLayout.setupWithViewPager(viewPager)
         return rootView
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (viewPager.adapter == null)
+            viewPager.adapter = mDocumentsPresenter.getPagerAdapter(childFragmentManager)
     }
 }

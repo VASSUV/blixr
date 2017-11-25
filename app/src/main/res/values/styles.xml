@@ -25,14 +25,6 @@
     <style name="AppTheme.MainActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">#a31919</item>
-        <item name="colorPrimaryDark">#6c1010</item>
-        <!--<item name="android:windowBackground">@drawable/button_white</item>-->
-    </style>
-
-    <style name="AppTheme.MainActionBar.Autorized" parent="AppTheme">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <!--<item name="android:windowBackground">@drawable/button_white</item>-->
@@ -50,4 +42,75 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="AppTheme.TemplateCheckedTextView">
+        <item name="android:layout_height">16dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:lines">1</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:checked">false</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:maxLength">254</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="AppTheme.TemplateEditText">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@color/hintGray</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="AppTheme.TemplateTextButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:drawableRight">@drawable/arrow_right</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:maxLines">5</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@color/hintGray</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="AppTheme.TemplateHeader">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">18dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.FieldUnderLine">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:background">@color/separatorColor</item>
+    </style>
 </resources>

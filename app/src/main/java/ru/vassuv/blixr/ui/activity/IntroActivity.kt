@@ -55,6 +55,9 @@ class IntroActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         SharedData.IS_NOT_FIRST_START.saveBoolean(true)
+        SharedData.HAND_SHAKE_TOOLTIP_SHOWED.remove()
+        SharedData.LOGIN_TOOLTIP_SHOWED.remove()
+        SharedData.SEARCH_TOOLTIP_SHOWED.remove()
     }
 
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {

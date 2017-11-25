@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Описание title"
+            android:text="@string/confirm_email_subtitle"
             android:textAlignment="center"
             android:textColor="@color/textColorLight"
             android:textSize="18sp" />
@@ -34,7 +34,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="32dp"
-            android:text="Если новый пользователь. дополнительный запрос, email пользователя. (с подтверждением"
+            android:text="@string/confirm_email_description"
             android:textAlignment="center"
             android:textColor="@color/textColorLight" />
 
@@ -45,7 +45,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="64dp"
-            android:hint="Ваш адрес электронной почты"
+            android:hint="@string/you_email_hint"
             android:inputType="textEmailAddress"
             android:maxLength="100"
             android:textAlignment="center"
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="12dp"
-                android:text="Подтвердить"
+                android:text="@string/send"
                 android:textAlignment="center"
                 android:textColor="@color/textColorLight"
                 android:textSize="18dp" />
@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="12dp"
-                android:text="Отменить"
+                android:text="@string/skip"
                 android:textAlignment="center"
                 android:textColor="@color/textColorLight"
                 android:textSize="18dp" />

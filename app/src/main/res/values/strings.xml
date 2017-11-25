@@ -1,19 +1,37 @@
 <resources>
-    <string name="app_name">blixr</string>
+    <string name="app_name">Blixr</string>
+
+    <!-- graphics -->
+    <string name="usb">\uf287</string>
+    <string name="file">\uf0f6</string>
+    <string name="ticket">\uf145</string>
+    <string name="link">\uf0c1</string>
+    <string name="wrench">\uf0ad</string>
+    <string name="spinner">\uf110</string>
+    <string name="music">\uf001</string>
 
     <!-- Titles -->
     <string name="title_activity_intro">Intro</string>
     <string name="title_activity_login">Login</string>
-    <string name="main_screen_title"> </string>
-    <string name="search_screen_title">Поиск документов</string>
-    <string name="share_screen_title">Пригласить друга</string>
-    <string name="create_contract_title">Создать договор</string>
+    <string name="title_main_screen"> </string>
+    <string name="title_search_screen">Поиск документов</string>
+    <string name="title_share_screen">Пригласить друга</string>
+    <string name="title_create_contract">Создать договор</string>
+    <string name="title_electronic">Электроника</string>
 
     <!-- Buttons -->
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>
     <string name="replay">Повторить</string>
+    <string name="login">Вход</string>
     <string name="send">Отправить</string>
+    <string name="skip">Skip</string>
+    <string name="preview">Предпросмотр</string>
+
+    <!-- Tooltips -->
+    <string name="login_here">Вход здесь</string>
+    <string name="search_here">Поиск договора</string>
+    <string name="create_document">Создать договор</string>
 
     <!-- Dialog -->
     <string name="registration_error">Ошибка регистрации</string>
@@ -28,9 +46,6 @@
     <!-- Events -->
     <string name="navigation_drawer_open">Navigation Drawler Open</string>
     <string name="navigation_drawer_close">Navigation Drawler Close</string>
-
-    <!-- Buttons text -->
-    <string name="skip">Skip</string>
 
     <!-- Intro 1 -->
     <string name="intro_header_1">1. Первый пункт должен быть длинным</string>
@@ -62,36 +77,56 @@
     <string name="menu_intro">Интро</string>
     <string name="menu_exit">Выход</string>
 
-    <!-- Documents -->
-    <string name="tab_page_1">Таб 1</string>
-    <string name="tab_page_2">Таб 2</string>
-    <string name="tab_page_3">Таб 3</string>
+    <!-- Documents tabs -->
+    <string name="my_documents_buy">Покупки</string>
+    <string name="my_documents_sell">Продажи</string>
+    <string name="my_documents_draft">Черновики</string>
 
     <!-- Share screen -->
     <string name="share_header_text">Введите E-mail адрес вашего друга</string>
     <string name="share_email_hint">E-mail</string>
     <string name="share_description">Ему придет письмо, в котором будет вся подробная информация</string>
 
-    <!-- Tooltips -->
-    <string name="login_here">Вход здесь</string>
-    <string name="search_here">Приступайте к поиску</string>
-    <string name="create_document">Создайте документ</string>
-
-    <!-- graphics -->
-    <string name="usb">\uf287</string>
-    <string name="file">\uf0f6</string>
-    <string name="ticket">\uf145</string>
-    <string name="link">\uf0c1</string>
-    <string name="wrench">\uf0ad</string>
-    <string name="spinner">\uf110</string>
-    <string name="music">\uf001</string>
-
     <!-- Templates -->
     <string name="electronics">Electronics</string>
     <string name="instruments">Instruments</string>
     <string name="event_tickets">Event tickets</string>
-    <string name="other">Other</string>
+    <string name="other">Другое</string>
     <string name="blocket_link">Blocket link</string>
-    <string name="more_templates_on_the_way">More templates on the way...</string>
+    <string name="more_templates_on_the_way">More templates on the way…</string>
+
+    <!-- Login -->
+    <string name="blixr_ab_license">Я согласен с тем, что Blixr AB обрабатывает личную информацию обо мне в соответствии с нашей политикой защиты данных.</string>
+    <string name="login_field_description">Введите номер социального страхования с 12 цифрами</string>
+    <string name="login_subtitle">Описание title</string>
+    <string name="yyyymmddxxxx">YYYYMMDDXXXX</string>
+
+    <!-- confirm email -->
+    <string name="confirm_email_subtitle">Описание title</string>
+    <string name="confirm_email_description">Чтобы иметь возможность общаться с вами. Получения вами квитанций и т.д. Пожалуйста, предоставьте свой адрес электронной почты</string>
+    <string name="you_email_hint">Ваш адрес электронной почты</string>
+
+    <!-- Template Electronick -->
+    <string name="information">Информация</string>
+    <string name="type">Тип</string>
+    <string name="mark">Марка</string>
+    <string name="another">Другое</string>
+    <string name="photos">Фотографии</string>
+    <string name="model">Модель</string>
+    <string name="serial_number">Серийный номер</string>
+    <string name="valid_warranty">Действие гарантии</string>
+    <string name="receipt_originals">Оригиналы квитанций</string>
+    <string name="state">Состояние</string>
+    <string name="other_info">Дополнительная информация</string>
+    <string name="method">Способ</string>
+    <string name="date">Дата</string>
+    <string name="delivery">Доставка</string>
+    <string name="payment">Оплата</string>
+    <string name="payment_method">Метод оплаты</string>
+    <string name="price">Цена</string>
+
+    <!-- Template Event -->
+    <string name="event_and_ticket_info">Информация о событиях и билетах</string>
+    <string name="event">События</string>
 
 </resources>

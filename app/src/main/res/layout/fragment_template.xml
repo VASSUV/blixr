@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/backgroundColor"
+    android:orientation="vertical"
     tools:context="ru.vassuv.blixr.ui.fragment.template.TemplateFragment">
 
     <View
@@ -15,252 +15,276 @@
         android:layout_height="1dp"
         android:background="@color/separatorColor" />
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/electronics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:background="@android:color/white">
 
-        <TextView
-            android:layout_width="96dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:fontFamily="@font/font_awesome"
-            android:gravity="center"
-            android:paddingBottom="4dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="4dp"
-            android:text="@string/usb"
-            android:textColor="@color/textColorLight"
-            android:textSize="48sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/white"
-            android:drawablePadding="16dp"
-            android:drawableRight="@drawable/arrow_right"
-            android:drawableTint="@color/textColorLight"
+            android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
-            android:paddingRight="16dp"
-            android:text="@string/electronics"
-            android:textColor="@color/textColorLight"
-            android:textSize="18sp" />
-    </LinearLayout>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_awesome"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="4dp"
+                android:text="@string/usb"
+                android:textColor="@color/textColorLight"
+                android:textSize="48sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawablePadding="16dp"
+                android:drawableRight="@drawable/arrow_right"
+                android:drawableTint="@color/textColorLight"
+                android:gravity="center_vertical"
+                android:paddingRight="16dp"
+                android:text="@string/electronics"
+                android:textColor="@color/textColorLight"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </FrameLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/separatorColor" />
+        android:background="@color/separatorColorLight" />
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/instruments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:background="@android:color/white">
 
-        <TextView
-            android:layout_width="96dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:fontFamily="@font/font_awesome"
-            android:gravity="center"
-            android:paddingBottom="4dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="4dp"
-            android:text="@string/music"
-            android:textColor="@color/textColorLight"
-            android:textSize="48sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/white"
-            android:drawablePadding="16dp"
-            android:drawableRight="@drawable/arrow_right"
-            android:drawableTint="@color/textColorLight"
+            android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
-            android:paddingRight="16dp"
-            android:text="@string/instruments"
-            android:textColor="@color/textColorLight"
-            android:textSize="18sp" />
-    </LinearLayout>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_awesome"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="4dp"
+                android:text="@string/music"
+                android:textColor="@color/textColorLight"
+                android:textSize="48sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawablePadding="16dp"
+                android:drawableRight="@drawable/arrow_right"
+                android:drawableTint="@color/textColorLight"
+                android:gravity="center_vertical"
+                android:paddingRight="16dp"
+                android:text="@string/instruments"
+                android:textColor="@color/textColorLight"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </FrameLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/separatorColor" />
+        android:background="@color/separatorColorLight" />
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/event_tickets"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:background="@android:color/white">
 
-        <TextView
-            android:layout_width="96dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:fontFamily="@font/font_awesome"
-            android:gravity="center"
-            android:paddingBottom="4dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="4dp"
-            android:text="@string/ticket"
-            android:textColor="@color/textColorLight"
-            android:textSize="48sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/white"
-            android:drawablePadding="16dp"
-            android:drawableRight="@drawable/arrow_right"
-            android:drawableTint="@color/textColorLight"
+            android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
-            android:paddingRight="16dp"
-            android:text="@string/event_tickets"
-            android:textColor="@color/textColorLight"
-            android:textSize="18sp" />
-    </LinearLayout>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_awesome"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="4dp"
+                android:text="@string/ticket"
+                android:textColor="@color/textColorLight"
+                android:textSize="48sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawablePadding="16dp"
+                android:drawableRight="@drawable/arrow_right"
+                android:drawableTint="@color/textColorLight"
+                android:gravity="center_vertical"
+                android:paddingRight="16dp"
+                android:text="@string/event_tickets"
+                android:textColor="@color/textColorLight"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </FrameLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/separatorColor" />
+        android:background="@color/separatorColorLight" />
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/other"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:background="@android:color/white">
 
-        <TextView
-            android:layout_width="96dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:fontFamily="@font/font_awesome"
-            android:gravity="center"
-            android:paddingBottom="4dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="4dp"
-            android:text="@string/file"
-            android:textColor="@color/textColorLight"
-            android:textSize="48sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/white"
-            android:drawablePadding="16dp"
-            android:drawableRight="@drawable/arrow_right"
-            android:drawableTint="@color/textColorLight"
+            android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
-            android:paddingRight="16dp"
-            android:text="@string/other"
-            android:textColor="@color/textColorLight"
-            android:textSize="18sp" />
-    </LinearLayout>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_awesome"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="4dp"
+                android:text="@string/file"
+                android:textColor="@color/textColorLight"
+                android:textSize="48sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawablePadding="16dp"
+                android:drawableRight="@drawable/arrow_right"
+                android:drawableTint="@color/textColorLight"
+                android:gravity="center_vertical"
+                android:paddingRight="16dp"
+                android:text="@string/other"
+                android:textColor="@color/textColorLight"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </FrameLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/separatorColor" />
+        android:background="@color/separatorColorLight" />
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/blocket_link"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:background="@android:color/white">
 
-        <TextView
-            android:layout_width="96dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:fontFamily="@font/font_awesome"
-            android:gravity="center"
-            android:paddingBottom="4dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="4dp"
-            android:text="@string/link"
-            android:textColor="@color/textColorLight"
-            android:textSize="48sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/white"
-            android:drawablePadding="16dp"
-            android:drawableRight="@drawable/arrow_right"
-            android:drawableTint="@color/textColorLight"
+            android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
-            android:paddingRight="16dp"
-            android:text="@string/blocket_link"
-            android:textColor="@color/textColorLight"
-            android:textSize="18sp" />
-    </LinearLayout>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_awesome"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="4dp"
+                android:text="@string/link"
+                android:textColor="@color/textColorLight"
+                android:textSize="48sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawablePadding="16dp"
+                android:drawableRight="@drawable/arrow_right"
+                android:drawableTint="@color/textColorLight"
+                android:gravity="center_vertical"
+                android:paddingRight="16dp"
+                android:text="@string/blocket_link"
+                android:textColor="@color/textColorLight"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </FrameLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/separatorColor" />
+        android:background="@color/separatorColorLight" />
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/more_templates_on_the_way"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:background="@android:color/white">
 
-        <TextView
-            android:layout_width="96dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:fontFamily="@font/font_awesome"
-            android:gravity="center"
-            android:paddingBottom="4dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="4dp"
-            android:text="@string/wrench"
-            android:textColor="@color/textColorLight"
-            android:textSize="48sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/white"
-            android:drawablePadding="16dp"
-            android:drawableRight="@drawable/arrow_right"
-            android:drawableTint="@color/textColorLight"
+            android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
-            android:paddingRight="16dp"
-            android:text="@string/more_templates_on_the_way"
-            android:textColor="@color/textColorLight"
-            android:textSize="18sp" />
-    </LinearLayout>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_awesome"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="4dp"
+                android:text="@string/wrench"
+                android:textColor="@color/textColorLight"
+                android:textSize="48sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawablePadding="16dp"
+                android:drawableRight="@drawable/arrow_right"
+                android:drawableTint="@color/textColorLight"
+                android:gravity="center_vertical"
+                android:paddingRight="16dp"
+                android:text="@string/more_templates_on_the_way"
+                android:textColor="@color/textColorLight"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </FrameLayout>
 
     <View
         android:layout_width="match_parent"

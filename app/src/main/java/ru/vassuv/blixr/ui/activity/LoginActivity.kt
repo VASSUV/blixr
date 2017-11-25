@@ -18,10 +18,13 @@ import ru.vassuv.blixr.repository.*
 import ru.vassuv.blixr.repository.api.Fields
 import ru.vassuv.blixr.repository.api.Methods
 import ru.vassuv.blixr.repository.db.DataBase
+import ru.vassuv.blixr.repository.db.ID_NUMBER
+import ru.vassuv.blixr.repository.response.CollectData
 import ru.vassuv.blixr.utils.ATLibriry.Logger
 import ru.vassuv.blixr.utils.ATLibriry.json.JsonObject
 import ru.vassuv.blixr.utils.ATLibriry.json.JsonValue
 import ru.vassuv.blixr.utils.BankId
+import ru.vassuv.blixr.utils.KeyboardUtils
 import ru.vassuv.blixr.utils.UNAUTHORIZED
 import ru.vassuv.blixr.utils.verifyResult
 
@@ -53,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
 
             val verifyResult = verifyResult(result)
             if (verifyResult.isOk) {
-                token = JsonValue.readFrom(verifyResult.value).asObject()
+                token = JsonValue.readFrom(verifyResult.value?:"").asObject()
                         .get(Fields.TOKEN)?.asString() ?: "";
                 SharedData.TOKEN.saveString(token)
 
@@ -61,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
                     restartMethod()
                 }
             } else {
-                showMessage(verifyResult.value)
+                showMessage(verifyResult.errorText)
             }
         }
     }
@@ -81,6 +84,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun getOnClickListener() = View.OnClickListener {
+        KeyboardUtils.hideKeyboard(this)
         if (!validatePersonalNumber())
             return@OnClickListener
 
@@ -120,19 +124,18 @@ class LoginActivity : AppCompatActivity() {
                     val verifyResult = verifyResult(result)
                     if (verifyResult.isOk) {
 
-                        val orderRef = JsonValue.readFrom(verifyResult.value).string(Fields.ORDER_REF) ?: ""
+                        val readFrom = JsonValue.readFrom(verifyResult.value ?: "")
+                        val orderRef = readFrom.string(Fields.ORDER_REF) ?: ""
                         SharedData.ORDER_REF.saveString(orderRef)
 
-                        val autoStartToken = JsonValue.readFrom(verifyResult.value).string(Fields.AUTO_START_TOKEN) ?: ""
+                        val autoStartToken = readFrom.string(Fields.AUTO_START_TOKEN) ?: ""
                         SharedData.AUTO_START_TOKEN.saveString(autoStartToken)
 
                         runBankIdApp(autoStartToken)
-
-                        showMessage(orderRef)
                     } else if (verifyResult.status == UNAUTHORIZED) {
                         loadToken { auth(number) }
                     } else {
-                        showMessage(verifyResult.value)
+                        showMessage(verifyResult.errorText)
                     }
 
                     progress.visibility = View.GONE
@@ -145,47 +148,39 @@ class LoginActivity : AppCompatActivity() {
                 .httpGet()//listOf(Fields.COLLECT to collect)
 //                .authenticate(SharedData.AUTO_START_TOKEN.getString(), "password")
                 .authenticate(token, ANY_PASSWORD)
-                .responseString { request, response, result ->
+                .responseObject(CollectData.Deserializer()) { request, response, result ->
                     Logger.trace(request)
                     Logger.trace(response)
                     Logger.trace(request.cUrlString())
 
                     val verifyResult = verifyResult(result)
-                    if (verifyResult.isOk) {
-                        showMessage(verifyResult.value)
+                    when {
+                        verifyResult.isOk -> {
 
-                        val ocspResponse = JsonValue.readFrom(verifyResult.value).string(Fields.OCSP_RESPONSE) ?: ""
-                        SharedData.OCSP_RESPONSE.saveString(ocspResponse)
+                            SharedData.OCSP_RESPONSE.saveString(verifyResult.value?.ocspResponse ?: "")
+                            SharedData.PROGRESS_STATUS.saveString(verifyResult.value?.progressStatus ?: "")
+                            SharedData.SIGNATURE.saveString(verifyResult.value?.signature ?: "")
 
-                        val progressStatus = JsonValue.readFrom(verifyResult.value).string(Fields.PROGRESS_STATUS) ?: ""
-                        SharedData.PROGRESS_STATUS.saveString(progressStatus)
+                            val userInfo = verifyResult.value?.userInfo
 
-                        val userInfo = JsonValue.readFrom(verifyResult.value).obj(Fields.USER_INFO) ?: JsonObject()
+                            SharedData.GIVEN_NAME.saveString(userInfo?.givenName ?: "")
+                            SharedData.NAME.saveString(userInfo?.name ?: "")
+                            SharedData.SURNAME.saveString(userInfo?.surname ?: "")
+                            SharedData.PERSONAL_NUMBER.saveString(userInfo?.personalNumber ?: "")
 
-                        val givenName = userInfo.string(Fields.GIVEN_NAME) ?: ""
-                        val name = userInfo.string(Fields.NAME) ?: ""
-                        val surname = userInfo.string(Fields.SURNAME) ?: ""
-                        val personalNumber = userInfo.string(Fields.PERSONAL_NUMBER) ?: ""
-
-                        SharedData.GIVEN_NAME.saveString(givenName)
-                        SharedData.NAME.saveString(name)
-                        SharedData.SURNAME.saveString(surname)
-                        SharedData.PERSONAL_NUMBER.saveString(personalNumber)
-
-                        val signature = JsonValue.readFrom(verifyResult.value).string(Fields.SIGNATURE) ?: ""
-                        SharedData.SIGNATURE.saveString(signature)
-
-                        showMessage(name)
-
-                        loginRequest()
-
-                    } else if (verifyResult.status == UNAUTHORIZED) {
-                        loadToken { collect(orderRef) }
-                    } else {
-                        showMessage(verifyResult.value)
-                        progress.visibility = View.GONE
+                            if (verifyResult.value?.progressStatus == "STARTED") {
+                                showMessage("Не удалось определить клиента")
+                                progress.visibility = View.GONE
+                            } else {
+                                loginRequest()
+                            }
+                        }
+                        verifyResult.status == UNAUTHORIZED -> loadToken { collect(orderRef) }
+                        else -> {
+                            showMessage(verifyResult.errorText)
+                            progress.visibility = View.GONE
+                        }
                     }
-
                 }
     }
 
@@ -202,20 +197,22 @@ class LoginActivity : AppCompatActivity() {
                     Logger.trace(request.cUrlString())
 
                     val verifyResult = verifyResult(result)
-                    if (verifyResult.isOk) {
-                        showMessage("Ok")
-                        DataBase.saveUser(JsonObject.readFrom(verifyResult.value))
-                        exitLogin()
-                    } else if (verifyResult.status == UNAUTHORIZED) {
-                        loadToken { loginRequest() }
-                    } else {
-                        showMessage(verifyResult.value)
+                    val jsonResult = JsonObject.readFrom(verifyResult.value?:"{}")
+                    when {
+                        jsonResult.string(ID_NUMBER)?.isEmpty() == true -> showMessage("Не удалось определить клиента")
+                        verifyResult.isOk -> {
+                            DataBase.saveUser(jsonResult)
+                            exitLogin()
+                        }
+                        verifyResult.status == UNAUTHORIZED -> loadToken { loginRequest() }
+                        else -> showMessage(verifyResult.errorText)
                     }
                     progress.visibility = View.GONE
                 }
     }
 
     override fun onBackPressed() {
+        KeyboardUtils.hideKeyboard(this)
         super.onBackPressed()
         backToMain()
         Thread.sleep(500)
@@ -234,11 +231,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun backToMain() {
-        val user = DataBase.getUser()
-        if (user == null) {
-            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-            intent.putExtra("theme", R.style.AppTheme_MainActionBar_Autorized)
-            startActivity(intent)
+        if (DataBase.getUser() == null) {
+            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
         } else {
             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
         }

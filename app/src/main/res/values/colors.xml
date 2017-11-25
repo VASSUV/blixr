@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3c7c2a</color>
-    <color name="colorPrimaryDark">#205e23</color>
+    <color name="colorPrimary">#3aa94d</color>
+    <color name="colorPrimaryDark">#2f8b3f</color>
+    <color name="colorPrimaryNotAuth">#a9403a</color>
+    <color name="colorPrimaryDarkNotAuth">#8b2f2f</color>
     <color name="colorAccent">#157289</color>
 
     <!-- Text colors -->
     <color name="textColorPrimary">#003854</color>
     <color name="textColorLight">#437a94</color>
     <color name="textColorError">#d70000</color>
+    <color name="hintGray">#b9b9b9</color>
 
     <!-- tools -->
-    <color name="separatorColor">#bebebe</color>
+    <color name="separatorColor">#c2c2c2</color>
+    <color name="separatorColorLight">#ececec</color>
     <color name="backgroundColor">#ececec</color>
     <color name="tooltipColor">#4dc77c</color>
+
+    <!-- Templates -->
+    <color name="backgound_template">#414141</color>
+    <color name="background_template_description">#979797</color>
 
 
 </resources>

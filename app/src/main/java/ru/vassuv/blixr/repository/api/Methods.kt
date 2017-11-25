@@ -8,4 +8,5 @@ object Methods {
     val LOGIN_REQUEST = "/api/loginRequest/"
     val PASS_EMAIL = "/api/passEmail"
     val REFERRAL = "/api/referral"
+    val FETCH_BLOCKET_AD = "/api/fetchBlocketAd"
 }

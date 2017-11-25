@@ -57,4 +57,8 @@ object DataBase {
             else null
         }
     }
+
+    fun clearUser() = Helper.use {
+        delete(USER)
+    }
 }

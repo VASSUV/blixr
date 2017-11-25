@@ -19,5 +19,6 @@ enum class SharedData: ru.vassuv.blixr.utils.ATLibriry.ISharedData {
     PERSONAL_NUMBER,
 
     SEARCH_TOOLTIP_SHOWED,
+    HAND_SHAKE_TOOLTIP_SHOWED,
     LOGIN_TOOLTIP_SHOWED,
 }

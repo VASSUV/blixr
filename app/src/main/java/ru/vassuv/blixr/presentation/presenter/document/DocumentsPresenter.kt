@@ -20,15 +20,7 @@ import ru.vassuv.blixr.presentation.view.document.DocumentsView
 
 @InjectViewState
 class DocumentsPresenter : MvpPresenter<DocumentsView>() {
-
-    lateinit var simpleFragmentPagerAdapter: SimpleFragmentPagerAdapter
-
-    fun onCreate(fragmentManager: FragmentManager) {
-        simpleFragmentPagerAdapter = SimpleFragmentPagerAdapter(App.context, fragmentManager)
-    }
-
-
-    fun getPagerAdapter() = simpleFragmentPagerAdapter
+    fun getPagerAdapter(fragmentManager: FragmentManager) = SimpleFragmentPagerAdapter(App.context, fragmentManager)
 }
 
 class DocumentAdapter(var list: Map<Int, String>) : RecyclerView.Adapter<DocumentAdapter.Holder>() {
@@ -53,11 +45,10 @@ class DocumentAdapter(var list: Map<Int, String>) : RecyclerView.Adapter<Documen
 
 class ListDocumentsFragment : Fragment() {
 
-    var adapter = DocumentAdapter(mapOf(1 to "pyxtybt",
-            2 to "pysfffslflxtybt",
-            3 to "dfgjskfgls",
-            4 to "sfadfhadadfjfjadfjfjfj"))
-
+    private var adapter = DocumentAdapter(mapOf(1 to "Contract 1",
+            2 to "Contract 2",
+            3 to "Contract 3",
+            4 to "Contract 4"))
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.recycler_layout, container, false)
@@ -70,18 +61,18 @@ class ListDocumentsFragment : Fragment() {
 
 class SimpleFragmentPagerAdapter(private val mContext: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
-    override fun getCount() = 3
+    private val fragments = arrayListOf<ListDocumentsFragment>(ListDocumentsFragment(),
+            ListDocumentsFragment(),
+            ListDocumentsFragment())
 
-    override fun getItem(position: Int) = when (position) {
-        1 -> ListDocumentsFragment()
-        2 -> ListDocumentsFragment()
-        else -> ListDocumentsFragment()
-    }
+    override fun getCount() = fragments.size
+
+    override fun getItem(position: Int) = fragments[position]
 
     override fun getPageTitle(position: Int): CharSequence? = when (position) {
-        0 -> mContext.getString(R.string.tab_page_1)
-        1 -> mContext.getString(R.string.tab_page_2)
-        2 -> mContext.getString(R.string.tab_page_3)
+        0 -> mContext.getString(R.string.my_documents_buy)
+        1 -> mContext.getString(R.string.my_documents_sell)
+        2 -> mContext.getString(R.string.my_documents_draft)
         else -> null
     }
 }
