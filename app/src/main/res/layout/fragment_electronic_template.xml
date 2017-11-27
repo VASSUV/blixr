@@ -6,6 +6,7 @@
     tools:context="ru.vassuv.blixr.ui.fragment.template.ElectronicTemplateFragment">
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -38,13 +39,14 @@
                     style="@style/AppTheme.TemplateCheckedTextView"
                     android:layout_width="match_parent"
                     android:layout_height="16dp"
+                    android:text="@string/type"
                     android:layout_marginTop="16dp" />
 
                 <EditText
                     android:id="@+id/type_name"
                     style="@style/AppTheme.TemplateEditText"
                     android:hint="@string/type"
-                    android:nextFocusDown="@+id/phone" />
+                    android:nextFocusDown="@+id/mark" />
 
                 <View style="@style/AppTheme.FieldUnderLine"
                     android:layout_marginBottom="8dp" />
@@ -69,7 +71,7 @@
                     android:id="@+id/mark"
                     style="@style/AppTheme.TemplateEditText"
                     android:hint="@string/mark"
-                    android:nextFocusDown="@+id/phone" />
+                    android:nextFocusDown="@+id/model" />
 
                 <View style="@style/AppTheme.FieldUnderLine" />
 
@@ -93,14 +95,14 @@
                     android:id="@+id/model"
                     style="@style/AppTheme.TemplateEditText"
                     android:hint="@string/model"
-                    android:nextFocusDown="@+id/phone" />
+                    android:nextFocusDown="@+id/serial_number" />
 
                 <View style="@style/AppTheme.FieldUnderLine" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/other_block"
+                android:id="@+id/serial_number_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/backgound_template"
@@ -117,7 +119,8 @@
                     android:id="@+id/serial_number"
                     style="@style/AppTheme.TemplateEditText"
                     android:hint="@string/serial_number"
-                    android:nextFocusDown="@+id/phone" />
+                    android:imeOptions="actionDone"
+                    android:nextFocusDown="@+id/garantee_block" />
 
                 <View style="@style/AppTheme.FieldUnderLine" />
 
@@ -185,7 +188,7 @@
                     android:id="@+id/photo"
                     style="@style/AppTheme.TemplateTextButton"
                     android:hint="@string/photos"
-                    android:nextFocusDown="@+id/company_id" />
+                    android:nextFocusDown="@+id/state" />
 
                 <View style="@style/AppTheme.FieldUnderLine" />
 
@@ -209,7 +212,7 @@
                     android:id="@+id/state"
                     style="@style/AppTheme.TemplateTextButton"
                     android:hint="@string/state"
-                    android:nextFocusDown="@+id/company_id" />
+                    android:nextFocusDown="@+id/other_info" />
 
                 <View style="@style/AppTheme.FieldUnderLine" />
 
@@ -233,7 +236,7 @@
                     android:id="@+id/other_info"
                     style="@style/AppTheme.TemplateTextButton"
                     android:hint="@string/other_info"
-                    android:nextFocusDown="@+id/company_id" />
+                    android:nextFocusDown="@+id/method" />
 
                 <View style="@style/AppTheme.FieldUnderLine" />
 
@@ -267,7 +270,7 @@
                     android:id="@+id/method"
                     style="@style/AppTheme.TemplateTextButton"
                     android:hint="@string/method"
-                    android:nextFocusDown="@+id/company_id" />
+                    android:nextFocusDown="@+id/date_name" />
 
                 <View style="@style/AppTheme.FieldUnderLine" />
 
@@ -291,7 +294,8 @@
                     android:id="@+id/date_name"
                     style="@style/AppTheme.TemplateEditText"
                     android:hint="@string/date"
-                    android:nextFocusDown="@+id/phone" />
+                    android:imeOptions="actionDone"
+                    android:nextFocusDown="@+id/payment_method" />
 
                 <View style="@style/AppTheme.FieldUnderLine" />
 
@@ -326,7 +330,7 @@
                     android:id="@+id/payment_method"
                     style="@style/AppTheme.TemplateTextButton"
                     android:hint="@string/payment_method"
-                    android:nextFocusDown="@+id/company_id" />
+                    android:nextFocusDown="@+id/price" />
 
                 <View style="@style/AppTheme.FieldUnderLine" />
 
@@ -347,10 +351,10 @@
                     android:text="@string/price" />
 
                 <EditText
-                    android:id="@+id/price_name"
+                    android:id="@+id/price"
                     style="@style/AppTheme.TemplateEditText"
                     android:hint="@string/price"
-                    android:nextFocusDown="@+id/phone" />
+                    android:imeOptions="actionDone"/>
 
                 <View style="@style/AppTheme.FieldUnderLine" />
 
@@ -362,18 +366,19 @@
                 android:layout_marginBottom="32dp"
                 android:background="@color/separatorColor" />
 
-
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
     <FrameLayout
+        android:id="@+id/preview_block"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/colorPrimaryDark">
 
         <TextView
+            android:id="@+id/preview_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="24dp"

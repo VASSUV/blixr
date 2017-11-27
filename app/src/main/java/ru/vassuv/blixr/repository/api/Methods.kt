@@ -9,4 +9,5 @@ object Methods {
     val PASS_EMAIL = "/api/passEmail"
     val REFERRAL = "/api/referral"
     val FETCH_BLOCKET_AD = "/api/fetchBlocketAd"
+    val CONTRACT_DATA_BY_USER_ID = "/api/contractDataByUserId"
 }

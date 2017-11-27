@@ -14,12 +14,10 @@ import ru.vassuv.blixr.FrmFabric
 import ru.vassuv.blixr.utils.ATLibriry.FragmentFabric
 import ru.vassuv.blixr.utils.ATLibriry.IFragment
 import android.support.design.widget.TabLayout
-import ru.vassuv.blixr.presentation.presenter.document.SimpleFragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import kotlinx.android.synthetic.main.fragment_documents.*
 
-
-class DocumentsFragment() : MvpAppCompatFragment(), DocumentsView, IFragment {
+class DocumentsFragment: MvpAppCompatFragment(), DocumentsView, IFragment {
 
     @InjectPresenter
     lateinit var mDocumentsPresenter: DocumentsPresenter
@@ -49,5 +47,7 @@ class DocumentsFragment() : MvpAppCompatFragment(), DocumentsView, IFragment {
         super.onStart()
         if (viewPager.adapter == null)
             viewPager.adapter = mDocumentsPresenter.getPagerAdapter(childFragmentManager)
+        mDocumentsPresenter.onStart()
     }
+
 }

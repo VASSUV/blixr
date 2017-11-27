@@ -13,4 +13,6 @@ interface ElectronicTemplateView : MvpView {
     fun setModel(value: String)
     fun setOther(value: String)
     fun changeKeyboardVisibility(visibility: Boolean)
+    fun hidePreview()
+    fun showPreview()
 }

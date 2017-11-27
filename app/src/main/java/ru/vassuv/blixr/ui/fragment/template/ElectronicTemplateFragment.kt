@@ -1,10 +1,11 @@
 package ru.vassuv.blixr.ui.fragment.template
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
+import android.widget.CheckedTextView
 import com.arellomobile.mvp.MvpAppCompatFragment
 import ru.vassuv.blixr.R
 import ru.vassuv.blixr.presentation.view.template.ElectronicTemplateView
@@ -22,8 +23,8 @@ class ElectronicTemplateFragment : MvpAppCompatFragment(), ElectronicTemplateVie
 
     companion object {
         fun newInstance(): ElectronicTemplateFragment {
-            val fragment: ElectronicTemplateFragment = ElectronicTemplateFragment()
-            val args: Bundle = Bundle()
+            val fragment = ElectronicTemplateFragment()
+            val args = Bundle()
             fragment.arguments = args
             return fragment
         }
@@ -40,49 +41,69 @@ class ElectronicTemplateFragment : MvpAppCompatFragment(), ElectronicTemplateVie
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        type_name.addTextChangedListener(presenter.onTypeTextWatcher)
-        mark.addTextChangedListener(presenter.onMarkTextWatcher)
-        model.addTextChangedListener(presenter.onModelTextWatcher)
-        serial_number.addTextChangedListener(presenter.onSerialNumberTextWatcher)
+        type_name.addTextChangedListener(presenter.onFieldTextWatcher(ElectronicFields.TYPE))
+        mark.addTextChangedListener(presenter.onFieldTextWatcher(ElectronicFields.MARK))
+        model.addTextChangedListener(presenter.onFieldTextWatcher(ElectronicFields.MODEL))
+        serial_number.addTextChangedListener(presenter.onFieldTextWatcher(ElectronicFields.SERIAL_NUMBER))
+        garantee_checkbox.setOnCheckedChangeListener(presenter.onGaranteeCheck())
+        original_checkbox.setOnCheckedChangeListener(presenter.onOriginalCheck())
+        photo.addTextChangedListener(presenter.onFieldTextWatcher(ElectronicFields.PHOTO))
+        state.addTextChangedListener(presenter.onFieldTextWatcher(ElectronicFields.STATE))
+        other_info.addTextChangedListener(presenter.onFieldTextWatcher(ElectronicFields.OTHER_INFO))
+        method.addTextChangedListener(presenter.onFieldTextWatcher(ElectronicFields.METHOD_DELIVERY))
+        date_text.addTextChangedListener(presenter.onFieldTextWatcher(ElectronicFields.DATE_DELIVERY))
+        payment_method.addTextChangedListener(presenter.onFieldTextWatcher(ElectronicFields.METHOD_PAYMENT))
+        price.addTextChangedListener(presenter.onFieldTextWatcher(ElectronicFields.PRICE))
     }
 
-
     override fun setVisibilityText(field: ElectronicFields, visibility: Boolean) {
-        val visible = if (visibility) View.VISIBLE else View.INVISIBLE
         when (field) {
-            ElectronicFields.TYPE -> {
-                type_text.visibility = visible
-                type_text.isChecked = false
-            }
-            ElectronicFields.MARK -> {
-                mark_text.visibility = visible
-                mark_text.isChecked = false
-            }
-            ElectronicFields.MODEL -> model_text.visibility = visible
-            ElectronicFields.SERIAL_NUMBER -> serial_number_text.visibility = visible
+            ElectronicFields.TYPE -> setVisibilityView(type_text, visibility, false)
+            ElectronicFields.MARK -> setVisibilityView(mark_text, visibility, false)
+            ElectronicFields.MODEL -> setVisibilityView(model_text, visibility, false)
+            ElectronicFields.SERIAL_NUMBER -> setVisibilityView(serial_number_text, visibility, false)
+            ElectronicFields.PHOTO -> setVisibilityView(photo_text, visibility, false)
+            ElectronicFields.STATE -> setVisibilityView(state_text, visibility, false)
+            ElectronicFields.OTHER_INFO -> setVisibilityView(other_info_text, visibility, false)
+            ElectronicFields.METHOD_DELIVERY -> setVisibilityView(method_text, visibility, false)
+            ElectronicFields.DATE_DELIVERY -> setVisibilityView(date_text, visibility, false)
+            ElectronicFields.METHOD_PAYMENT -> setVisibilityView(payment_method_text, visibility, false)
+            ElectronicFields.PRICE -> setVisibilityView(price_text, visibility, false)
             else -> {
             }
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        presenter.onStart(activity)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.onStop()
+    }
+
+    private fun setVisibilityView(text: CheckedTextView, visible: Boolean = false, checked: Boolean = visible) {
+        text.visibility = if (visible) View.VISIBLE else View.INVISIBLE
+        text.isChecked = checked
+    }
+
+    private fun setErrorVisibility(text: CheckedTextView, visible: Boolean = false) {
+        if (visible) text.visibility = View.VISIBLE
+        text.isChecked = visible
+    }
+
     override fun setErrorText(field: ElectronicFields, errorVisibility: Boolean) {
         when (field) {
-            ElectronicFields.TYPE -> {
-                type_text.visibility = if (!errorVisibility && type_text.text.isEmpty()) View.INVISIBLE else View.VISIBLE
-                type_text.isChecked = errorVisibility
-            }
-            ElectronicFields.MARK -> {
-                mark_text.visibility = if (!errorVisibility && mark.text.isEmpty()) View.INVISIBLE else View.VISIBLE
-                mark_text.isChecked = errorVisibility
-            }
-            ElectronicFields.MODEL -> {
-                model_text.visibility = if (!errorVisibility && model.text.isEmpty()) View.INVISIBLE else View.VISIBLE
-                model_text.isChecked = errorVisibility
-            }
-            ElectronicFields.SERIAL_NUMBER -> {
-                serial_number_text.visibility = if (!errorVisibility && serial_number.text.isEmpty()) View.INVISIBLE else View.VISIBLE
-                serial_number_text.isChecked = errorVisibility
-            }
+            ElectronicFields.TYPE ->
+                setErrorVisibility(type_text, errorVisibility && type_name.text.isNotEmpty())
+            ElectronicFields.MARK ->
+                setErrorVisibility(mark_text, errorVisibility && mark.text.isNotEmpty())
+            ElectronicFields.MODEL ->
+                setErrorVisibility(model_text, errorVisibility && model.text.isNotEmpty())
+            ElectronicFields.SERIAL_NUMBER ->
+                setErrorVisibility(serial_number_text, errorVisibility && serial_number.text.isNotEmpty())
             else -> {
             }
         }
@@ -92,22 +113,59 @@ class ElectronicTemplateFragment : MvpAppCompatFragment(), ElectronicTemplateVie
         when (field) {
             ElectronicFields.TYPE -> {
                 type_name.isFocusable = true
-//                scrollTo(type_block)
+                scrollTo(type_block)
             }
             ElectronicFields.MARK -> {
                 mark.isFocusable = true
                 mark.requestFocus()
-//                scrollTo(type_block)
+                scrollTo(type_block)
             }
             ElectronicFields.MODEL -> {
                 model.isFocusable = true
                 model.requestFocus()
-//                scrollTo(model_block)
+                scrollTo(model_block)
             }
             ElectronicFields.SERIAL_NUMBER -> {
                 serial_number.isFocusable = true
                 serial_number.requestFocus()
-//                scrollTo(serial_number_block)
+                scrollTo(serial_number_block)
+            }
+            ElectronicFields.PHOTO -> {
+                photo.isFocusable = true
+                photo.requestFocus()
+                scrollTo(photo_block)
+            }
+            ElectronicFields.STATE -> {
+                state.isFocusable = true
+                state.requestFocus()
+                scrollTo(state_block)
+            }
+            ElectronicFields.OTHER_INFO -> {
+                other_info.isFocusable = true
+                other_info.requestFocus()
+                scrollTo(other_info_block)
+            }
+            ElectronicFields.METHOD_DELIVERY -> {
+                method.isFocusable = true
+                method.requestFocus()
+                scrollTo(method_block)
+            }
+            ElectronicFields.DATE_DELIVERY -> {
+                date_name.isFocusable = true
+                date_name.requestFocus()
+                scrollTo(date_block)
+            }
+            ElectronicFields.METHOD_PAYMENT -> {
+                payment_method.isFocusable = true
+                payment_method.requestFocus()
+                scrollTo(payment_method_block)
+            }
+            ElectronicFields.PRICE -> {
+                price.isFocusable = true
+                price.requestFocus()
+                scrollTo(price_block)
+            }
+            else -> {
             }
         }
 
@@ -115,10 +173,10 @@ class ElectronicTemplateFragment : MvpAppCompatFragment(), ElectronicTemplateVie
 //            changeKeyboardVisibility(true)
         }
     }
-//
-//    private fun scrollTo(element: View?) {
-//        scroll_view.scrollTo(0, element!!.top)
-//    }
+
+    private fun scrollTo(element: View?) {
+        scrollView.scrollTo(0, element!!.top)
+    }
 
     override fun changeKeyboardVisibility(visibility: Boolean) {
         if (visibility) {
@@ -148,10 +206,31 @@ class ElectronicTemplateFragment : MvpAppCompatFragment(), ElectronicTemplateVie
         setVisibilityText(ElectronicFields.SERIAL_NUMBER, !value.isEmpty())
     }
 
+    override fun showPreview() {
+        Handler().postDelayed({
+            preview_block.visibility = View.VISIBLE
+        }, 200)
+    }
+
+    override fun hidePreview() {
+        Handler().postDelayed({
+            preview_block.visibility = View.GONE
+        }, 0)
+    }
+
     enum class ElectronicFields {
         TYPE,
         MARK,
         MODEL,
-        SERIAL_NUMBER
+        SERIAL_NUMBER,
+        GARANTEE,
+        ORIGINAL,
+        PHOTO,
+        STATE,
+        OTHER_INFO,
+        METHOD_DELIVERY,
+        DATE_DELIVERY,
+        METHOD_PAYMENT,
+        PRICE
     }
 }

@@ -2,19 +2,15 @@ package ru.vassuv.blixr.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import android.support.v4.widget.DrawerLayout.LOCK_MODE_UNLOCKED
 import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
 import android.view.View.OnClickListener
 import com.github.kittinunf.fuel.httpGet
-import com.tooltip.Tooltip
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.vassuv.blixr.App
-import ru.vassuv.blixr.FrmFabric
 import ru.vassuv.blixr.FrmFabric.*
 import ru.vassuv.blixr.R
 import ru.vassuv.blixr.repository.SharedData
@@ -31,13 +27,13 @@ import android.widget.FrameLayout
 import android.app.Activity
 import android.support.annotation.ColorRes
 import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.AppCompatActivity
 import android.view.*
-import ru.vassuv.blixr.ui.components.KeyboardListenerActivity
 import ru.vassuv.blixr.ui.components.SystemState
 import ru.vassuv.blixr.utils.KeyboardUtils
 
 
-class MainActivity : KeyboardListenerActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var toggle: ActionBarDrawerToggle
 

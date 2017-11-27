@@ -13,15 +13,91 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
+import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.fuel.httpPost
 import ru.vassuv.blixr.App
 import ru.vassuv.blixr.R
 import ru.vassuv.blixr.presentation.view.document.DocumentsView
+import ru.vassuv.blixr.repository.ANY_PASSWORD
+import ru.vassuv.blixr.repository.JSON_HEADER
+import ru.vassuv.blixr.repository.SessionConfig
+import ru.vassuv.blixr.repository.SharedData
+import ru.vassuv.blixr.repository.api.Methods
+import ru.vassuv.blixr.repository.api.Methods.CONTRACT_DATA_BY_USER_ID
+import ru.vassuv.blixr.repository.db.DataBase
+import ru.vassuv.blixr.repository.db.FETCH_URL
+import ru.vassuv.blixr.repository.db.USER_ID
+import ru.vassuv.blixr.repository.response.FetchBlocketAd
+import ru.vassuv.blixr.repository.response.Token
+import ru.vassuv.blixr.utils.ATLibriry.Logger
+import ru.vassuv.blixr.utils.ATLibriry.Router
+import ru.vassuv.blixr.utils.ATLibriry.json.JsonObject
+import ru.vassuv.blixr.utils.UNAUTHORIZED
+import ru.vassuv.blixr.utils.verifyResult
 
 
 @InjectViewState
 class DocumentsPresenter : MvpPresenter<DocumentsView>() {
+    var token: String = ""
+    val user = DataBase.getUser()
+
     fun getPagerAdapter(fragmentManager: FragmentManager) = SimpleFragmentPagerAdapter(App.context, fragmentManager)
+
+    private fun loadToken(restartMethod: (() -> Unit)? = null) {
+        Methods.TOKEN.httpGet()
+                .authenticate(SessionConfig.USER_NAME, SessionConfig.USER_PASSWORD)
+                .responseObject(Token.Deserializer()) { request, response, result ->
+                    Logger.trace(request)
+                    Logger.trace(response)
+
+                    val verifyResult = verifyResult(result)
+                    if (verifyResult.isOk) {
+                        token = verifyResult.value?.token ?: ""
+                        SharedData.TOKEN.saveString(token)
+
+                        if (restartMethod != null) {
+                            restartMethod()
+                        }
+                    } else {
+                        Router.showMessage(verifyResult.errorText)
+                    }
+                }
+    }
+
+    private fun contractDataByUserId(id: Int) {
+        CONTRACT_DATA_BY_USER_ID.httpPost()
+                .header(JSON_HEADER)
+                .authenticate(token, ANY_PASSWORD)
+                .body(JsonObject().add(USER_ID, id).toString())
+                .responseObject(FetchBlocketAd.Deserializer()){ request, response, result ->
+                    Logger.trace(request)
+                    Logger.trace(response)
+                    Logger.trace(request.cUrlString())
+
+                    val verifyResult = verifyResult(result)
+                    if (verifyResult.isOk) {
+//                        if (OK == verifyResult.status) {
+//                            viewState.showSuccessAlert()
+//                        } else {
+//                            viewState.showErrorAlert()
+//                        }
+                    } else if (verifyResult.status == UNAUTHORIZED) {
+                        loadToken { contractDataByUserId(id) }
+                    } else {
+                        Router.showMessage(verifyResult.errorText)
+                    }
+                }
+    }
+
+    fun onStart() {
+        if (user != null)
+            contractDataByUserId(user.id)
+    }
+
 }
+
+
+
 
 class DocumentAdapter(var list: Map<Int, String>) : RecyclerView.Adapter<DocumentAdapter.Holder>() {
 
