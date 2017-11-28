@@ -25,10 +25,12 @@ import ru.vassuv.blixr.repository.SessionConfig
 import android.os.Build
 import android.widget.FrameLayout
 import android.app.Activity
+import android.app.LoaderManager
 import android.support.annotation.ColorRes
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.*
+import ru.vassuv.blixr.ui.components.Loader
 import ru.vassuv.blixr.ui.components.SystemState
 import ru.vassuv.blixr.utils.KeyboardUtils
 
@@ -91,8 +93,15 @@ class MainActivity : AppCompatActivity() {
             this.user = user
             invalidateOptionsMenu()
         }
+
+        SystemState.loader =  Loader(progress)
         setStatusBarColored(this, if (isAuthorizedMode) R.color.colorPrimaryDark else R.color.colorPrimaryDarkNotAuth)
         toolbar.setBackgroundColor(resources.getColor(if (isAuthorizedMode) R.color.colorPrimary else R.color.colorPrimaryNotAuth))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        SystemState.loader = null
     }
 
     private fun setStatusBarColored(context: Activity, @ColorRes colorStatusBar: Int) {

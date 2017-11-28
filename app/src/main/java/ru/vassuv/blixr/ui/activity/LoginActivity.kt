@@ -18,8 +18,10 @@ import ru.vassuv.blixr.repository.*
 import ru.vassuv.blixr.repository.api.Fields
 import ru.vassuv.blixr.repository.api.Methods
 import ru.vassuv.blixr.repository.db.DataBase
-import ru.vassuv.blixr.repository.db.ID_NUMBER
+import ru.vassuv.blixr.repository.response.Authenticate
 import ru.vassuv.blixr.repository.response.CollectData
+import ru.vassuv.blixr.repository.response.UserData
+import ru.vassuv.blixr.repository.response.UserInfo
 import ru.vassuv.blixr.utils.ATLibriry.Logger
 import ru.vassuv.blixr.utils.ATLibriry.json.JsonObject
 import ru.vassuv.blixr.utils.ATLibriry.json.JsonValue
@@ -116,26 +118,24 @@ class LoginActivity : AppCompatActivity() {
         (Methods.AUTHENTICATE + number)
                 .httpGet()
                 .authenticate(token, ANY_PASSWORD)
-                .responseString { request, response, result ->
+                .responseObject(Authenticate.Deserializer()) { request, response, result ->
                     Logger.trace(request)
                     Logger.trace(response)
                     Logger.trace(request.cUrlString())
 
                     val verifyResult = verifyResult(result)
-                    if (verifyResult.isOk) {
+                    when {
+                        verifyResult.isOk -> {
+                            val orderRef = verifyResult.value?.orderRef ?: ""
+                            SharedData.ORDER_REF.saveString(orderRef)
 
-                        val readFrom = JsonValue.readFrom(verifyResult.value ?: "")
-                        val orderRef = readFrom.string(Fields.ORDER_REF) ?: ""
-                        SharedData.ORDER_REF.saveString(orderRef)
+                            val autoStartToken = verifyResult.value?.autoStartToken ?: ""
+                            SharedData.AUTO_START_TOKEN.saveString(autoStartToken)
 
-                        val autoStartToken = readFrom.string(Fields.AUTO_START_TOKEN) ?: ""
-                        SharedData.AUTO_START_TOKEN.saveString(autoStartToken)
-
-                        runBankIdApp(autoStartToken)
-                    } else if (verifyResult.status == UNAUTHORIZED) {
-                        loadToken { auth(number) }
-                    } else {
-                        showMessage(verifyResult.errorText)
+                            runBankIdApp(autoStartToken)
+                        }
+                        verifyResult.status == UNAUTHORIZED -> loadToken { auth(number) }
+                        else -> showMessage(verifyResult.errorText)
                     }
 
                     progress.visibility = View.GONE
@@ -145,8 +145,7 @@ class LoginActivity : AppCompatActivity() {
     private fun collect(orderRef: String) {
         progress.visibility = View.VISIBLE
         (Methods.COLLECT + orderRef)
-                .httpGet()//listOf(Fields.COLLECT to collect)
-//                .authenticate(SharedData.AUTO_START_TOKEN.getString(), "password")
+                .httpGet()
                 .authenticate(token, ANY_PASSWORD)
                 .responseObject(CollectData.Deserializer()) { request, response, result ->
                     Logger.trace(request)
@@ -165,8 +164,8 @@ class LoginActivity : AppCompatActivity() {
 
                             SharedData.GIVEN_NAME.saveString(userInfo?.givenName ?: "")
                             SharedData.NAME.saveString(userInfo?.name ?: "")
-                            SharedData.SURNAME.saveString(userInfo?.surname ?: "")
-                            SharedData.PERSONAL_NUMBER.saveString(userInfo?.personalNumber ?: "")
+                            SharedData.SURNAME.saveString(userInfo?.surname?: "")
+                            SharedData.PERSONAL_NUMBER.saveString(userInfo?.personalNumber?: "")
 
                             if (verifyResult.value?.progressStatus == "STARTED") {
                                 showMessage("Не удалось определить клиента")
@@ -191,17 +190,16 @@ class LoginActivity : AppCompatActivity() {
                         .add("firstName", SharedData.GIVEN_NAME.getString())
                         .add("lastName", SharedData.SURNAME.getString()).toString())
                 .authenticate(token, ANY_PASSWORD)
-                .responseString { request, response, result ->
+                .responseObject(UserData.Deserializer()) { request, response, result ->
                     Logger.trace(request)
                     Logger.trace(response)
                     Logger.trace(request.cUrlString())
 
                     val verifyResult = verifyResult(result)
-                    val jsonResult = JsonObject.readFrom(verifyResult.value?:"{}")
                     when {
-                        jsonResult.string(ID_NUMBER)?.isEmpty() == true -> showMessage("Не удалось определить клиента")
+                        verifyResult.value?.idNumber?.isEmpty() == true -> showMessage("Не удалось определить клиента")
                         verifyResult.isOk -> {
-                            DataBase.saveUser(jsonResult)
+                            DataBase.saveUser(verifyResult.value)
                             exitLogin()
                         }
                         verifyResult.status == UNAUTHORIZED -> loadToken { loginRequest() }

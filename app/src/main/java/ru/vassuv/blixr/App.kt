@@ -3,11 +3,14 @@ package ru.vassuv.blixr
 import android.app.Application
 import android.content.Context
 import com.github.kittinunf.fuel.core.FuelManager
+import com.github.kittinunf.fuel.core.Request
+import com.github.kittinunf.fuel.core.Response
 import com.yandex.metrica.YandexMetrica
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
 import ru.terrakok.cicerone.Cicerone
+import ru.vassuv.blixr.utils.ATLibriry.Logger
 import ru.vassuv.blixr.utils.ATLibriry.Navigator
 import ru.vassuv.blixr.utils.ATLibriry.Router
 import javax.net.ssl.*
@@ -49,6 +52,7 @@ class App (val cicerone: Cicerone<Router> = Cicerone.create(Router)) : Applicati
         FuelManager.instance.hostnameVerifier = HostnameVerifier { _, _ -> true }
     }
 }
+
 
 fun <T>runBg(bgFun: () -> T, resultFun: (T) -> Unit) {
     async(UI) {

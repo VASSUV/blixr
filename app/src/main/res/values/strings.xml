@@ -82,6 +82,10 @@
     <string name="my_documents_sell">Продажи</string>
     <string name="my_documents_draft">Черновики</string>
 
+    <!-- Document item list -->
+    <string name="buyer">Buyer: %s</string>
+    <string name="seller">Seller: %s</string>
+
     <!-- Share screen -->
     <string name="share_header_text">Введите E-mail адрес вашего друга</string>
     <string name="share_email_hint">E-mail</string>

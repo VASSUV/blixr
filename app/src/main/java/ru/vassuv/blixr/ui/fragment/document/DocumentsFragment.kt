@@ -16,15 +16,16 @@ import ru.vassuv.blixr.utils.ATLibriry.IFragment
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import kotlinx.android.synthetic.main.fragment_documents.*
+import ru.vassuv.blixr.ui.activity.MainActivity
 
 class DocumentsFragment: MvpAppCompatFragment(), DocumentsView, IFragment {
-
     @InjectPresenter
     lateinit var mDocumentsPresenter: DocumentsPresenter
 
     override val type: FragmentFabric = FrmFabric.DOCUMENTS
 
     companion object {
+
         fun newInstance(): DocumentsFragment {
             val fragment = DocumentsFragment()
             val args = Bundle()
@@ -32,7 +33,6 @@ class DocumentsFragment: MvpAppCompatFragment(), DocumentsView, IFragment {
             return fragment
         }
     }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val rootView =  inflater.inflate(R.layout.fragment_documents, container, false)
@@ -49,5 +49,4 @@ class DocumentsFragment: MvpAppCompatFragment(), DocumentsView, IFragment {
             viewPager.adapter = mDocumentsPresenter.getPagerAdapter(childFragmentManager)
         mDocumentsPresenter.onStart()
     }
-
 }

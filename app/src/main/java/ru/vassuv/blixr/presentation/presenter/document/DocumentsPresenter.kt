@@ -25,10 +25,11 @@ import ru.vassuv.blixr.repository.SharedData
 import ru.vassuv.blixr.repository.api.Methods
 import ru.vassuv.blixr.repository.api.Methods.CONTRACT_DATA_BY_USER_ID
 import ru.vassuv.blixr.repository.db.DataBase
-import ru.vassuv.blixr.repository.db.FETCH_URL
 import ru.vassuv.blixr.repository.db.USER_ID
-import ru.vassuv.blixr.repository.response.FetchBlocketAd
+import ru.vassuv.blixr.repository.response.BPContract
+import ru.vassuv.blixr.repository.response.DocumentList
 import ru.vassuv.blixr.repository.response.Token
+import ru.vassuv.blixr.ui.components.SystemState
 import ru.vassuv.blixr.utils.ATLibriry.Logger
 import ru.vassuv.blixr.utils.ATLibriry.Router
 import ru.vassuv.blixr.utils.ATLibriry.json.JsonObject
@@ -38,7 +39,7 @@ import ru.vassuv.blixr.utils.verifyResult
 
 @InjectViewState
 class DocumentsPresenter : MvpPresenter<DocumentsView>() {
-    var token: String = ""
+    var token: String = SharedData.TOKEN.getString()
     val user = DataBase.getUser()
 
     fun getPagerAdapter(fragmentManager: FragmentManager) = SimpleFragmentPagerAdapter(App.context, fragmentManager)
@@ -69,37 +70,33 @@ class DocumentsPresenter : MvpPresenter<DocumentsView>() {
                 .header(JSON_HEADER)
                 .authenticate(token, ANY_PASSWORD)
                 .body(JsonObject().add(USER_ID, id).toString())
-                .responseObject(FetchBlocketAd.Deserializer()){ request, response, result ->
+                .responseObject(DocumentList.Deserializer()){ request, response, result ->
                     Logger.trace(request)
                     Logger.trace(response)
                     Logger.trace(request.cUrlString())
 
                     val verifyResult = verifyResult(result)
                     if (verifyResult.isOk) {
-//                        if (OK == verifyResult.status) {
-//                            viewState.showSuccessAlert()
-//                        } else {
-//                            viewState.showErrorAlert()
-//                        }
+                        SystemState.loader?.visibility = false
+                        DataBase.saveDocuments(verifyResult.value)
                     } else if (verifyResult.status == UNAUTHORIZED) {
                         loadToken { contractDataByUserId(id) }
                     } else {
+                        SystemState.loader?.visibility = false
                         Router.showMessage(verifyResult.errorText)
                     }
                 }
     }
 
     fun onStart() {
-        if (user != null)
+        if (user != null) {
+            SystemState.loader?.visibility = true
             contractDataByUserId(user.id)
+        }
     }
-
 }
 
-
-
-
-class DocumentAdapter(var list: Map<Int, String>) : RecyclerView.Adapter<DocumentAdapter.Holder>() {
+class DocumentAdapter(var list: List<BPContract>) : RecyclerView.Adapter<DocumentAdapter.Holder>() {
 
     override fun getItemCount() = list.size
 
@@ -107,24 +104,52 @@ class DocumentAdapter(var list: Map<Int, String>) : RecyclerView.Adapter<Documen
             = Holder(LayoutInflater.from(parent?.context).inflate(R.layout.item_document, parent, false))
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.title.text = list[position + 1]
-        holder.price.text = (position + 1).toString()
-        holder.image.text = "\uf287"
+        val bpContract = list[position]
+        holder.title.text = "${bpContract.product} (${bpContract.contractCat})"
+        holder.price.text = bpContract.contractPrice.toString()
+        holder.date.text = bpContract.contractDate.substring(0,10)
+        holder.seller.text = App.context.getString(R.string.seller, bpContract.seller?.firstName ?: "")
+        holder.buyer.text = App.context.getString(R.string.buyer, bpContract.buyer?.firstName ?: "")
+        holder.image.text = getContractUnicodeLogo(bpContract.contractCat)
+    }
+
+    private fun getContractUnicodeLogo(contractCat: String) = when(contractCat) {
+        "ELECTRONICS" -> "\uf287" // usb
+        "MISC" -> "\uf0f6" // file
+        "EVENT" -> "\uf145" // ticket
+        "link" -> "\uf0c1" // link
+        "wrench" -> "\uf0ad" // wrench
+        "spinner" -> "\uf110" // spinner
+        "INSTRUMENTS" -> "\uf001" // music
+        else -> "\uf287"
     }
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val price: TextView = itemView.findViewById(R.id.price)
         val title: TextView = itemView.findViewById(R.id.title)
         val image: TextView = itemView.findViewById(R.id.image)
+        val date: TextView = itemView.findViewById(R.id.date)
+        val buyer: TextView = itemView.findViewById(R.id.kopare)
+        val seller: TextView = itemView.findViewById(R.id.saliare)
+
+        init {
+            itemView.setOnClickListener {
+
+            }
+        }
     }
 }
 
 class ListDocumentsFragment : Fragment() {
 
-    private var adapter = DocumentAdapter(mapOf(1 to "Contract 1",
-            2 to "Contract 2",
-            3 to "Contract 3",
-            4 to "Contract 4"))
+    private var adapter = DocumentAdapter(arrayListOf())
+
+    init {
+        DataBase.getDocuments {
+            adapter.list = it
+            adapter.notifyDataSetChanged()
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.recycler_layout, container, false)

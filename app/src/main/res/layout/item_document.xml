@@ -5,15 +5,17 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="?attr/selectableItemBackground"
     tools:layout_editor_absoluteY="81dp">
 
     <TextView
         android:id="@+id/image"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:fontFamily="@font/font_awesome"
         android:text="@string/usb"
+        android:textAlignment="center"
         android:textSize="48sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
