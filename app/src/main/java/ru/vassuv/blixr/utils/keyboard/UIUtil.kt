@@ -14,7 +14,7 @@ fun convertDpToPx(context: Context, dp: Float): Float {
     return dp * (res.displayMetrics.densityDpi / 160f)
 }
 
-fun showKeyboard(context: Context?, target: EditText?) {
+fun showKeyboard(context: Activity?, target: View? = context?.currentFocus) {
     if (context == null || target == null) {
         return
     }

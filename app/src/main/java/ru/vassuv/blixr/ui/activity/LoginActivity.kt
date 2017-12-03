@@ -26,8 +26,8 @@ import ru.vassuv.blixr.utils.ATLibriry.Logger
 import ru.vassuv.blixr.utils.ATLibriry.json.JsonObject
 import ru.vassuv.blixr.utils.ATLibriry.json.JsonValue
 import ru.vassuv.blixr.utils.BankId
-import ru.vassuv.blixr.utils.KeyboardUtils
 import ru.vassuv.blixr.utils.UNAUTHORIZED
+import ru.vassuv.blixr.utils.keyboard.hideKeyboard
 import ru.vassuv.blixr.utils.verifyResult
 
 class LoginActivity : AppCompatActivity() {
@@ -86,7 +86,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun getOnClickListener() = View.OnClickListener {
-        KeyboardUtils.hideKeyboard(this)
+        hideKeyboard(this)
         if (!validatePersonalNumber())
             return@OnClickListener
 
@@ -210,7 +210,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        KeyboardUtils.hideKeyboard(this)
+        hideKeyboard(this)
         super.onBackPressed()
         backToMain()
         Thread.sleep(500)

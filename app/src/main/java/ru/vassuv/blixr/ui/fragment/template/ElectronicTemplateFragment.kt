@@ -15,23 +15,33 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.fragment_electronic_template.*
 import ru.vassuv.blixr.FrmFabric
 import ru.vassuv.blixr.utils.ATLibriry.IFragment
-import ru.vassuv.blixr.utils.KeyboardUtils.hideKeyboard
-import ru.vassuv.blixr.utils.KeyboardUtils.showKeyboard
+import android.app.DatePickerDialog
+import ru.vassuv.blixr.utils.keyboard.hideKeyboard
+import ru.vassuv.blixr.utils.keyboard.showKeyboard
+import java.util.*
+
 
 class ElectronicTemplateFragment : MvpAppCompatFragment(), ElectronicTemplateView, IFragment {
     override val type = FrmFabric.ELECTRONIC_TEMPLATE
 
     companion object {
+
         fun newInstance(): ElectronicTemplateFragment {
             val fragment = ElectronicTemplateFragment()
             val args = Bundle()
             fragment.arguments = args
             return fragment
         }
+
     }
 
     @InjectPresenter
     lateinit var presenter: ElectronicTemplatePresenter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        presenter.onCreate()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -51,9 +61,17 @@ class ElectronicTemplateFragment : MvpAppCompatFragment(), ElectronicTemplateVie
         state.addTextChangedListener(presenter.onFieldTextWatcher(ElectronicFields.STATE))
         other_info.addTextChangedListener(presenter.onFieldTextWatcher(ElectronicFields.OTHER_INFO))
         method.addTextChangedListener(presenter.onFieldTextWatcher(ElectronicFields.METHOD_DELIVERY))
-        date_text.addTextChangedListener(presenter.onFieldTextWatcher(ElectronicFields.DATE_DELIVERY))
         payment_method.addTextChangedListener(presenter.onFieldTextWatcher(ElectronicFields.METHOD_PAYMENT))
         price.addTextChangedListener(presenter.onFieldTextWatcher(ElectronicFields.PRICE))
+        preview_button.setOnClickListener(presenter.previewListener())
+
+        state_block.setOnClickListener(presenter.getStateClickListener())
+        method_block.setOnClickListener(presenter.getDeliveryMethodClickListener())
+        payment_method_block.setOnClickListener(presenter.getPaymentMethodClickListener())
+        date_block.setOnClickListener(presenter.getDateClickListener())
+        date_name.setOnClickListener(presenter.getDateClickListener())
+        photo_block.setOnClickListener(presenter.getPhotoClickListener())
+        other_info.setOnClickListener(presenter.getOtherInfoClickListener())
     }
 
     override fun setVisibilityText(field: ElectronicFields, visibility: Boolean) {
@@ -97,13 +115,27 @@ class ElectronicTemplateFragment : MvpAppCompatFragment(), ElectronicTemplateVie
     override fun setErrorText(field: ElectronicFields, errorVisibility: Boolean) {
         when (field) {
             ElectronicFields.TYPE ->
-                setErrorVisibility(type_text, errorVisibility && type_name.text.isNotEmpty())
+                setErrorVisibility(type_text, errorVisibility)// && type_name.text.isNotEmpty())
             ElectronicFields.MARK ->
-                setErrorVisibility(mark_text, errorVisibility && mark.text.isNotEmpty())
+                setErrorVisibility(mark_text, errorVisibility)// && mark.text.isNotEmpty())
             ElectronicFields.MODEL ->
-                setErrorVisibility(model_text, errorVisibility && model.text.isNotEmpty())
+                setErrorVisibility(model_text, errorVisibility)// && model.text.isNotEmpty())
             ElectronicFields.SERIAL_NUMBER ->
-                setErrorVisibility(serial_number_text, errorVisibility && serial_number.text.isNotEmpty())
+                setErrorVisibility(serial_number_text, errorVisibility)// && serial_number.text.isNotEmpty())
+            ElectronicFields.PHOTO ->
+                setErrorVisibility(photo_text, errorVisibility)
+            ElectronicFields.STATE ->
+                setErrorVisibility(state_text, errorVisibility)
+            ElectronicFields.OTHER_INFO ->
+                setErrorVisibility(other_info_text, errorVisibility)
+            ElectronicFields.METHOD_DELIVERY ->
+                setErrorVisibility(method_text, errorVisibility)
+            ElectronicFields.DATE_DELIVERY ->
+                setErrorVisibility(date_text, errorVisibility)
+            ElectronicFields.METHOD_PAYMENT ->
+                setErrorVisibility(payment_method_text, errorVisibility)
+            ElectronicFields.PRICE ->
+                setErrorVisibility(price_text, errorVisibility)
             else -> {
             }
         }
@@ -123,12 +155,12 @@ class ElectronicTemplateFragment : MvpAppCompatFragment(), ElectronicTemplateVie
             ElectronicFields.MODEL -> {
                 model.isFocusable = true
                 model.requestFocus()
-                scrollTo(model_block)
+                scrollTo(mark_block)
             }
             ElectronicFields.SERIAL_NUMBER -> {
                 serial_number.isFocusable = true
                 serial_number.requestFocus()
-                scrollTo(serial_number_block)
+                scrollTo(model_block)
             }
             ElectronicFields.PHOTO -> {
                 photo.isFocusable = true
@@ -201,21 +233,65 @@ class ElectronicTemplateFragment : MvpAppCompatFragment(), ElectronicTemplateVie
         setVisibilityText(ElectronicFields.MODEL, !value.isEmpty())
     }
 
-    override fun setOther(value: String) {
+    override fun setSerialNumber(value: String) {
         serial_number.setText(value)
         setVisibilityText(ElectronicFields.SERIAL_NUMBER, !value.isEmpty())
     }
 
+    override fun setState(value: String) {
+        state.text = value
+        setVisibilityText(ElectronicFields.STATE, !value.isEmpty())
+    }
+
+    override fun setDeliveryMethod(value: String) {
+        method.text = value
+        setVisibilityText(ElectronicFields.METHOD_DELIVERY, !value.isEmpty())
+    }
+
+    override fun setPaymentMethod(value: String) {
+        payment_method.text = value
+        setVisibilityText(ElectronicFields.METHOD_PAYMENT, !value.isEmpty())
+    }
+
+    override fun setDeliveryDate(value: String) {
+        date_name.text = value
+        setVisibilityText(ElectronicFields.DATE_DELIVERY, !value.isEmpty())
+    }
+
+    override fun setCountPhoto(size: Int) {
+        photo.text = if (size > 0) context.getString(R.string.count_photos, size) else ""
+        setVisibilityText(ElectronicFields.PHOTO, size > 0)
+    }
+
+    override fun setOtherInfo(value: String) {
+        other_info.text = value
+        setVisibilityText(ElectronicFields.OTHER_INFO, !value.isEmpty())
+    }
+
     override fun showPreview() {
         Handler().postDelayed({
-            preview_block.visibility = View.VISIBLE
+            preview_block?.visibility = View.VISIBLE
         }, 200)
     }
 
     override fun hidePreview() {
         Handler().postDelayed({
-            preview_block.visibility = View.GONE
+            preview_block?.visibility = View.GONE
         }, 0)
+    }
+
+    private var datePickerDialog: DatePickerDialog? = null
+
+    override fun showDatePickerDialog(result: (Int, Int, Int) -> Unit) {
+        if (datePickerDialog == null) {
+            val calendar = GregorianCalendar.getInstance()
+            datePickerDialog = DatePickerDialog(activity,
+                    { _, y, m, d -> result(y, m, d) },
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH))
+        }
+        datePickerDialog?.show()
     }
 
     enum class ElectronicFields {

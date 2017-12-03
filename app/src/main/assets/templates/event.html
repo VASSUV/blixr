@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <title>Blixravtal</title>
+        <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta name="description" content="Responsive Multipurpose Bootstrap Theme">
+                    <meta name="author" content="The Develovers">
+                        
+                        <!-- CSS -->
+                        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+                            <link href="css/main.css" rel="stylesheet" type="text/css">
+                                <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+                                    
+                                    <!-- IE 9 Fallback-->
+                                    <!--[if IE 9]>
+                                     <link href="assets/css/ie.css" rel="stylesheet">
+                                     <![endif]-->
+                                    
+                                    </head>
+    
+    <body>
+        <!-- WRAPPER -->
+        <div class="wrapper">
+            
+            <!-- PAGE CONTENT -->
+            <div class="page-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h2>Blixravtal - Evenemangsbiljetter</h2>
+                            <div class="text-left">
+                                <p style="font-style: italic; font-size:10px">Detta är ett avtal mellan köpare och säljare som skrivit under med elektronisk signatur via BankID. Signaturerna, som följer eIDAS-förordningen (EU nr 910/2014), är separerade från detta dokument och finns tillgänglig hos Blixr AB vid en eventuell tvist. Köpare och säljare i detta avtal identifieras genom den elektroniska signaturen som är kopplad till kontrollsumman för pdf-dokumentet.</p>
+                            </div>
+                            <br/>
+                            <p><strong>Avtalsdatum: </strong>{{contractDate}}<p>
+                            <hr>
+                            <h3>Evenemangsinformation:</h3>
+                            
+                            <p><strong>Evenemang: </strong>{{eventName}}<p>
+                            <p><strong>Plats: </strong>{{eventLocation}}<p>
+                            <p><strong>Evenemangsdatum: </strong>{{eventDate}}<p>
+                            <p><strong>Antal biljetter: </strong>{{numberOfTickets}}<p>
+                            <br/>
+                            <p><strong>Pris: </strong>{{contractPrice}}<p>
+                            <p><strong>Betalsätt: </strong>{{paymentMethod}}<p>
+                            <br/>
+                            <p><strong>Leveranssätt: </strong>{{deliveryMethod}}<p>
+                            <p><strong>Leveransdatum: </strong>{{deliveryDate}}<p>
+                            <hr>
+                            <p><strong>Övrig information: </strong>{{freeText}}<p>
+                            <p><strong>Säljaren garanterar att biljetterna som säljs i detta avtal är äkta, är inga kopior och har inte, och kommer inte att användas av någon annan än köparen. Säljaren garanterar även att biljeterna har anskaffats med lagliga betalmedel.<p>
+                            <hr>
+                            <div id="buyer">
+                                <h4 class="section-heading">Underskrift Köpare</h2>
+                                    <p><strong>Köpare: </strong>{{buyer}}<p>
+                                    <p><strong>E-post: </strong>{{email}}<p>
+                                    <p><strong>Nyckel: </strong>{{key}}<p>
+                                    <p><strong>Kontrollsumma: </strong>{{checkSum}}<p>
+                                    <p><strong>Status: </strong><i class="fa fa-check" style="color: #7bae16"></i> Elektronisk underskrift med BankId<p>
+                                    <p><strong>Datum: </strong>{{buyerSignDate}}<p>
+                                    <hr>
+                                    </div>
+                            <div id="seller">
+                                <h4 class="section-heading">Underskrift Säljare</h2>
+                                    <p><strong>Säljare: </strong>{{seller}}<p>
+                                    <p><strong>E-post: </strong>{{email}}<p>
+                                    <p><strong>Nyckel: </strong>{{key}}<p>
+                                    <p><strong>Kontrollsumma: </strong>{{checkSum}}<p>
+                                    <p><strong>Status: </strong><i class="fa fa-check" style="color: #7bae16"></i> Elektronisk underskrift med BankId<p>
+                                    <p><strong>Datum: </strong>{{sellerSignDate}}<p>
+                                    </div>
+                            <br />
+                            <div class="text-left">
+                                <p style="font-style: italic; font-size:10px">Köpeavtalet omfattar endast de parter som skrivit under med elektronisk signatur. Blixr tillhandahåller enbart tjänsten och är ingen part i detta avtal. Blixr ansvarar inte för produkten/varan/tjänsten/innehållet i avtalet och kan inte juridiskt ansvara för eventuella påföljder på grund av det som avtalats mellan parterna. Se avändarvilkor - blixr.se/terms</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT -->
+        </div>
+        <!-- END WRAPPER -->
+    </body>
+    
+</html>

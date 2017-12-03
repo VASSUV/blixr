@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
-import android.support.v4.widget.DrawerLayout.LOCK_MODE_UNLOCKED
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.View.OnClickListener
 import com.github.kittinunf.fuel.httpGet
@@ -25,15 +23,15 @@ import ru.vassuv.blixr.repository.SessionConfig
 import android.os.Build
 import android.widget.FrameLayout
 import android.app.Activity
-import android.app.LoaderManager
 import android.support.annotation.ColorRes
 import android.support.v4.widget.DrawerLayout
+import android.support.v4.widget.DrawerLayout.*
 import android.support.v7.app.AppCompatActivity
 import android.view.*
 import ru.vassuv.blixr.ui.components.Loader
 import ru.vassuv.blixr.ui.components.SystemState
-import ru.vassuv.blixr.utils.KeyboardUtils
-
+import ru.vassuv.blixr.utils.keyboard.hideKeyboard
+import ru.vassuv.blixr.utils.keyboard.showKeyboard
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,9 +47,27 @@ class MainActivity : AppCompatActivity() {
 
         toggle = object : ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            private var oldState: Int = STATE_IDLE
+
             override fun onDrawerStateChanged(newState: Int) {
-                if (newState == DrawerLayout.STATE_DRAGGING) {
-                    SystemState.onNavigatorHide?.invoke()
+                when (newState) {
+                    STATE_SETTLING -> {
+                        if (oldState == STATE_DRAGGING) {
+                            SystemState.isNavigatorVisible = !SystemState.isNavigatorVisible
+                            oldState = newState
+                        } else
+                            oldState = 4
+                    }
+                    STATE_DRAGGING -> {
+                        oldState = newState
+                        SystemState.onNavigatorDragging?.invoke()
+                    }
+                    else -> {
+                        if (oldState == 4)
+                            SystemState.isNavigatorVisible = !SystemState.isNavigatorVisible
+                        SystemState.onNavigatorEdle?.invoke()
+                        oldState = newState
+                    }
                 }
             }
         }
@@ -63,7 +79,7 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.addOnBackStackChangedListener {
             shouldDisplayHomeUp()
-            KeyboardUtils.hideKeyboard(this)
+            hideKeyboard(this)
         }
         toggle.toolbarNavigationClickListener = OnClickListener {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -87,14 +103,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+
+        SystemState.isNavigatorVisible = false
         val user = DataBase.getUser()
         val isAuthorizedMode = user != null
-        if (this.user == null && isAuthorizedMode)  {
+        if (this.user == null && isAuthorizedMode) {
             this.user = user
             invalidateOptionsMenu()
         }
 
-        SystemState.loader =  Loader(progress)
+        SystemState.loader = Loader(progress)
         setStatusBarColored(this, if (isAuthorizedMode) R.color.colorPrimaryDark else R.color.colorPrimaryDarkNotAuth)
         toolbar.setBackgroundColor(resources.getColor(if (isAuthorizedMode) R.color.colorPrimary else R.color.colorPrimaryNotAuth))
     }
@@ -139,7 +157,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         supportFragmentManager.popBackStack()
-        KeyboardUtils.hideKeyboard(this)
+        hideKeyboard(this)
         return true
     }
 
@@ -147,7 +165,7 @@ class MainActivity : AppCompatActivity() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            KeyboardUtils.hideKeyboard(this)
+            hideKeyboard(this)
             val fragment = supportFragmentManager.findFragmentById(R.id.container)
             if (fragment != null && fragment is IFragment) {
                 (fragment as IFragment).onBackPressed()
@@ -270,7 +288,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getBackScreenListener() = object : OnBackScreenListener {
         override fun onBackScreen() {
-            KeyboardUtils.hideKeyboard(this@MainActivity)
+            hideKeyboard(this@MainActivity)
         }
     }
 
@@ -302,7 +320,7 @@ class MainActivity : AppCompatActivity() {
 
     fun baseState() {
         showActionBar()
-        KeyboardUtils.showKeyboard(this)
+        showKeyboard(this)
     }
 
     fun showActionBar() {

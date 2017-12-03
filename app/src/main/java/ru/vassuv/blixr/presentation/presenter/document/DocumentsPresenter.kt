@@ -17,6 +17,7 @@ import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import ru.vassuv.blixr.App
 import ru.vassuv.blixr.R
+import ru.vassuv.blixr.presentation.presenter.document.DocumentsPresenter.DocumentType.*
 import ru.vassuv.blixr.presentation.view.document.DocumentsView
 import ru.vassuv.blixr.repository.ANY_PASSWORD
 import ru.vassuv.blixr.repository.JSON_HEADER
@@ -24,9 +25,10 @@ import ru.vassuv.blixr.repository.SessionConfig
 import ru.vassuv.blixr.repository.SharedData
 import ru.vassuv.blixr.repository.api.Methods
 import ru.vassuv.blixr.repository.api.Methods.CONTRACT_DATA_BY_USER_ID
+import ru.vassuv.blixr.repository.db.BPContractShort
 import ru.vassuv.blixr.repository.db.DataBase
 import ru.vassuv.blixr.repository.db.USER_ID
-import ru.vassuv.blixr.repository.response.BPContract
+import ru.vassuv.blixr.repository.db.User
 import ru.vassuv.blixr.repository.response.DocumentList
 import ru.vassuv.blixr.repository.response.Token
 import ru.vassuv.blixr.ui.components.SystemState
@@ -35,14 +37,37 @@ import ru.vassuv.blixr.utils.ATLibriry.Router
 import ru.vassuv.blixr.utils.ATLibriry.json.JsonObject
 import ru.vassuv.blixr.utils.UNAUTHORIZED
 import ru.vassuv.blixr.utils.verifyResult
+import java.util.*
 
+private var user: User? = null
 
 @InjectViewState
 class DocumentsPresenter : MvpPresenter<DocumentsView>() {
     var token: String = SharedData.TOKEN.getString()
-    val user = DataBase.getUser()
 
-    fun getPagerAdapter(fragmentManager: FragmentManager) = SimpleFragmentPagerAdapter(App.context, fragmentManager)
+    enum class DocumentType { BOUGHT, SOLD, DRAFT }
+
+    val listFragments = arrayListOf(
+            ListDocumentsFragment.newInstance(BOUGHT),
+            ListDocumentsFragment.newInstance(SOLD),
+            ListDocumentsFragment.newInstance(DRAFT))
+
+    init {
+        user = DataBase.getUser()
+        if (user != null) {
+            SystemState.loader?.visibility = true
+            contractDataByUserId(user!!.id)
+        }
+    }
+
+    private var pagerAdapter: SimpleFragmentPagerAdapter? = null
+
+    fun getPagerAdapter(fragmentManager: FragmentManager): SimpleFragmentPagerAdapter? {
+        if (pagerAdapter == null) {
+            pagerAdapter = SimpleFragmentPagerAdapter(App.context, fragmentManager)
+        }
+        return pagerAdapter
+    }
 
     private fun loadToken(restartMethod: (() -> Unit)? = null) {
         Methods.TOKEN.httpGet()
@@ -70,15 +95,17 @@ class DocumentsPresenter : MvpPresenter<DocumentsView>() {
                 .header(JSON_HEADER)
                 .authenticate(token, ANY_PASSWORD)
                 .body(JsonObject().add(USER_ID, id).toString())
-                .responseObject(DocumentList.Deserializer()){ request, response, result ->
+                .responseObject(DocumentList.Deserializer()) { request, response, result ->
                     Logger.trace(request)
                     Logger.trace(response)
                     Logger.trace(request.cUrlString())
 
                     val verifyResult = verifyResult(result)
                     if (verifyResult.isOk) {
-                        SystemState.loader?.visibility = false
-                        DataBase.saveDocuments(verifyResult.value)
+                        DataBase.saveDocuments(verifyResult.value) {
+                            SystemState.loader?.visibility = false
+                            pagerAdapter?.notifyDataSetChanged()
+                        }
                     } else if (verifyResult.status == UNAUTHORIZED) {
                         loadToken { contractDataByUserId(id) }
                     } else {
@@ -89,66 +116,61 @@ class DocumentsPresenter : MvpPresenter<DocumentsView>() {
     }
 
     fun onStart() {
-        if (user != null) {
-            SystemState.loader?.visibility = true
-            contractDataByUserId(user.id)
+        SystemState.onNavigatorDragging = onNavigatorDragging
+        SystemState.onNavigatorEdle = onNavigatorEdle
+    }
+
+    private val onNavigatorDragging = {
+
+    }
+
+    private val onNavigatorEdle = {
+        if (!SystemState.isNavigatorVisible) {
+            listFragments.forEach { it.updateViews() }
         }
     }
-}
 
-class DocumentAdapter(var list: List<BPContract>) : RecyclerView.Adapter<DocumentAdapter.Holder>() {
-
-    override fun getItemCount() = list.size
-
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int)
-            = Holder(LayoutInflater.from(parent?.context).inflate(R.layout.item_document, parent, false))
-
-    override fun onBindViewHolder(holder: Holder, position: Int) {
-        val bpContract = list[position]
-        holder.title.text = "${bpContract.product} (${bpContract.contractCat})"
-        holder.price.text = bpContract.contractPrice.toString()
-        holder.date.text = bpContract.contractDate.substring(0,10)
-        holder.seller.text = App.context.getString(R.string.seller, bpContract.seller?.firstName ?: "")
-        holder.buyer.text = App.context.getString(R.string.buyer, bpContract.buyer?.firstName ?: "")
-        holder.image.text = getContractUnicodeLogo(bpContract.contractCat)
+    fun onStop() {
+        if (SystemState.onNavigatorDragging == onNavigatorDragging)
+            SystemState.onNavigatorDragging = null
+        if (SystemState.onNavigatorEdle == onNavigatorEdle)
+            SystemState.onNavigatorEdle = null
     }
 
-    private fun getContractUnicodeLogo(contractCat: String) = when(contractCat) {
-        "ELECTRONICS" -> "\uf287" // usb
-        "MISC" -> "\uf0f6" // file
-        "EVENT" -> "\uf145" // ticket
-        "link" -> "\uf0c1" // link
-        "wrench" -> "\uf0ad" // wrench
-        "spinner" -> "\uf110" // spinner
-        "INSTRUMENTS" -> "\uf001" // music
-        else -> "\uf287"
-    }
+    inner class SimpleFragmentPagerAdapter(
+            private val mContext: Context,
+            fm: FragmentManager
+    ) : FragmentPagerAdapter(fm) {
 
-    class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val price: TextView = itemView.findViewById(R.id.price)
-        val title: TextView = itemView.findViewById(R.id.title)
-        val image: TextView = itemView.findViewById(R.id.image)
-        val date: TextView = itemView.findViewById(R.id.date)
-        val buyer: TextView = itemView.findViewById(R.id.kopare)
-        val seller: TextView = itemView.findViewById(R.id.saliare)
+        override fun getCount() = 3
 
-        init {
-            itemView.setOnClickListener {
+        override fun getItem(position: Int) = listFragments[position]
 
-            }
+        override fun getPageTitle(position: Int): CharSequence? = when (position) {
+            0 -> mContext.getString(R.string.my_documents_buy)
+            1 -> mContext.getString(R.string.my_documents_sell)
+            2 -> mContext.getString(R.string.my_documents_draft)
+            else -> null
         }
     }
 }
 
 class ListDocumentsFragment : Fragment() {
 
-    private var adapter = DocumentAdapter(arrayListOf())
+    var type: DocumentsPresenter.DocumentType = BOUGHT
+
+    companion object {
+        fun newInstance(type: DocumentsPresenter.DocumentType): ListDocumentsFragment {
+            val fragment = ListDocumentsFragment()
+            fragment.type = type
+            return fragment
+        }
+    }
+
+    private var adapter: DocumentAdapter
 
     init {
-        DataBase.getDocuments {
-            adapter.list = it
-            adapter.notifyDataSetChanged()
-        }
+        this.adapter = DocumentAdapter(arrayListOf())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -158,22 +180,82 @@ class ListDocumentsFragment : Fragment() {
         recyclerView.adapter = adapter
         return rootView
     }
-}
 
-class SimpleFragmentPagerAdapter(private val mContext: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
+    fun updateViews() {
+        val method: (ArrayList<BPContractShort>) -> Unit = { documents ->
+            adapter.list = documents
+            adapter.notifyDataSetChanged()
+        }
+        when (type) {
+            BOUGHT -> DataBase.getDocumentsBought(user?.id ?: -1, method)
+            SOLD -> DataBase.getDocumentsSold(user?.id ?: -1, method)
+            DRAFT -> DataBase.getDocumentsDraft(user?.id ?: -1, method)
+        }
+    }
 
-    private val fragments = arrayListOf<ListDocumentsFragment>(ListDocumentsFragment(),
-            ListDocumentsFragment(),
-            ListDocumentsFragment())
+    @JvmField
+    val PLACEHOLDER_TYPE = 0
 
-    override fun getCount() = fragments.size
+    @JvmField
+    val ITEM_TYPE = 1
 
-    override fun getItem(position: Int) = fragments[position]
+    inner class DocumentAdapter(var list: List<BPContractShort>)
+        : RecyclerView.Adapter<DocumentAdapter.Holder>() {
 
-    override fun getPageTitle(position: Int): CharSequence? = when (position) {
-        0 -> mContext.getString(R.string.my_documents_buy)
-        1 -> mContext.getString(R.string.my_documents_sell)
-        2 -> mContext.getString(R.string.my_documents_draft)
-        else -> null
+        override fun getItemCount() = if (list.isEmpty()) 1 else list.size
+
+        override fun getItemViewType(position: Int) = if (position == 0 && list.isEmpty()) PLACEHOLDER_TYPE else ITEM_TYPE
+
+        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) = when (viewType) {
+            PLACEHOLDER_TYPE -> Holder(LayoutInflater.from(parent?.context).inflate(R.layout.item_placeholder, parent, false))
+            ITEM_TYPE -> DocumentHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_document, parent, false))
+            else -> Holder(LayoutInflater.from(parent?.context).inflate(R.layout.item_placeholder, parent, false))
+        }
+
+        override fun onBindViewHolder(holder: Holder, position: Int) {
+            when (getItemViewType(position)) {
+                ITEM_TYPE -> {
+                    if (holder is DocumentHolder) {
+                        val bpContract = list[position]
+                        holder.title.text = "${bpContract.product} (${bpContract.contractCat})"
+                        holder.price.text = App.context.getString(R.string.price_format, bpContract.contractPrice)
+                        holder.date.text = bpContract.contractDate?.substring(0, 10) ?: ""
+                        holder.seller.text = App.context.getString(R.string.seller, bpContract.seller ?: "")
+                        holder.buyer.text = App.context.getString(R.string.buyer, bpContract.buyer ?: "")
+                        holder.image.text = getContractUnicodeLogo(bpContract.contractCat ?: "")
+                        holder.image.setTextColor(App.context.resources.getColor(
+                                if(bpContract.buyer != null && bpContract.seller != null) R.color.textColorGreen else R.color.textColorSuperLight))
+                    }
+                }
+            }
+        }
+
+        private fun getContractUnicodeLogo(contractCat: String) = when (contractCat) {
+            "ELECTRONICS" -> "\uf287" // usb
+            "MISC" -> "\uf0f6" // file
+            "EVENT" -> "\uf145" // ticket
+            "INSTRUMENTS" -> "\uf001" // music
+//        "link" -> "\uf0c1" // link
+//        "wrench" -> "\uf0ad" // wrench
+//        "spinner" -> "\uf110" // spinner
+            else -> "\uf287"
+        }
+
+        open inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+        inner class DocumentHolder(itemView: View) : Holder(itemView) {
+            val price: TextView = itemView.findViewById(R.id.price)
+            val title: TextView = itemView.findViewById(R.id.title)
+            val image: TextView = itemView.findViewById(R.id.image)
+            val date: TextView = itemView.findViewById(R.id.date)
+            val buyer: TextView = itemView.findViewById(R.id.kopare)
+            val seller: TextView = itemView.findViewById(R.id.saliare)
+
+            init {
+                itemView.setOnClickListener {
+
+                }
+            }
+        }
     }
 }

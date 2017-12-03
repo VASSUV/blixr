@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Köpekontrakt</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Responsive Multipurpose Bootstrap Theme">
+<meta name="author" content="The Develovers">
+<!-- CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="css/main.css" rel="stylesheet" type="text/css">
+<link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+    
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+    img {
+        max-width: 80%;
+        max-height: 80%;
+    }
+    </style>
+</head>
+    
+    <body>
+        <!-- WRAPPER -->
+        <div class="wrapper">
+            
+            <!-- PAGE CONTENT -->
+            <div class="page-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="text-right">
+                                <img src="img/Logo_BW.png" style="max-width: 212px; max-height: 76px">
+                            </div>
+                            <h2 class="section-heading">Säljkvitto</h2>
+                            <p><strong>Datum: </strong>{{receiptDate}}<p>
+                            <p><strong>Säljare: </strong>{{fullName}}<p>
+                            <p><strong>Adress: </strong>{{street}}<p>
+                            <p><strong>Stad: </strong>{{city}}<p>
+                            <p><strong>Land: </strong>{{country}}<p>
+                            <hr>
+                            <table>
+                                <tr>
+                                    <th>Vara</th><th>Antal</th><th>Pris</th>
+                                </tr>
+                                <div id="productList">
+
+                                </div>
+                            </table>
+                            <hr>
+                            <p><strong>Total belopp: </strong>{{totalPrice}}<p>
+                            <p><strong>Status: </strong>{{paidAndDelivered}}<p>
+                            <p><strong>Signatur: </strong></p><img src="img/signature.png">
+                            <p><strong>Namnförtydligande: </strong>{{fullName}}<p>
+                            <div class="text-left">
+                                <p style="font-style: italic">Detta kvitto är ett säljbevis från säljaren enligt ovan. BlixPay ansvarar inte för något av kvittots innehåll.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT -->
+            <!-- COPYRIGHT -->
+            
+            <!-- END COPYRIGHT -->
+        </div>
+        <!-- END WRAPPER -->	
+    </body>
+    
+</html>

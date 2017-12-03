@@ -20,7 +20,12 @@ enum class FrmFabric(val createFragmentLambda: () -> MvpAppCompatFragment) : Fra
 
     TEMPLATES({ TemplateFragment.newInstance() }),
     ELECTRONIC_TEMPLATE({ ElectronicTemplateFragment.newInstance() }),
-    EVENT_TEMPLATE({ EventTemplateFragment.newInstance() });
+    EVENT_TEMPLATE({ EventTemplateFragment.newInstance() }),
+    SELECT_STATE({ SelectStateFragment.newInstance() }),
+    SELECT_PHOTOS({ SelectPhotosFragment.newInstance() }),
+    SELECT_OTHER_INFO({ SelectOtherInfoFragment.newInstance() }),
+    SELECT_PAYMENT_METHOD({ SelectPaymentMethodFragment.newInstance() }),
+    SELECT_DELIVERY_METHOD({ SelectDeliveryMethodFragment.newInstance() });
 
     fun create() = createFragmentLambda()
 }

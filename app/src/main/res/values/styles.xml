@@ -54,7 +54,7 @@
         <item name="android:maxLines">1</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/error_checked_text</item>
         <item name="android:textSize">12sp</item>
         <item name="android:visibility">invisible</item>
     </style>
@@ -104,6 +104,15 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="AppTheme.TemplateSelectItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
     <style name="AppTheme.FieldUnderLine">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
@@ -113,4 +122,12 @@
         <item name="android:layout_marginTop">4dp</item>
         <item name="android:background">@color/separatorColor</item>
     </style>
+
+    <style name="AppTheme.DividerWithLeftMargin">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
+
 </resources>

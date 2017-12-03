@@ -1,19 +1,21 @@
 package ru.vassuv.blixr.ui.fragment.auth
 
 import android.os.Bundle
+import android.provider.BlockedNumberContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import com.arellomobile.mvp.MvpAppCompatFragment
 import ru.vassuv.blixr.R
 import ru.vassuv.blixr.presentation.view.auth.SearchView
 import ru.vassuv.blixr.presentation.presenter.search.SearchPresenter
 
 import com.arellomobile.mvp.presenter.InjectPresenter
-import org.jetbrains.anko.find
+import kotlinx.android.synthetic.main.fragment_search.*
+import org.jetbrains.anko.alert
 import ru.vassuv.blixr.FrmFabric
 import ru.vassuv.blixr.utils.ATLibriry.IFragment
+import ru.vassuv.blixr.utils.ATLibriry.Router
 
 class SearchFragment : MvpAppCompatFragment(), SearchView, IFragment {
     companion object {
@@ -33,10 +35,30 @@ class SearchFragment : MvpAppCompatFragment(), SearchView, IFragment {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_search, container, false)
-        val userNumber = rootView.find<EditText>(R.id.userNumber)
-        val button = rootView.find<View>(R.id.logIn)
+        return inflater.inflate(R.layout.fragment_search, container, false)
+    }
 
-        return rootView
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        search.setOnClickListener(mAuthPresenter.getOnClickListener())
+        code.addTextChangedListener(mAuthPresenter.getTextChangeListener())
+    }
+
+    override fun showErrorAlert(codeString: String) {
+        activity.alert("Какие дальнейшие действия?", "Не удалось найти контракт \"$codeString\"") {
+            positiveButton(R.string.replay) { }
+            negativeButton(R.string.cancel) {
+                Router.newRootScreen(FrmFabric.MAIN.name)
+            }
+        }.show()
+    }
+
+    override fun showSuccessAlert() {
+        activity.alert ("Контракт успешно получен", "Новый контракт отправлен в черновики ваших документов") {
+            positiveButton(R.string.ok) {
+                Router.newRootScreen(FrmFabric.MAIN.name)
+            }
+            onCancelled { }
+        }.show()
     }
 }

@@ -5,4 +5,6 @@ import com.arellomobile.mvp.MvpView
 
 interface SearchView : MvpView {
     fun startActivityForResult(intent: Intent, requestNumber: Int)
+    fun showErrorAlert(codeString: String)
+    fun showSuccessAlert()
 }

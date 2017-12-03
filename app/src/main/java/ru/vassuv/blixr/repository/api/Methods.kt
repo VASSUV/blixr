@@ -10,4 +10,5 @@ object Methods {
     val REFERRAL = "/api/referral"
     val FETCH_BLOCKET_AD = "/api/fetchBlocketAd"
     val CONTRACT_DATA_BY_USER_ID = "/api/contractDataByUserId"
+    val GET_CONTRACT_FROM_CODE = "/api/getContractFromCode"
 }

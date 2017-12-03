@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView style="@style/AppTheme.TemplateHeader"
+        android:layout_height="24dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/separatorColor" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/selectTemplateItemColor"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/pickedUpOnSite"
+            style="@style/AppTheme.TemplateSelectItem"
+            android:text="@string/picked_up_on_site" />
+
+        <View style="@style/AppTheme.DividerWithLeftMargin" />
+
+        <TextView
+            android:id="@+id/theSellerDeliversToTheBuyer"
+            style="@style/AppTheme.TemplateSelectItem"
+            android:text="@string/the_seller_delivers_to_the_buyer" />
+
+        <View style="@style/AppTheme.DividerWithLeftMargin" />
+
+        <TextView
+            android:id="@+id/theSellerSends"
+            style="@style/AppTheme.TemplateSelectItem"
+            android:text="@string/the_seller_sends" />
+
+        <View style="@style/AppTheme.DividerWithLeftMargin" />
+
+        <TextView
+            android:id="@+id/electronically"
+            style="@style/AppTheme.TemplateSelectItem"
+            android:text="@string/electronically" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/separatorColor" />
+
+</LinearLayout>

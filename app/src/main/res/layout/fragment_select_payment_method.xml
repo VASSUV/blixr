@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/AppTheme.TemplateHeader"
+        android:layout_height="24dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/separatorColor" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/selectTemplateItemColor">
+
+        <TextView
+            android:id="@+id/cashPay"
+            style="@style/AppTheme.TemplateSelectItem"
+            android:text="@string/cash_pay"/>
+
+        <View
+            style="@style/AppTheme.DividerWithLeftMargin"/>
+
+        <TextView
+            android:id="@+id/swishPay"
+            style="@style/AppTheme.TemplateSelectItem"
+            android:text="@string/swish_pay"/>
+
+        <View
+            style="@style/AppTheme.DividerWithLeftMargin"/>
+
+        <TextView
+            android:id="@+id/otherPay"
+            style="@style/AppTheme.TemplateSelectItem"
+            android:text="@string/other_pay"/>
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/separatorColor" />
+
+</LinearLayout>

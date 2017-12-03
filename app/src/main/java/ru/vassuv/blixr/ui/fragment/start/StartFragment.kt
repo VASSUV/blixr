@@ -2,25 +2,22 @@ package ru.vassuv.blixr.ui.fragment.start
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.view.*
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.tooltip.Tooltip
+import kotlinx.android.synthetic.main.fragment_start.*
 import ru.vassuv.blixr.FrmFabric
 import ru.vassuv.blixr.R
 import ru.vassuv.blixr.presentation.presenter.start.StartPresenter
 import ru.vassuv.blixr.presentation.view.start.StartView
+import ru.vassuv.blixr.repository.SharedData
+import ru.vassuv.blixr.ui.activity.LoginActivity
 import ru.vassuv.blixr.utils.ATLibriry.FragmentFabric
 import ru.vassuv.blixr.utils.ATLibriry.IFragment
-import android.net.Uri
-import android.os.Handler
-import android.view.*
-import com.tooltip.Tooltip
-import kotlinx.android.synthetic.main.fragment_start.*
-import ru.vassuv.blixr.repository.SharedData
-import ru.vassuv.blixr.repository.db.DataBase
-import ru.vassuv.blixr.ui.activity.LoginActivity
-import ru.vassuv.blixr.ui.activity.MainActivity
-import ru.vassuv.blixr.ui.components.MutedVideoView
 import ru.vassuv.blixr.utils.ATLibriry.Router
 
 class StartFragment : MvpAppCompatFragment(), IFragment, StartView {
@@ -46,51 +43,56 @@ class StartFragment : MvpAppCompatFragment(), IFragment, StartView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_start, container, false)
-        val videoView = rootView.findViewById<MutedVideoView>(R.id.videoView)
-        val handShake = rootView.findViewById<View>(R.id.handshake)
+        return inflater.inflate(R.layout.fragment_start, container, false)
+    }
 
-        handShake.setOnClickListener(presenter.onHandshakeClick())
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val uriPath = "android.resource://" + context.packageName + "/" + R.raw.crowd
-
         val uri = Uri.parse(uriPath)
-        videoView.setVideoURI(uri)
 
+        videoView.setVideoURI(uri)
         videoView.setOnPreparedListener { it.isLooping = true }
         videoView.setMediaController(null)
         videoView.requestFocus(0)
 
-        return rootView
+        handshake.setOnClickListener(presenter.onHandshakeClick())
     }
 
     override fun onStart() {
         super.onStart()
         videoView.visibility = View.VISIBLE
-        videoView.start()
         presenter.onStart()
-        if (menuTooltip?.isShowing != true) {
-            showTooltips()
-        }
+        showMenuTooltip()
         if (handshakeTooltip?.isShowing != true && presenter.user != null) {
             showHandshakeToolTip()
         }
+        videoView.start()
     }
 
     override fun onStop() {
         super.onStop()
         presenter.onStop()
-        videoView.stopPlayback()
         videoView.visibility = View.INVISIBLE
         hideHandshakeTooltip()
         hideMenuTooltip()
+        videoView.stopPlayback()
     }
 
     private var menuTooltip: Tooltip? = null
     private var handshakeTooltip: Tooltip? = null
 
     override fun showMenuTooltip() {
-        menuTooltip?.show()
+        if (menuTooltip == null) return
+
+        if (presenter.user == null && !SharedData.LOGIN_TOOLTIP_SHOWED.getBoolean()) {
+            menuTooltip!!.show()
+            SharedData.LOGIN_TOOLTIP_SHOWED.saveBoolean(true)
+        } else if (presenter.user != null && !SharedData.SEARCH_TOOLTIP_SHOWED.getBoolean()) {
+            menuTooltip!!.show()
+            SharedData.SEARCH_TOOLTIP_SHOWED.saveBoolean(true)
+        }
     }
 
     override fun hideMenuTooltip() {
@@ -100,36 +102,39 @@ class StartFragment : MvpAppCompatFragment(), IFragment, StartView {
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater?.inflate(if (presenter.user == null) R.menu.main else R.menu.main_autorized, menu)
-        showTooltips()
+        createTooltips {
+            showMenuTooltip()
+        }
     }
 
-    private fun showTooltips() {
-        showLoginTooltip()
-        showSearchTooltip()
+    private fun createTooltips(show: (()->Unit)? = null) {
+        createLoginTooltip(show)
+        createSearchTooltip(show)
     }
 
     override fun invalidateOptionMenu() {
         activity.invalidateOptionsMenu()
+        createTooltips()
     }
 
-    private fun showLoginTooltip() {
+    private fun createLoginTooltip(show: (()->Unit)? = null) {
         if (presenter.user != null) return
         Handler().post({
             val logIn = activity.findViewById<View>(R.id.logIn)
-            if (logIn != null && !SharedData.LOGIN_TOOLTIP_SHOWED.getBoolean()) {
+            if (logIn != null) {
                 menuTooltip?.dismiss()
                 menuTooltip = Tooltip.Builder(logIn, R.style.AppTheme)
                         .setCornerRadius(R.dimen.tooltipRadius)
                         .setBackgroundColor(resources.getColor(R.color.tooltipColor))
                         .setText(R.string.login_here)
                         .setTextColor(Color.WHITE)
-                        .show()
-                SharedData.LOGIN_TOOLTIP_SHOWED.saveBoolean(true)
+                        .build()
+                show?.invoke()
             }
         })
     }
 
-    private fun showSearchTooltip() {
+    private fun createSearchTooltip(show: (()->Unit)? = null) {
         if (presenter.user == null) return
         Handler().post({
             val search = activity.findViewById<View>(R.id.search)
@@ -140,8 +145,8 @@ class StartFragment : MvpAppCompatFragment(), IFragment, StartView {
                         .setBackgroundColor(resources.getColor(R.color.tooltipColor))
                         .setText(R.string.search_here)
                         .setTextColor(Color.WHITE)
-                        .show()
-                SharedData.SEARCH_TOOLTIP_SHOWED.saveBoolean(true)
+                        .build()
+                show?.invoke()
             }
         })
     }

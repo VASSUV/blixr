@@ -33,6 +33,10 @@
     <string name="search_here">Поиск договора</string>
     <string name="create_document">Создать договор</string>
 
+    <!-- System -->
+    <string name="list_is_empty">Список пуст</string>
+    <string name="price_format">%,.2f крон</string>
+
     <!-- Dialog -->
     <string name="registration_error">Ошибка регистрации</string>
     <string name="email_already_use">Данный Email нельзя использовать</string>
@@ -129,8 +133,28 @@
     <string name="payment_method">Метод оплаты</string>
     <string name="price">Цена</string>
 
+    <string name="as_new">Как новое</string>
+    <string name="good">Хорошее</string>
+    <string name="used">Использованное</string>
+
+    <string name="picked_up_on_site">Встреча на месте</string>
+    <string name="the_seller_delivers_to_the_buyer">Продавец доставляет покупателю</string>
+    <string name="the_seller_sends">Продавец отправляет</string>
+    <string name="electronically">В электронном виде</string>
+
+    <string name="cash_pay">Наличные деньги</string>
+    <string name="swish_pay">Swish</string>
+    <string name="other_pay">Другое</string>
+
     <!-- Template Event -->
     <string name="event_and_ticket_info">Информация о событиях и билетах</string>
     <string name="event">События</string>
+
+    <!-- Search -->
+    <string name="search_subtitle">search subtitle</string>
+    <string name="contract_code_hint">CONTRACT CODE</string>
+    <string name="search_description">search description</string>
+    <string name="search">Search</string>
+    <string name="count_photos">Добавлено %d фотографий</string>
 
 </resources>

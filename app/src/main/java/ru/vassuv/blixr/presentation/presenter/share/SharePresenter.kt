@@ -7,17 +7,15 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
-import org.jetbrains.anko.alert
-import ru.vassuv.blixr.App
-import ru.vassuv.blixr.FrmFabric
-import ru.vassuv.blixr.R
 import ru.vassuv.blixr.presentation.view.share.ShareView
 import ru.vassuv.blixr.repository.*
 import ru.vassuv.blixr.repository.api.Fields
 import ru.vassuv.blixr.repository.api.Methods
-import ru.vassuv.blixr.repository.db.*
+import ru.vassuv.blixr.repository.db.DataBase
+import ru.vassuv.blixr.repository.db.EMAIL
+import ru.vassuv.blixr.repository.db.UID
+import ru.vassuv.blixr.repository.db.User
 import ru.vassuv.blixr.utils.ATLibriry.Logger
-import ru.vassuv.blixr.utils.ATLibriry.Router
 import ru.vassuv.blixr.utils.ATLibriry.Router.showMessage
 import ru.vassuv.blixr.utils.ATLibriry.json.JsonObject
 import ru.vassuv.blixr.utils.ATLibriry.json.JsonValue
@@ -69,7 +67,7 @@ class SharePresenter : MvpPresenter<ShareView>() {
 
                     val verifyResult = verifyResult(result)
                     if (verifyResult.isOk) {
-                        token = JsonValue.readFrom(verifyResult.value?:"").asObject()
+                        token = JsonValue.readFrom(verifyResult.value ?: "").asObject()
                                 .get(Fields.TOKEN)?.asString() ?: "";
                         SharedData.TOKEN.saveString(token)
 
@@ -95,7 +93,7 @@ class SharePresenter : MvpPresenter<ShareView>() {
 
                     val verifyResult = verifyResult(result)
                     if (verifyResult.isOk) {
-                        if (OK == JsonObject.readFrom(verifyResult.value ?:"").string(Fields.STATUS)) {
+                        if (OK == JsonObject.readFrom(verifyResult.value ?: "").string(Fields.STATUS)) {
                             viewState.showSuccessAlert()
                         } else {
                             viewState.showErrorAlert()

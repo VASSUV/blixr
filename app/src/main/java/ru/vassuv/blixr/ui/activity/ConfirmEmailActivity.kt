@@ -27,7 +27,7 @@ import ru.vassuv.blixr.utils.UNAUTHORIZED
 import ru.vassuv.blixr.repository.*
 import ru.vassuv.blixr.repository.db.EMAIL
 import ru.vassuv.blixr.repository.db.USER_ID
-import ru.vassuv.blixr.utils.KeyboardUtils
+import ru.vassuv.blixr.utils.keyboard.hideKeyboard
 import ru.vassuv.blixr.utils.verifyResult
 
 class ConfirmEmailActivity : AppCompatActivity() {
@@ -120,7 +120,7 @@ class ConfirmEmailActivity : AppCompatActivity() {
     }
 
     private fun getConfirmClickListener() = View.OnClickListener {
-        KeyboardUtils.hideKeyboard(this)
+        hideKeyboard(this)
         if (validateEmail()) {
             confirmPost()
         }
@@ -129,12 +129,12 @@ class ConfirmEmailActivity : AppCompatActivity() {
     private fun validateEmail(): Boolean = true
 
     private fun getCancelClickListener() = View.OnClickListener {
-        KeyboardUtils.hideKeyboard(this)
+        hideKeyboard(this)
         restartMainActivity()
     }
 
     override fun onBackPressed() {
-        KeyboardUtils.hideKeyboard(this)
+        hideKeyboard(this)
         restartMainActivity()
     }
 

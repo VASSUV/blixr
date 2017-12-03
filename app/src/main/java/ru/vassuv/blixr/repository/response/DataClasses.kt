@@ -61,33 +61,33 @@ data class DocumentList(var meta: Meta,
 }
 
 data class BPContract(var id: Int,
-                      var product: String,
+                      var product: String?,
                       var pictures: ArrayList<BPPicture>,
-                      var productBrand: String,
-                      var productModel: String,
-                      var productState: String,
-                      var productSerial: String,
+                      var productBrand: String?,
+                      var productModel: String?,
+                      var productState: String?,
+                      var productSerial: String?,
                       var eventName: String?,
                       var eventLocation: String?,
                       var eventDate: String?,
                       var numberOfTickets: String?,
                       var contractPrice: Double?,
-                      var contractCat: String,
-                      var contractFreeText: String,
-                      var contractDate: String,
+                      var contractCat: String?,
+                      var contractFreeText: String?,
+                      var contractDate: String?,
                       var buyer: BPParty?,
                       var seller: BPParty?,
                       var code: BPCode?,
                       var buyerSignature: BPSignature?,
                       var sellerSignature: BPSignature?,
-                      var contractKey: String,
-                      var deliveryMethod: String,
-                      var deliveryDate: String,
-                      var paymentMethod: String,
-                      var shaOneSum: String,
+                      var contractKey: String?,
+                      var deliveryMethod: String?,
+                      var deliveryDate: String?,
+                      var paymentMethod: String?,
+                      var shaOneSum: String?,
                       var bpPaidStatus: Boolean,
                       var numberOfPhotos: Int,
-                      var contractTemplate: String,
+                      var contractTemplate: String?,
                       var validWarranty: String?,
                       var originalReceipt: Boolean) {
     class Deserializer : ResponseDeserializable<BPContract> {
@@ -96,11 +96,11 @@ data class BPContract(var id: Int,
 }
 
 data class BPParty(var id: Int,
-                    var firstName: String,
-                    var lastName: String,
-                    var idNumber: String,
-                    var confirmed: Boolean,
-                    var role: String?) {
+                   var firstName: String,
+                   var lastName: String,
+                   var idNumber: String,
+                   var confirmed: Boolean,
+                   var role: String?) {
     class Deserializer : ResponseDeserializable<UserData> {
         override fun deserialize(content: String): UserData = Gson().fromJson(content, UserData::class.java)
     }
@@ -108,16 +108,16 @@ data class BPParty(var id: Int,
 
 data class BPCode(var id: Int,
                   var codeString: String,
-                  var validTo: String? ) {
+                  var validTo: String?) {
     class Deserializer : ResponseDeserializable<BPCode> {
         override fun deserialize(content: String): BPCode = Gson().fromJson(content, BPCode::class.java)
     }
 }
 
-data class BPPicture(var id : Int,
+data class BPPicture(var id: Int,
                      var picURL: String?,
-                     var pictureId : Double,
-                     var pictureKey : String,
+                     var pictureId: Double,
+                     var pictureKey: String,
                      var caption: String?) {
     class Deserializer : ResponseDeserializable<BPPicture> {
         override fun deserialize(content: String): BPPicture = Gson().fromJson(content, BPPicture::class.java)
@@ -125,13 +125,13 @@ data class BPPicture(var id : Int,
 }
 
 data class BPSignature(var id: Int,
+                       var bankIDSig: String,
+                       var bankIDSigDate: String,
                        var sigEmail: String,
                        var sigURL: String?,
-                       var bankIDSigDate: String,
                        var userId: Int,
                        var sigURLDate: String?,
-                       var fullName: String,
-                       var count: Int) {
+                       var fullName: String) {
     class Deserializer : ResponseDeserializable<BPSignature> {
         override fun deserialize(content: String): BPSignature = Gson().fromJson(content, BPSignature::class.java)
     }

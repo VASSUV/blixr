@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ru.vassuv.blixr.ui.fragment.template.SelectStateFragment">
+
+    <TextView
+        style="@style/AppTheme.TemplateHeader"
+        android:layout_height="24dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/separatorColor" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/selectTemplateItemColor">
+
+        <TextView
+            android:id="@+id/asNew"
+            style="@style/AppTheme.TemplateSelectItem"
+            android:text="@string/as_new"/>
+
+        <View
+            style="@style/AppTheme.DividerWithLeftMargin"/>
+
+        <TextView
+            android:id="@+id/good"
+            style="@style/AppTheme.TemplateSelectItem"
+            android:text="@string/good" />
+
+        <View
+            style="@style/AppTheme.DividerWithLeftMargin"/>
+
+        <TextView
+            android:id="@+id/used"
+            style="@style/AppTheme.TemplateSelectItem"
+            android:text="@string/used"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/separatorColor" />
+
+</LinearLayout>

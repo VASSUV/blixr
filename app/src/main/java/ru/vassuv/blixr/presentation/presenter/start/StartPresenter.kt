@@ -8,7 +8,6 @@ import ru.vassuv.blixr.presentation.view.start.StartView
 import ru.vassuv.blixr.repository.SharedData
 import ru.vassuv.blixr.repository.db.DataBase
 import ru.vassuv.blixr.repository.db.User
-import ru.vassuv.blixr.ui.activity.MainActivity
 import ru.vassuv.blixr.ui.components.SystemState
 import ru.vassuv.blixr.utils.ATLibriry.Router
 
@@ -35,23 +34,23 @@ class StartPresenter : MvpPresenter<StartView>() {
             viewState.invalidateOptionMenu()
         }
 
-        SystemState.onNavigatorHide = onNavigatorHide
-        SystemState.onNavigatorShow = onNavigatorShow
+        SystemState.onNavigatorDragging = onNavigatorDragging
+        SystemState.onNavigatorEdle = onNavigatorEdle
     }
 
-    private val onNavigatorHide = {
+    private val onNavigatorDragging = {
         viewState.hideHandshakeTooltip()
         viewState.hideMenuTooltip()
     }
 
-    private val onNavigatorShow = {
+    private val onNavigatorEdle = {
 
     }
 
     fun onStop() {
-        if (SystemState.onNavigatorHide == onNavigatorHide)
-            SystemState.onNavigatorHide = null
-        if (SystemState.onNavigatorShow == onNavigatorShow)
-            SystemState.onNavigatorShow = null
+        if (SystemState.onNavigatorDragging == onNavigatorDragging)
+            SystemState.onNavigatorDragging = null
+        if (SystemState.onNavigatorEdle == onNavigatorEdle)
+            SystemState.onNavigatorEdle = null
     }
 }

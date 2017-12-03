@@ -6,6 +6,7 @@ import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.Response
 import com.yandex.metrica.YandexMetrica
+import com.yandex.metrica.YandexMetricaConfig
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
@@ -30,9 +31,11 @@ class App (val cicerone: Cicerone<Router> = Cicerone.create(Router)) : Applicati
         app = this
 
         // Инициализация AppMetrica SDK
-        YandexMetrica.activate(getApplicationContext(), "051ecfd8-d02d-46c6-93f6-d30a0d4f57d8")
+        YandexMetrica.activate(applicationContext, "051ecfd8-d02d-46c6-93f6-d30a0d4f57d8")
         // Отслеживание активности пользователей
         YandexMetrica.enableActivityAutoTracking(this)
+
+        YandexMetrica.setLogEnabled()
 
         FuelManager.instance.basePath = "https://blixr.net"
 

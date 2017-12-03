@@ -9,6 +9,8 @@
     <!-- Text colors -->
     <color name="textColorPrimary">#003854</color>
     <color name="textColorLight">#437a94</color>
+    <color name="textColorSuperLight">#a6b7bf</color>
+    <color name="textColorGreen">#2f8b3f</color>
     <color name="textColorError">#d70000</color>
     <color name="hintGray">#b9b9b9</color>
 
@@ -19,8 +21,11 @@
     <color name="tooltipColor">#4dc77c</color>
 
     <!-- Templates -->
-    <color name="backgound_template">#414141</color>
-    <color name="background_template_description">#979797</color>
+    <color name="backgoundTemplate">#414141</color>
+    <color name="backgroundTemplateDescription">#979797</color>
+    <color name="selectTemplateItemColor">#437a94</color>
+    <color name="selectedItemBackround">#8a60ca81</color>
+    <color name="itemBackground">#00ffffff</color>
 
 
 </resources>

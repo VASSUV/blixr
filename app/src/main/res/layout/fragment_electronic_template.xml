@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_template_description"
+            android:background="@color/backgroundTemplateDescription"
             android:orientation="vertical">
 
             <TextView
@@ -31,7 +31,7 @@
                 android:id="@+id/type_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/backgound_template"
+                android:background="@color/backgoundTemplate"
                 android:orientation="vertical">
 
                 <CheckedTextView
@@ -46,6 +46,7 @@
                     android:id="@+id/type_name"
                     style="@style/AppTheme.TemplateEditText"
                     android:hint="@string/type"
+                    android:inputType="textCapSentences"
                     android:nextFocusDown="@+id/mark" />
 
                 <View style="@style/AppTheme.FieldUnderLine"
@@ -57,7 +58,7 @@
                 android:id="@+id/mark_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/backgound_template"
+                android:background="@color/backgoundTemplate"
                 android:orientation="vertical">
 
                 <CheckedTextView
@@ -71,6 +72,7 @@
                     android:id="@+id/mark"
                     style="@style/AppTheme.TemplateEditText"
                     android:hint="@string/mark"
+                    android:inputType="textCapSentences"
                     android:nextFocusDown="@+id/model" />
 
                 <View style="@style/AppTheme.FieldUnderLine" />
@@ -81,7 +83,7 @@
                 android:id="@+id/model_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/backgound_template"
+                android:background="@color/backgoundTemplate"
                 android:orientation="vertical">
 
                 <CheckedTextView
@@ -95,6 +97,7 @@
                     android:id="@+id/model"
                     style="@style/AppTheme.TemplateEditText"
                     android:hint="@string/model"
+                    android:inputType="textCapSentences"
                     android:nextFocusDown="@+id/serial_number" />
 
                 <View style="@style/AppTheme.FieldUnderLine" />
@@ -105,7 +108,7 @@
                 android:id="@+id/serial_number_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/backgound_template"
+                android:background="@color/backgoundTemplate"
                 android:orientation="vertical">
 
                 <CheckedTextView
@@ -120,6 +123,7 @@
                     style="@style/AppTheme.TemplateEditText"
                     android:hint="@string/serial_number"
                     android:imeOptions="actionDone"
+                    android:inputType="textCapCharacters"
                     android:nextFocusDown="@+id/garantee_block" />
 
                 <View style="@style/AppTheme.FieldUnderLine" />
@@ -130,7 +134,7 @@
                 android:id="@+id/garantee_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/backgound_template">
+                android:background="@color/backgoundTemplate">
 
                 <CheckBox
                     android:id="@+id/garantee_checkbox"
@@ -152,7 +156,7 @@
                 android:id="@+id/original_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/backgound_template">
+                android:background="@color/backgoundTemplate">
 
                 <CheckBox
                     android:id="@+id/original_checkbox"
@@ -174,7 +178,7 @@
                 android:id="@+id/photo_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/backgound_template"
+                android:background="@color/backgoundTemplate"
                 android:orientation="vertical">
 
                 <CheckedTextView
@@ -198,7 +202,7 @@
                 android:id="@+id/state_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/backgound_template"
+                android:background="@color/backgoundTemplate"
                 android:orientation="vertical">
 
                 <CheckedTextView
@@ -222,7 +226,7 @@
                 android:id="@+id/other_info_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/backgound_template"
+                android:background="@color/backgoundTemplate"
                 android:orientation="vertical">
 
                 <CheckedTextView
@@ -255,7 +259,7 @@
                 android:id="@+id/method_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/backgound_template"
+                android:background="@color/backgoundTemplate"
                 android:orientation="vertical">
 
                 <CheckedTextView
@@ -280,7 +284,7 @@
                 android:id="@+id/date_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/backgound_template"
+                android:background="@color/backgoundTemplate"
                 android:orientation="vertical">
 
                 <CheckedTextView
@@ -290,12 +294,10 @@
                     android:layout_height="16dp"
                     android:text="@string/date" />
 
-                <EditText
+                <TextView
                     android:id="@+id/date_name"
                     style="@style/AppTheme.TemplateEditText"
-                    android:hint="@string/date"
-                    android:imeOptions="actionDone"
-                    android:nextFocusDown="@+id/payment_method" />
+                    android:hint="@string/date"/>
 
                 <View style="@style/AppTheme.FieldUnderLine" />
 
@@ -315,7 +317,7 @@
                 android:id="@+id/payment_method_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/backgound_template"
+                android:background="@color/backgoundTemplate"
                 android:orientation="vertical">
 
                 <CheckedTextView
@@ -340,7 +342,7 @@
                 android:id="@+id/price_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/backgound_template"
+                android:background="@color/backgoundTemplate"
                 android:orientation="vertical">
 
                 <CheckedTextView
@@ -354,7 +356,8 @@
                     android:id="@+id/price"
                     style="@style/AppTheme.TemplateEditText"
                     android:hint="@string/price"
-                    android:imeOptions="actionDone"/>
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal" />
 
                 <View style="@style/AppTheme.FieldUnderLine" />
 
